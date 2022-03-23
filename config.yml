@@ -4,7 +4,7 @@ languageCode: ja-jp
 paginate: 5
 theme: PaperMod
 copyright: "&copy; 2022 Satoshi Matsuzawa"
-# googleAnalytics: ""
+#googleAnalytics: ""
 
 menu:
   main:
@@ -12,18 +12,22 @@ menu:
       name: Blog
       url: /blog/
       weight: 10
-    - identifier: categories
-      name: Categories
-      url: /categories/
-      weight: 20
+#    - identifier: docs
+#      name: Docs
+#      url: /docs/
+#      weight: 20
+#    - identifier: labs
+#      name: Labs
+#      url: /labs/
+#      weight: 30
     - identifier: tags
       name: Tags
       url: /tags/
-      weight: 30
+      weight: 80
     - identifier: search
       name: Search
       url: /search/
-      weight: 40
+      weight: 90
 
 outputs:
   home:
@@ -44,6 +48,7 @@ params:
 
   profileMode:
     enabled: true
+    subtitle: "真っ赤なスポーツカーとロックミュージックが好きなITエンジニアの技術ブログ"
     imageUrl: "images/profile.jpeg"
 
   socialIcons:
@@ -56,7 +61,7 @@ params:
     - name: linkedin
       url: https://www.linkedin.com/in/satoshi-matsuzawa-b209a1157
 
-        #  editPost:
-        #URL: "https://github.com/chacco38/chacco38.github.io/content"
-        #Text: "Suggest Changes"
-        #appendFilePath: true
+  editPost:
+    URL: "https://github.com/chacco38/chacco38.github.io/tree/main/content"
+    Text: "Suggest Changes"
+    appendFilePath: true

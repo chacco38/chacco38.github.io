@@ -2,5 +2,5 @@
 title: "Blog"
 layout: "archives"
 url: "/blog/"
-summary: achives
+summary: blog
 ---

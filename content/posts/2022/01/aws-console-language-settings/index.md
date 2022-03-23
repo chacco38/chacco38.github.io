@@ -1,7 +1,6 @@
 ---
 title: "AWSマネジメントコンソールの表示言語を変更する方法"
 date: 2022-01-13
-categories: ["AWS"]
 tags: ["AWS", "AWS Management Console"]
 draft: false
 ShowToc: true
@@ -14,14 +13,14 @@ TocOpen: true
 
 ただ、個人的に「設定」と言えばなんとなく右上の項目からできそうなイメージがあり、「あれ、設定ってどこから変えるんだっけ、、、アカウントへ飛んだ先にあったっけ、、、(答え、アカウントへ飛んだ先にはない)」みたいにウッカリ設定方法を忘れて途方にくれてしまうことがあります。みなさんはそんな経験ございませんかね？ということで自分への備忘も込め、今回は表示言語の設定方法について紹介していきたいと思います。
 
-![01-where-is-settings.png](images/aws-console-language-settings/01-where-is-settings.png)
+![01-where-is-settings.png](images/01-where-is-settings.png)
 
 
 # 表示言語の変更方法
 
 では早速答えですが、言語の設定方法はAWS マネジメントコンソールの左下部分にございます。(なるほど、ここだったか、、、)
 
-![02-language-settings.png](images/aws-console-language-settings/02-language-settings.png)
+![02-language-settings.png](images/02-language-settings.png)
 
 # 終わりに
 

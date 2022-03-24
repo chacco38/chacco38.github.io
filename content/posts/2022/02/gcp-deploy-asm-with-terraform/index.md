@@ -1,7 +1,7 @@
 ---
 title: "Terraformを使ってGKE+ASMのマルチクラスタメッシュ環境を構築してみた"
 date: 2022-02-14
-tags: ["Google Cloud", "GKE", "Anthos Service Mesh", "Terraform", "Kubernetes", "Istio" ]
+tags: ["Google Cloud", "Google Kubernetes Engine(GKE)", "Anthos Service Mesh", "Terraform", "Kubernetes", "Istio" ]
 draft: false
 ShowToc: true
 TocOpen: true
@@ -23,7 +23,7 @@ TocOpen: true
 
 それでは今回作成したTerraformのサンプルコードを紹介していきたいと思います。まずはディレクトリ構造ですが、今回はenvironmentsディレクトリ配下へ環境ごとにサブディレクトリを作成し、Workspaceは使わずに別ファイルとして管理する形を想定した作りにしてます。
 
-```txt:ディレクトリ構成
+{{< code lang="txt" title="ディレクトリ構成" >}}
 .
 |-- environments
 |   `-- poc
@@ -56,7 +56,7 @@ TocOpen: true
                 |-- multiclusterservice.yaml
                 |-- backendconfig.yaml
                 `-- multiclusteringress.yaml
-```
+{{< /code >}}
 
 |No.|ファイル名|概要|
 |---|---|---|
@@ -83,20 +83,20 @@ TocOpen: true
 
 PoC環境のtfstateファイルをGoogle Cloud Storage(GCS)上で管理するための設定を定義しています。
 
-```tf:./environments/poc/backend.tf
+{{< code lang="tf" title="./environments/poc/backend.tf" >}}
 terraform {
   backend "gcs" {
     bucket = "matt-gcs-tfstate"
     prefix = "multi-asm-poc"
   }
 }
-```
+{{< /code >}}
 
 ### environments/poc/main.tf
 
 PoC環境の定義をしています。実際の処理はモジュール側で定義しており、このファイルではPoC環境固有の設定値定義がメインの役割となっています。
 
-```tf:./environments/poc/main.tf
+{{< code lang="tf" title="./environments/poc/main.tf" >}}
 locals {
   network = "matt-vpc"
 
@@ -169,15 +169,15 @@ module "asm" {
   osaka_cluster      = module.gke.osaka_cluster
   osaka_pod_ip_range = local.osaka_pod_ip_range
 }
-```
+{{< /code >}}
 
 ### environments/pod/variables.tf
 
 `terraform plan/apply` コマンド実行時に `-var="project_id=${PROJECT_ID}"` のような形で外部から与える変数を定義しています。
 
-```tf:./environments/pod/variables.tf
+{{< code lang="tf" title="./environments/poc/variables.tf" >}}
 variable "project_id" {}
-```
+{{< /code >}}
 
 
 ## ネットワークモジュール定義
@@ -186,7 +186,7 @@ variable "project_id" {}
 
 ネットワーク設定としてVPCおよびCloud NATの定義をしています。今回の例ではTerraform公式モジュールを活用してみました。
 
-```tf:./modules/networks/main.tf
+{{< code lang="tf" title="./modules/networks/main.tf" >}}
 module "vpc" {
   source      = "terraform-google-modules/network/google"
   version     = "4.1.0"
@@ -265,13 +265,13 @@ module "cloud_router_osaka" {
     name = var.osaka_nat
   }]
 }
-```
+{{< /code >}}
 
 ### modules/networks/variables.tf
 
 ネットワークモジュールの外部変数を定義しています。
 
-```tf:./modules/networks/variables.tf
+{{< code lang="tf" title="./modules/networks/variables.tf" >}}
 variable "project_id" {}
 variable "network" {}
 
@@ -288,17 +288,17 @@ variable "osaka_subnet_2nd_ip_range_1" {}
 variable "osaka_subnet_2nd_ip_range_2" {}
 variable "osaka_router" {}
 variable "osaka_nat" {}
-```
+{{< /code >}}
 
 ### modules/networks/outputs.tf
 
 ネットワークモジュールの出力変数を定義しています。
 
-```tf:./modules/networks/outputs.tf
+{{< code lang="tf" title="./modules/networks/outputs.tf" >}}
 output "network" {
   value = module.vpc.network_name
 }
-```
+{{< /code >}}
 
 ## GKEモジュール定義
 
@@ -306,11 +306,11 @@ output "network" {
 
 東京/大阪リージョンのGKEクラスタを定義しています。こちらもネットワークモジュール同様にTerraform公式モジュールを活用してみました。
 
-:::note info
+{{< alert info >}}
 記事執筆時点(2022年1月末)では、コントロールプレーンのグローバルアクセスを有効化するオプションがTerraform公式private-clusterサブモジュールv19.0.0(latest)になかったため、Terraform公式beta-private-clusterサブモジュールv19.0.0(latest)を活用しています。
-:::
+{{< /alert >}}
 
-```tf:./modules/gke/main.tf
+{{< code lang="tf" title="./modules/gke/main.tf" >}}
 module "gke_tokyo" {
   source      = "terraform-google-modules/kubernetes-engine/google//modules/beta-private-cluster"
   version     = "19.0.0"
@@ -368,13 +368,13 @@ module "gke_osaka" {
   remove_default_node_pool = true
 
 }
-```
+{{< /code >}}
 
 ### modules/gke/variables.tf
 
 GKEモジュールの外部変数を定義しています。
 
-```tf:./modules/gke/variables.tf
+{{< code lang="tf" title="./modules/gke/variables.tf" >}}
 variable "project_id" {}
 variable "network" {}
 
@@ -389,20 +389,20 @@ variable "osaka_master_ip_range" {}
 variable "release_channel" {
   default = "STABLE"
 }
-```
+{{< /code >}}
 
 ### modules/gke/outputs.tf
 
 GKEモジュールの出力変数を定義しています。
 
-```tf:./modules/gke/outputs.tf
+{{< code lang="tf" title="./modules/gke/outputs.tf" >}}
 output "tokyo_cluster" {
   value = module.gke_tokyo.name
 }
 output "osaka_cluster" {
   value = module.gke_osaka.name
 }
-```
+{{< /code >}}
 
 ## ASMモジュール定義
 
@@ -410,15 +410,15 @@ output "osaka_cluster" {
 
 東京/大阪リージョンのGKEクラスタにASMのインストール、マルチクラスタメッシ作成、Ingressゲートウェイのデプロイを定義しています、、、とはいえ、サンプルコードを書いといてなんですが大変苦しい実装になっていますので個人的には現時点では素直にTerraform以外を使用した方が良いと感じてます^^;
 
-:::note warn
+{{< alert warning >}}
 記事執筆時点(2022年1月末)では、Terraform公式asmサブモジュールv19.0.0(latest)がASM v11.0以降に対応できていなかったため、Terraform公式gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)を活用してシェルスクリプトでゴリゴリ実装しており、非常に微妙な作りになっております。
-:::
+{{< /alert >}}
 
-:::note info
+{{< alert info >}}
 今回の例ではTerraform公式firewall-rulesサブモジュールv4.1.0(latest)を活用してファイアウォールルールを定義していますが、rules内の変数定義が省略できず使い勝手はよろしくないため、google_compute_firewallリソースをそのまま定義した方が個人的には良いと感じてます。
-:::
+{{< /alert }}
 
-```tf:./modules/asm/main.tf
+{{< code lang="tf" title="./modules/asm/main.tf" >}}
 module "asm_tokyo" {
   source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
   version = "3.1.0"
@@ -567,13 +567,13 @@ module "asm_mcs_ingressgateway" {
 
   module_depends_on = [module.asm_osaka_ingressgateway.wait]
 }
-```
+{{< /code >}}
 
 ### modules/asm/variables.tf
 
 ASMモジュールの外部変数を定義しています。
 
-```tf:./modules/asm/variables.tf
+{{< code lang="tf" title="./modules/asm/variables.tf" >}}
 variable "project_id" {}
 variable "network" {}
 
@@ -592,13 +592,13 @@ variable "osaka_pod_ip_range" {}
 variable "release_channel" {
   default = "STABLE"
 }
-```
+{{< /code >}}
 
 ### modules/asm/scripts/install.sh
 
 ASMのインストール処理を定義したスクリプトファイルです。ASM v11.0から正式ツールとなった`asmcli`コマンドを使用して、マネージドコントロールプレーン構成を作成しています。
 
-```bash:./modules/asm/scripts/install.sh
+{{< code lang="bash" title="./modules/asm/scripts/install.sh" >}}
 #!/usr/bin/env bash
 
 set -e
@@ -618,13 +618,13 @@ chmod +x asmcli
     --managed \
     --channel ${RELEASE_CHANNEL} \
     --enable-all
-```
+{{< /code >}}
 
 ### modules/asm/scripts/destroy.sh
 
 ASMの削除処理を定義したスクリプトファイルです。ASM関連のNamespaceを削除し、Anthosクラスタからの登録解除を実行しています。
 
-```bash:./modules/asm/scripts/destroy.sh
+{{< code lang="bash" title="./modules/asm/scripts/destroy.sh" >}}
 #!/usr/bin/env bash
 
 set -e
@@ -638,13 +638,13 @@ kubectl delete ns asm-system istio-system --ignore-not-found
 gcloud container hub memberships unregister ${CLUSTER_NAME} \
   --project=${PROJECT_ID} \
   --gke-cluster=${CLUSTER_LOCATION}/${CLUSTER_NAME}
-```
+{{< /code >}}
 
 ### modules/asm/scripts/create-mesh.sh
 
 マルチクラスタメッシュ作成処理を定義したスクリプトファイルです。
 
-```bash:./modules/asm/scripts/create-mesh.sh
+{{< code lang="bash" title="./modules/asm/scripts/create-mesh.sh" >}}
 #!/usr/bin/env bash
 
 set -e
@@ -657,7 +657,7 @@ curl https://storage.googleapis.com/csm-artifacts/asm/asmcli > asmcli
 chmod +x asmcli
 
 ./asmcli create-mesh ${PROJECT_ID} ${CLUSTER_1} ${CLUSTER_2}
-```
+{{< /code >}}
 
 ### modules/asm/manifests/istio-ingressgateway-pods/*
 
@@ -665,16 +665,16 @@ Istio IngressゲートウェイコンテナのKubernetesマニフェストファ
 
 https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages/tree/main/samples/gateways/istio-ingressgateway
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-pods/namespace.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-pods/namespace.yaml" >}}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: istio-system
   labels:
     istio.io/rev: asm-managed-stable
-```
+{{< /code >}}
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-pods/deployment.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-pods/deployment.yaml" >}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -735,17 +735,17 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: istio-ingressgateway
-```
+{{< /code >}}
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-pods/serviceaccount.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-pods/serviceaccount.yaml" >}}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-ingressgateway
   namespace: istio-system
-```
+{{< /code >}}
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-pods/role.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-pods/role.yaml" >}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -768,13 +768,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: istio-ingressgateway
-```
+{{< /code >}}
 
 ### modules/asm/manifests/istio-ingressgateway-services/*
 
 Istio Ingressゲートウェイ用マルチクラスタIngress/ServiceのKubernetesマニフェストファイルです。
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-services/multiclusterservice.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-services/multiclusterservice.yaml" >}}
 apiVersion: networking.gke.io/v1
 kind: MultiClusterService
 metadata:
@@ -800,9 +800,9 @@ spec:
       selector:
         istio: ingressgateway
         app: istio-ingressgateway
-```
+{{< /code >}}
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-services/backendconfig.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-services/backendconfig.yaml" >}}
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
@@ -813,9 +813,9 @@ spec:
     requestPath: /healthz/ready
     port: 15021
     type: HTTP
-```
+{{< /code >}}
 
-```yaml:./modules/asm/manifests/istio-ingressgateway-services/multiclusteringress.yaml
+{{< code lang="yaml" title="./modules/asm/manifests/istio-ingressgateway-services/multiclusteringress.yaml" >}}
 apiVersion: networking.gke.io/v1beta1
 kind: MultiClusterIngress
 metadata:
@@ -830,7 +830,7 @@ spec:
       backend:
         serviceName: istio-ingressgateway
         servicePort: 80
-```
+{{< /code >}}
 
 # デプロイ用のCloud Buildパイプラインも書いてみたけれど、、、
 
@@ -838,11 +838,11 @@ spec:
 
 、、、と本来であればこれでもパイプラインは動くはずなのですが、残念なことにTerraform公式asmサブモジュールv19.0.0(latest)、gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)をTerraform公式Dockerイメージ上で動かすとエラーが発生してしまいます。非常に微妙ですが、今回のサンプルコードではDockerイメージをカスタマイズするか、あきらめて手動で実行をする必要がございます(TT)
 
-:::note alert
+{{< alert warning >}}
 記事執筆時点(2022年1月末)では、Terraform公式asmサブモジュールv19.0.0(latest)、gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)をTerraform公式Dockerイメージ上で動かすとエラーになりますのでご注意ください。
-:::
+{{< /alert >}}
 
-```yaml:cloudbuild.yaml
+{{< code lang="yaml" title="cloudbuild.yaml" >}}
 substitutions:
   _TERRAFORM_VERSION: 1.1.4
 
@@ -873,9 +873,9 @@ steps:
     - |
       cd environments/${BRANCH_NAME}
       terraform apply -auto-approve -var="project_id=${PROJECT_ID}"
-```
+{{< /code >}}
 
-```txt:エラーメッセージ出力例
+{{< code lang="txt" title="エラーメッセージ出力例" >}}
 module.asm.module.asm_tokyo.module.gcloud_kubectl.null_resource.additional_components[0]: Creating...
 module.asm.module.asm_tokyo.module.gcloud_kubectl.null_resource.additional_components[0]: Provisioning with 'local-exec'...
 module.asm.module.asm_tokyo.module.gcloud_kubectl.null_resource.additional_components[0] (local-exec): Executing: ["/bin/sh" "-c" ".terraform/modules/asm.asm_tokyo/scripts/check_components.sh gcloud kubectl"]
@@ -893,7 +893,7 @@ module.asm.module.asm_tokyo.module.gcloud_kubectl.null_resource.additional_compo
 │ .terraform/modules/asm.asm_tokyo/scripts/check_components.sh: not found
 │ 
 ╵
-```
+{{< /code >}}
 
 # 終わりに
 

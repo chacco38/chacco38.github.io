@@ -1,0 +1,10 @@
+.xCodeBlock_title {
+  display: inline-block;
+  font-size: smaller;
+  border-radius: 0.5em 0.5em 0 0;
+  padding: 0 0.5em;
+  background: gray;
+}
+.xCodeBlock_code {
+  margin-top: -26px;
+}

@@ -37,7 +37,6 @@ outputs:
 
 params:
   env: production
-  author: "Satoshi Matsuzawa"
 
   defaultTheme: auto
   ShowShareButtons: true

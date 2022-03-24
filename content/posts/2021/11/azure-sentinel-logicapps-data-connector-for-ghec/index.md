@@ -145,14 +145,14 @@ Azure Logic Apps から Azure Key Vault キーコンテナに格納された Git
         "org": "<Your Nth organization account name>"
     }​​​​​​​​​​​​​​​​​​​​​
 ]
-{{ /code }}
+{{< /code >}}
 
 {{< code lang="json" title="lastrun-Audit.json" >}}
 {​​​​​​​​​​​​​​​​​​​​​
     "lastContext": "",
     "lastRun": ""
 }​​​​​​​​​​​​​​​​​​​​​
-{{ /code }}
+{{< /code >}}
 
 ORGS.json ファイルを編集し、org パラメータ値をログ取得対象の GitHub Organization アカウント名に置きかえます。フォーマットのように、複数の GitHub Organization を指定することもできますので、実際の GitHub Organization の数にあわせて増減させてください。
 
@@ -241,7 +241,7 @@ GitHub_CL
     Reason=columnifexists('node_reason_s', ""),
     BlockedUser=columnifexists('node_blockedUserName_s', ""),
     CanCreateRepositories=columnifexists('canCreateRepositories_b', "")
-{{ /code }}
+{{< /code >}}
 
 {{< code lang="txt" title="GitHubRepo関数" >}}
 GitHubRepoLogs_CL
@@ -269,7 +269,7 @@ GitHubRepoLogs_CL
     PublishedAt=columnifexists('securityAdvisory_publishedAt_t ',""),
     Severity=columnifexists('securityAdvisory_severity_s',""),
     Summary=columnifexists('securityAdvisory_summary_s',"")
-{{ /code }}
+{{< /code >}}
 
 次の画像を参考に Microsoft Sentinel のログ画面から 2 つのパーサ関数を登録しましょう。なお、「従来のカテゴリ」の値については任意の文字列で大丈夫です。
 

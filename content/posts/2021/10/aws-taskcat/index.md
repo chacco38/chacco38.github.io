@@ -1,7 +1,7 @@
 ---
-title: "AWS TaskCatを使ってCloudFormationテンプレートの自動テストをしよう"
+title: "TaskCatを使ってCloudFormationテンプレートの自動テストをしよう"
 date: 2021-10-20
-tags: ["AWS", "TaskCat", "CloudFormation", "CodePipeline"]
+tags: ["AWS", "TaskCat", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
 ShowToc: true
 TocOpen: true
@@ -9,15 +9,15 @@ TocOpen: true
 
 # はじめに
 
-みなさん、こんにちは。今回は AWS TaskCat というオープンソースを利用した AWS CloudFormation (CFn) テンプレートの自動テストについてのお話です。
+みなさん、こんにちは。今回は TaskCat というオープンソースを利用した AWS CloudFormation (CFn) テンプレートの自動テストについてのお話です。
 
-CFn テンプレートを扱っていると構文エラーチェックはパスしたものの、いざ動かしてみたらスタックの作成でエラーになってしまうといった経験をすることがあるかと思います。AWS TaskCat は多くの方にとってあまり馴染みのないツールだと思いますが、実際に使ってみるととても手軽に CFn テンプレートの自動テストをすることができます。
+CFn テンプレートを扱っていると構文エラーチェックはパスしたものの、いざ動かしてみたらスタックの作成でエラーになってしまうといった経験をすることがあるかと思います。TaskCat は多くの方にとってあまり馴染みのないツールだと思いますが、実際に使ってみるととても手軽に CFn テンプレートの自動テストをすることができます。
 
 今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。これから CFn テンプレート開発されている方で自動テストをやりたいと考えている方は参考にしてみてはいかがでしょうか。
 
-# AWS TaskCat とは
+# TaskCat とは
 
-AWS TaskCat とは、AWS CloudFormation (CFn) テンプレートの自動テストを行う Python 製のテストツールです。
+TaskCat とは、AWS CloudFormation (CFn) テンプレートの自動テストを行う Python 製のテストツールです。
 
 このツールを利用することで、指定した各リージョンに CFn テンプレートから環境を一時的にデプロイ、各リージョンでのデプロイ可否結果のレポート生成、テストで一時的に作成した環境を削除、といった一連の流れを自動化することができます。
 
@@ -25,13 +25,13 @@ AWS TaskCat とは、AWS CloudFormation (CFn) テンプレートの自動テス�
 
 https://github.com/aws-quickstart/taskcat
 
-# AWS TaskCat を使ってみよう
+# TaskCat を使ってみよう
 
 「はじめに」で既に述べたとおり、今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
 
 ## まずは開発環境の設定から
 
-それでは Linux 上に開発環境を作っていきたいと思います。まず AWS TaskCat をインストールする事前準備として Python の仮想環境を作成していきましょう。なお、今回の例で使用している Linux ディストリビューションは Amazon Linux 2 です。
+それでは Linux 上に開発環境を作っていきたいと思います。まず TaskCat をインストールする事前準備として Python の仮想環境を作成していきましょう。なお、今回の例で使用している Linux ディストリビューションは Amazon Linux 2 です。
 
 ```bash
 $ sudo yum install -y python3
@@ -41,7 +41,7 @@ $ python3 -m venv venv37
 $ . venv37/bin/activate
 ```
 
-次に、AWS TaskCat をインストールします。
+次に、TaskCat をインストールします。
 
 ```bash
 $ python3 -m pip install taskcat
@@ -71,7 +71,7 @@ $ aws configure
 
 ## 手動でテストを実行してみよう
 
-では簡単なサンプルを用いて AWS TaskCat を使ったテストを行っていきましょう。今回は、東京リージョン(ap-northeast-1)と大阪リージョン(ap-northeast-3)の 2 つのリージョンに対して、同じテンプレートを使ってスタックの作成ができるかを確認していきたいと思います。
+では簡単なサンプルを用いて TaskCat を使ったテストを行っていきましょう。今回は、東京リージョン(ap-northeast-1)と大阪リージョン(ap-northeast-3)の 2 つのリージョンに対して、同じテンプレートを使ってスタックの作成ができるかを確認していきたいと思います。
 
 ### Step1. テスト対象のテンプレートを作成しよう
 
@@ -269,11 +269,11 @@ $ git push origin develop
 
 # 終わりに
 
-AWS TaskCat はいかがだったでしょうか？
+TaskCat はいかがだったでしょうか？
 
 今回はクイックスタートを使って環境を構築しましたが、既にパイプラインを構築されている方はリポジトリに `.taskcat.yml` を追加して、`pip install tackcat` と `taskcat test run` をステップに追加するだけで簡単に CFn テンプレートの自動テストを組み込むことができます。気になった方はぜひ触ってみていただければと思います。
 
-以上、AWS CloudFormation テンプレートの自動テストを実現する「AWS TaskCat」のご紹介でした。
+以上、AWS CloudFormation テンプレートの自動テストを実現する「TaskCat」のご紹介でした。
 
 ---
 

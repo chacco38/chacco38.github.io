@@ -1,7 +1,7 @@
 ---
 title: "AWS Chaliceを使ってサーバレスアプリケーションを開発しよう"
 date: 2021-10-18
-tags: ["AWS", "AWS Chalice", "Lambda", "CloudFormation", "CodePipeline"]
+tags: ["AWS", "AWS Chalice", "AWS Lambda", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
 ShowToc: true
 TocOpen: true

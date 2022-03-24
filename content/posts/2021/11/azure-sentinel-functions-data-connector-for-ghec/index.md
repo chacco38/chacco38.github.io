@@ -1,7 +1,7 @@
 ---
 title: "Microsoft Sentinel を使って GitHub Enterprise Cloud のセキュリティを強化しよう (Azure Functions コネクタ編)"
 date: 2021-11-25
-tags: ["Azure", "Sentinel", "GitHub", "Azure Functions"]
+tags: ["Azure", "Microsoft Sentinel", "GitHub", "Azure Functions"]
 draft: false
 ShowToc: true
 TocOpen: true

@@ -416,7 +416,7 @@ output "osaka_cluster" {
 
 {{< alert info >}}
 今回の例ではTerraform公式firewall-rulesサブモジュールv4.1.0(latest)を活用してファイアウォールルールを定義していますが、rules内の変数定義が省略できず使い勝手はよろしくないため、google_compute_firewallリソースをそのまま定義した方が個人的には良いと感じてます。
-{{< /alert }}
+{{< /alert >}}
 
 {{< code lang="tf" title="./modules/asm/main.tf" >}}
 module "asm_tokyo" {

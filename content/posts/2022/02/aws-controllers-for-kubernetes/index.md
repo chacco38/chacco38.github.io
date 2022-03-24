@@ -169,9 +169,9 @@ AWS Controllers for Kubernetesは各AWSサービスに対応するコントロ�
 
 https://aws-controllers-k8s.github.io/community/docs/user-docs/install
 
-{{< alert warning >}}
+{{< note warn >}}
 再実行を想定してない作りになっているのでご注意ください。
-{{< /alert >}}
+{{< /note >}}
 
 {{< code lang="bash" title="install.sh" >}}
 #!/bin/bash

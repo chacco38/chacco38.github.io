@@ -305,7 +305,7 @@ output "network" {
 
 東京/大阪リージョンのGKEクラスタを定義しています。こちらもネットワークモジュール同様にTerraform公式モジュールを活用してみました。
 
-{{< alert "info" >}}
+{{< alert "circle-info" >}}
 記事執筆時点(2022年1月末)では、コントロールプレーンのグローバルアクセスを有効化するオプションがTerraform公式private-clusterサブモジュールv19.0.0(latest)になかったため、Terraform公式beta-private-clusterサブモジュールv19.0.0(latest)を活用しています。
 {{< /alert >}}
 
@@ -413,7 +413,7 @@ output "osaka_cluster" {
 記事執筆時点(2022年1月末)では、Terraform公式asmサブモジュールv19.0.0(latest)がASM v11.0以降に対応できていなかったため、Terraform公式gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)を活用してシェルスクリプトでゴリゴリ実装しており、非常に微妙な作りになっております。
 {{< /alert >}}
 
-{{< alert "info" >}}
+{{< alert "circle-info" >}}
 今回の例ではTerraform公式firewall-rulesサブモジュールv4.1.0(latest)を活用してファイアウォールルールを定義していますが、rules内の変数定義が省略できず使い勝手はよろしくないため、google_compute_firewallリソースをそのまま定義した方が個人的には良いと感じてます。
 {{< /alert >}}
 

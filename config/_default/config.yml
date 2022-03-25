@@ -1,0 +1,97 @@
+baseURL: https://chacco38.github.io/
+title: クラウドCoEの何でも屋
+
+theme: congo
+enableRobotsTXT: true
+paginate: 10
+summaryLength: 0
+#copyright: "&copy; 2022 Satoshi Matsuzawa"
+#googleAnalytics: ""
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+author:
+  name: "クラウドCoEの何でも屋"
+  image: "images/author.jpg"
+  headline: "真っ赤なスポーツカーとロックミュージックが好きなITエンジニアの技術ブログ"
+  bio: "Cloud Architect, 12x AWS, 6x Azure, 3x GCP Certifications Engineer<br>好きなモノ = 真っ赤なスポーツカー + ロックミュージック、趣味 = 投資 + 仕事"
+  links:
+    - github: https://github.com/chacco38
+    - twitter: https://twitter.com/chacco38
+    - facebook: https://www.facebook.com/satoshi.matsuzawa.9
+    - linkedin: https://www.linkedin.com/in/satoshi-matsuzawa-b209a1157
+
+menu:
+  main:
+    - name: Blog
+      pageRef: posts
+      weight: 10
+#    - name: Docs
+#      pageRef: docs
+#      weight: 20
+#    - name: Labs
+#      pageRef: labs
+#      weight: 30
+    - name: Tags
+      pageRef: tags
+      weight: 80
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+  highlight:
+    noClasses: false
+
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3
+
+params:
+  colorScheme: congo
+  defaultAppearance: "light"
+  autoSwitchAppearance: true
+  showAppearanceSwitcher: true
+
+  enableSearch: true
+  enableCodeCopy: true
+
+  showScrollToTop: true
+
+  homepage:
+    layout: profile
+    showRecent: true
+
+  article:
+    showDate: true
+    showDateUpdated: true
+    showAuthor: true
+    showBreadcrumbs: true
+    showDraftLabel: true
+    showEdit: false
+    showAppendPath: true
+    showHeadingAnchors: true
+    showPaginatio: true
+    invertPagination: false
+    showReadingTime: true
+    showTableOfContents: true
+    showTaxonomies: true
+    showWordCount: false
+    sharingLinks: ["facebook", "twitter", "pinterest", "reddit", "linkedin", "email"]
+
+  list:
+    showBreadcrumbs: true
+    showSummary: true
+    showTableOfContents: true
+    groupByYear: true
+
+  sitemap:
+    excludedKinds: ["taxonomy", "term"]
+
+  taxonomy:
+    showTermCount: true

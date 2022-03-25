@@ -3,11 +3,7 @@ title: "GHEC Audit Log CLI を使って GitHub Enterprise Cloud の監査ログ�
 date: 2021-12-07
 tags: ["GitHub", "GitHub Actions"]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
-
-# はじめに
 
 みなさん、こんにちは。今回は GitHub Enterprise Cloud(GHEC) の監査ログ(Audit Log) の取得方法についてのお話です。
 
@@ -15,26 +11,28 @@ GHEC 監査ログの取得方法としてはいくつか方法はあるのです
 
 https://github.com/github/ghec-audit-log-cli
 
-# GHEC Audit Log CLI を使ってみよう
-
 今回は Linux(AWS CloudShell) 上に環境を作って試しに実行してみるところからはじめて、定期的に監査ログ取得を行う自動化フローの構築まで紹介していきたいと思います。
 
-## ローカル環境で実行してみよう
+## まずは手動で GHEC Audit Log CLI を実行してみよう
 
 ### Step1. 前提パッケージのインストール
 
 GHEC Audit Log CLI の前提パッケージとして Node.js が必要となります。GitHub からソースコードを入手する必要があるため、git コマンドと併せてインストールしましょう。
 
-{{< code lang="bash" title="前提パッケージの導入" >}}
+**実行例）前提パッケージの導入**
+
+```bash
 $ curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
 $ sudo yum install -y nodejs git
-{{< /code >}}
+```
 
 ### Step2. GHEC Audit Log CLI のインストール
 
 GitHub からソースコードを取得し、npm コマンドを使って GHEC Audit Log CLI をインストールします。最後の `ghce-audit-log-cli -v` コマンドにてバージョン情報が出力されれば CLI のインストールは完了です。
 
-{{< code lang="bash" title="ソースコード取得とインストール" >}}
+**実行例）ソースコード取得とインストール**
+
+```bash
 $ git clone https://github.com/github/ghec-audit-log-cli.git
 $ cd ghec-audit-log-cli
 $ sudo npm link
@@ -63,7 +61,7 @@ Options:
                             Accepts the following values: org | enterprise. Defaults to
                             org (default: "org")
   -h, --help                display help for command
-{{< /code >}}
+```
 
 ### Step3. GitHub アクセストークンの取得
 
@@ -78,21 +76,25 @@ Options:
 
 ここまで来たら実際にコマンドを実行して監査ログが取得できるか試してみましょう。次のコマンドを実行して監査ログが出力されれば成功です。
 
-{{< code lang="bash" title="監査ログの取得" >}}
+**実行例）監査ログの取得**
+
+```bash
 $ export ORG_NAME="Your GitHub organization account name"
 $ export AUDIT_LOG_TOKEN="Your GitHub access token"
 
 $ ghec-audit-log-cli --org ${ORG_NAME} --token ${AUDIT_LOG_TOKEN} --api "v3" --pretty
-{{< /code >}}
+```
 
 なお、GitHub アクセストークンに付与した権限が足りない場合は次のようなメッセージを出力してコマンドがエラー終了します。エラーメッセージに不足している権限についての情報がありますので Step3 へ戻り、アクセストークンへ不足する権限を追加して再度 CLI を実行してください。
 
-{{< code lang="txt" title="コマンド失敗時の出力エラーメッセージ例" >}}
+**出力例）コマンド失敗時**
+
+```txt
 GraphqlError: Your token has not been granted the required scopes to execute this query.
 The 'organizationBillingEmail' field requires one of the following scopes: ['admin:org'],
 but your token has only been granted the: ['admin:enterprise', 'read:org'] scopes.
 Please modify your token's scopes at: https://github.com/settings/tokens.
-{{< /code >}}
+```
 
 以上で無事にローカル環境で GHEC Audit Log CLI を実行することができました。
 
@@ -122,7 +124,9 @@ Please modify your token's scopes at: https://github.com/settings/tokens.
 
 GHEC Audit Log CLI のソースコードを取得し、新しく作成したリポジトリへソースコードを登録をしましょう。
 
-{{< code lang="bash" title="ソースコードの登録" >}}
+**実行例）ソースコードの登録**
+
+```bash
 $ export ORG_NAME="Your GitHub organization account name"
 
 $ git clone https://github.com/github/ghec-audit-log-cli.git
@@ -130,7 +134,7 @@ $ cd ghec-audit-log-cli
 
 $ git remote add logging https://github.com/${ORG_NAME}/ghec-audit-log-cli.git
 $ git push -u logging main
-{{< /code >}}
+```
 
 ### Step4. ワークフロー定義の作成
 
@@ -138,13 +142,17 @@ $ git push -u logging main
 
 まずはサンプル定義ファイルを GitHub Actions 所定のディレクトリ `.github/workflows` へ複製します。
 
-{{< code lang="bash" title="サンプルワークフローを複製" >}}
+**実行例）サンプルワークフローを複製**
+
+```bash
 $ cp workflows/forward-v3-workflow.yml .github/workflows/ghec-audit-log.yml
-{{< /code >}}
+```
 
 次に複製した `.github/workflows/ghec-audit-log.yml` ファイルを編集します。サンプルでは取得した監査ログを指定した URL へ POST するように定義されていますが、今回はこちらのリポジトリへコミットするように書き換えています。
 
-{{< code lang="diff" title=".github/workflows/ghec-audit-log.yml（差分）" >}}
+**変更例）.github/workflows/ghec-audit-log.yml（差分）**
+
+```diff
   ############################################
   # Github Action Workflow to poll and aggregate logs #
   ############################################
@@ -229,15 +237,17 @@ $ cp workflows/forward-v3-workflow.yml .github/workflows/ghec-audit-log.yml
 +         add: "audit-logs/audit-log-output-*.json --force"
 +       env:
 +         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-{{< /code >}}
+```
 
 最後に定義ファイルをコミットして、リモートリポジトリへ登録しましょう。
 
-{{< code lang="bash" title="リポジトリにワークフローの登録" >}}
+**実行例）リポジトリにワークフローの登録**
+
+```bash
 $ git add .github/workflows/ghec-audit-log.yml
 $ git commit -m "add ghec-audit-log workflow"
 $ git push -u logging main
-{{< /code >}}
+```
 
 このリポジトリへの Push をトリガーに GitHub Actions が起動しますので、この後はワークフローが期待通り動作しているかを確認していきましょう。
 
@@ -253,7 +263,7 @@ $ git push -u logging main
 
 以上でワークフローの設定も完了です。お疲れ様でした。以降はワークフローに定義したスケジュールに沿って 1 時間ごとに監査ログがエクスポートされるようになるかと思います。
 
-# 終わりに
+## 終わりに
 
 今回は GitHub Enterprise Cloud (GHEC) の監査ログを取得する方法でした。GHEC の監査ログを長期(90 日以上)保存したい方はエクスポートが必須となってきますので参考にしてみてはいかがでしょうか。
 

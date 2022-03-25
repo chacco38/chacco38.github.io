@@ -3,11 +3,7 @@ title: "Microsoft Sentinel を使って GitHub Enterprise Cloud のセキュリ�
 date: 2021-11-25
 tags: ["Azure", "Microsoft Sentinel", "GitHub", "Azure Functions"]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
-
-# はじめに
 
 みなさん、こんにちは。今回は GitHub Enterprise Cloud(GHEC) の各種ログを SIEM[^1] マネージドサービスである Microsoft Sentinel (旧称 Azure Sentinel) に集約し、サイバー攻撃の兆候を検知できるようにする方法をご紹介していきたいと思います。
 
@@ -17,7 +13,7 @@ Microsoft Sentinel と GHEC との連携方法はいくつかあるのですが�
 
 これから GHEC の利用を検討している方や、GHEC は利用しているけれど SIEM システムの導入まではしていないという方は、セキュリティ強化策のひとつとして参考にしてみてはいかがでしょうか。
 
-# 構築するシステムについて
+## 構築するシステムについて
 
 今回は Azure Functions(関数アプリ)を定期的に起動し、GHEC から監査ログなどを取得して Microsoft Sentinel ワークスペースへ格納、格納されたログに対して Microsoft Sentinel が自動的に相関分析をかけていく、といった流れで処理を行うシステムを構築していきたいと思います。
 
@@ -34,21 +30,21 @@ https://github.com/Azure/Azure-Sentinel/blob/master/DataConnectors/GithubFunctio
 | GitHub_CL         | 監査ログのデータを格納するテーブル                                                                                                     |
 | GitHubRepoLogs_CL | 各リポジトリに対するフォーク、クローン、コミットなどの操作ログやリポジトリに対するセキュリティ脆弱性診断ログのデータを格納するテーブル |
 
-# それでは構築していきましょう
+## それでは構築していきましょう
 
 今回は GitHub Enterprise Cloud → Microsoft Sentinel ワークスペース → カスタムコネクタ → Microsoft Sentinel の順で設定していきます。
 
-## GitHub Enterprise Cloud を設定しよう
+### Step1. GitHub Enterprise Cloud を設定しよう
 
 ここではログを収集する先の GitHub Organization の作成と、Azure Functions から GitHub API へアクセスする際に利用するアクセストークンの作成を実施していきます。
 
-### Step1. Organization(Enterprise) の作成
+#### (1) Organization(Enterprise) の作成
 
 監査ログなどを取得する対象の Organization を作成しましょう。今回は GitHub Enterprise Cloud とするため課金プランは「Enterprise」を選択します。
 
 ![02-create-github-organization.png](images/02-create-github-organization.png)
 
-### Step2. アクセストークンの作成
+#### (2) アクセストークンの作成
 
 次に Azure Logic Apps から GitHub API へアクセスする際に利用するアクセストークンを作成します。Organization の Owner 権限を持つユーザで、Settings > Developer settings > Personal access tokens > Generate new tokens から作成しましょう。
 
@@ -63,29 +59,31 @@ https://github.com/Azure/Azure-Sentinel/blob/master/DataConnectors/GithubFunctio
 作成後はデータコネクタをデプロイする際に利用するためトークン情報をコピーしておきます。
 ![03-create-github-pat.png](images/03-create-github-pat.png)
 
-**注意: トークン情報が漏れると大変なことになりますので絶対に漏らさないように注意しましょう。**
+{{< alert >}}
+トークン情報が漏れると大変なことになりますので絶対に漏らさないように注意しましょう。
+{{< /alert >}}
 
-## Microsoft Sentinel ワークスペースを設定しよう
+### Step2. Microsoft Sentinel ワークスペースを設定しよう
 
 次に Microsoft Sentinel ワークスペースの設定です。ここでは Log Analytics ワークスペースの作成および Log Analytics ワークスペースへの Microsoft Sentinel 機能の追加を実施していきます。
 
-### Step1. ワークスペースの作成
+#### (1) ワークスペースの作成
 
 Azure ポータルなどから Log Analytics ワークスペースの作成および作成したワークスペースへの Microsoft Sentinel 機能の追加を次の例のように実施していきます。
 
 ![04-create-azure-sentinel.png](images/04-create-azure-sentinel.png)
 
-### Step2. ワークスペース情報の取得
+#### (2) ワークスペース情報の取得
 
 Microsoft Sentinel ワークスペースの作成後は、データコネクタをデプロイする際に利用するため Log Analytics ワークスペース画面のエージェント管理などから「ワークスペース ID」と「主キー」をコピーしておきます。
 
 ![05-sentinel-workspace.png](images/05-sentinel-workspace.png)
 
-## カスタムコネクタを設定しよう
+### Step3. カスタムコネクタを設定しよう
 
 ここでは GitHub 用カスタムデータコネクタを ARM テンプレートからデプロイして、対象 GitHub Organization からログデータを取得できるようにデータコネクタの諸設定まで実施していきます。
 
-### Step1. ARM テンプレートのデプロイ
+#### (1) ARM テンプレートのデプロイ
 
 それでは GitHub 用カスタムデータコネクタをデプロイしていきましょう。データコネクタの「[Readme]」に記載されている `Deploy to Azure`ボタンをクリックします。
 
@@ -108,7 +106,7 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 
 ![08-resource-list.png](images/08-resource-list.png)
 
-### Step2. 設定ファイルの作成
+#### (2) 設定ファイルの作成
 
 データコネクタの 2 種類の設定ファイル ORGS.json と lastrun-Audit.json を作成します。各ファイルの概要およびフォーマットは次の通りです。
 
@@ -117,21 +115,25 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 | ORGS.json          | ログ取得対象の GitHub Organization を定義するファイル                        |
 | lastrun-Audit.json | 最終実行時刻を管理するファイル(新しいレコードのみを収集するために利用される) |
 
-{{< code lang="json" title="ORGS.json" >}}
-[
-    {
-        "org": "<Your 1st organization account name>"
-    },
-    {
-        "org": "<Your 2nd organization account name>"
-    },
-    {
-        "org": "<Your Nth organization account name>"
-    }
-]
-{{< /code >}}
+**作成例）ORGS.json**
 
-{{< code lang="json" title="lastrun-Audit.json" >}}
+```json
+[
+    {
+        "org": "<Your 1st organization account name>"
+    },
+    {
+        "org": "<Your 2nd organization account name>"
+    },
+    {
+        "org": "<Your Nth organization account name>"
+    }
+]
+```
+
+**作成例）lastrun-Audit.json**
+
+```json
 [
     {
         "org": "<Your 1st organization account name>"
@@ -149,13 +151,13 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
         "lastRun":  ""
     }
 ]
-{{< /code >}}
+```
 
 各ファイルを編集し、org パラメータ値をログ取得対象の GitHub Organization アカウント名に置きかえます。フォーマットのように、複数の GitHub Organization を指定することもできますので、実際の GitHub Organization の数にあわせて増減させてください。
 
 なお、lastrun-Audit.json ファイルには org 以外のパラメータもありますが、これらはカスタムコネクタが動作すると自動的に値が更新されるため、ユーザ側で意識する必要はありません。
 
-### Step3. 設定ファイルの配置
+#### (3) 設定ファイルの配置
 
 2 種類のファイルを作成したら、ARM テンプレートから作成されたストレージアカウントの github-repo-logs コンテナにアップロードしましょう。
 
@@ -163,7 +165,7 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 
 ここまでで一通りの設定は終わりましたので、あとはスケジュールに沿ってログの取得が行われるようになっていることを確認していきましょう。
 
-### Step4. 動作確認
+#### (4) 動作確認
 
 まずは Azure Functions から見ていきましょう。Azure Functions では、関数が正しくスケジュール実行されていること、実行された関数が正常終了していることを確認します。出力例のように実行回数と成功回数がカウントされていれば OK です。
 
@@ -179,7 +181,7 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 
 以上でカスタムコネクタのデプロイは終わりです。お疲れ様でした。
 
-## Microsoft Sentinel を設定しよう
+### Step4. Microsoft Sentinel を設定しよう
 
 さてログデータが収集できるようになりましたので、ここからは収集したログデータを自動で分析して脅威を検出できるように Microsoft Sentinel の設定をしていきましょう。今回は Microsoft Sentinel が標準で用意している GitHub 固有の分析ルールを有効化し、次のイベントを自動で検出できるようにしていきたいと思います。
 
@@ -190,16 +192,18 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 - 二要素認証の無効化
 - リポジトリ内にセキュリティ脆弱性
 
-※1: Azure Active Directory(Azure AD) とのシングルサインオン(SSO)設定、Azure AD ログの収集が必要
+※1: Azure Active Directory(Azure AD) とのシングルサインオン(SSO)設定、Azure AD ログの収集が必要<br>
 ※2: Microsoft Sentinel の脅威インテリジェンス設定にて TI インジケータの事前登録が必要
 
-### Step1. データの解析および正規化
+#### (1) データの解析および正規化
 
 まずは GitHub_CL テーブルおよび GitHubRepoLogs_CL テーブルに格納されているデータを、Microsoft Sentinel で分析しやすいように加工をしていきます。なお、Microsoft Sentinel コミュニティにてデータ加工用のパーサ関数(GitHubAudit 関数、GitHubRepo 関数)が公開されておりますので、今回はこちらを利用していきます。
 
 https://github.com/Azure/Azure-Sentinel/tree/master/Parsers/GitHub
 
-{{< code lang="txt" title="GitHubAudit関数" >}}
+**作成例）GitHubAudit関数**
+
+```txt
 GitHub_CL
 | project TimeGenerated=node_createdAt_t,
     Organization=columnifexists('node_organizationName_s', ""),
@@ -225,9 +229,11 @@ GitHub_CL
     Reason=columnifexists('node_reason_s', ""),
     BlockedUser=columnifexists('node_blockedUserName_s', ""),
     CanCreateRepositories=columnifexists('canCreateRepositories_b', "")
-{{< /code >}}
+```
 
-{{< code lang="txt" title="GitHubRepo関数" >}}
+**作成例）GitHubRepo関数**
+
+```txt
 GitHubRepoLogs_CL
 | project TimeGenerated = columnifexists('DateTime_t', ""),
     Organization=columnifexists('Organization_s', ""),
@@ -253,13 +259,13 @@ GitHubRepoLogs_CL
     PublishedAt=columnifexists('securityAdvisory_publishedAt_t ',""),
     Severity=columnifexists('securityAdvisory_severity_s',""),
     Summary=columnifexists('securityAdvisory_summary_s',"")
-{{< /code >}}
+```
 
 次の画像を参考に Microsoft Sentinel のログ画面から 2 つのパーサ関数を登録しましょう。なお、「従来のカテゴリ」の値については任意の文字列で大丈夫です。
 
 ![13-create-parse-func.png](images/13-create-parse-func.png)
 
-### Step2. 分析ルールの追加
+#### (2) 分析ルールの追加
 
 次に GitHub 固有の脅威を検出できるように分析ルールをテンプレートから追加していきしょう。Microsoft Sentinel では GitHub 固有の脅威に対する分析ルールのテンプレートが用意されていますので、今回はこちらを活用して分析ルールの追加をしてきたいと思います。出力例のように検索キーワードに「github」と入力することで目的のテンプレートを見つけることができます。
 
@@ -268,7 +274,7 @@ GitHubRepoLogs_CL
 なお、2021 年 11 月時点で用意されているテンプレートは次の 6 種類となります。
 
 | No. | テンプレート名                              | 説明                                                                                                                 |
-| --- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+|:---:| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | 1   | GitHub Two Factor Auth Disable              | 二要素認証の無効化イベントを検知するルール、デフォルトでは 1 日ごとにクエリを実行                                    |
 | 2   | GitHub Activites from a New Country         | 新しい国からのアクティビティを検知するルール、デフォルトでは過去 7 日分を学習データに利用して 1 日ごとにクエリを実行 |
 | 3   | Brute Force Attack against GitHub Account   | GitHub アカウントへのブルートフォース攻撃を検知するルール、デフォルトでは 1 日ごとにクエリを実行                     |
@@ -301,7 +307,7 @@ Microsoft Sentinel では今回紹介した標準の分析ルールを利用す�
 
 https://techcommunity.microsoft.com/t5/microsoft-sentinel-blog/protecting-your-github-assets-with-azure-sentinel/ba-p/1457721
 
-# 終わりに
+## 終わりに
 
 今回は GitHub Enterprise Cloud の各種ログを SIEM マネージドサービスである Microsoft Sentinel (旧称 Azure Sentinel) に集約し、サイバー攻撃の兆候を検知できるようにする方法のご紹介でしたがいかがだったでしょうか？
 

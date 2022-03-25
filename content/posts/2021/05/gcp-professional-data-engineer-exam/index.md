@@ -2,10 +2,8 @@
 title: "Google Cloud 認定 Professional Data Engineer 受験メモ"
 date: 2020-05-07
 tags: ["Google Cloud", "資格"]
-draft: true
+draft: false
 ---
-
-## はじめに
 
 最近、待望の Google Cloud 認定 Professional Data Engineer のパートナー認定資格キックスタートプログラムが開始されました。ってことで、さっそくバウチャーを取得して 2021/05/06 に受験してきたので、その時のメモです。
 

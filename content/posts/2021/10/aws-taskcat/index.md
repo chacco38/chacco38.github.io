@@ -3,11 +3,7 @@ title: "TaskCatを使ってCloudFormationテンプレートの自動テストを
 date: 2021-10-20
 tags: ["AWS", "TaskCat", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
-
-# はじめに
 
 みなさん、こんにちは。今回は TaskCat というオープンソースを利用した AWS CloudFormation (CFn) テンプレートの自動テストについてのお話です。
 
@@ -15,7 +11,7 @@ CFn テンプレートを扱っていると構文エラーチェックはパス�
 
 今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。これから CFn テンプレート開発されている方で自動テストをやりたいと考えている方は参考にしてみてはいかがでしょうか。
 
-# TaskCat とは
+## TaskCat とは
 
 TaskCat とは、AWS CloudFormation (CFn) テンプレートの自動テストを行う Python 製のテストツールです。
 
@@ -25,13 +21,15 @@ TaskCat とは、AWS CloudFormation (CFn) テンプレートの自動テスト�
 
 https://github.com/aws-quickstart/taskcat
 
-# TaskCat を使ってみよう
+## TaskCat を使ってみよう
 
-「はじめに」で既に述べたとおり、今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
+冒頭で既に述べたとおり、今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
 
-## まずは開発環境の設定から
+### まずは開発環境の設定から
 
 それでは Linux 上に開発環境を作っていきたいと思います。まず TaskCat をインストールする事前準備として Python の仮想環境を作成していきましょう。なお、今回の例で使用している Linux ディストリビューションは Amazon Linux 2 です。
+
+**実行例）**
 
 ```bash
 $ sudo yum install -y python3
@@ -42,6 +40,8 @@ $ . venv37/bin/activate
 ```
 
 次に、TaskCat をインストールします。
+
+**実行例）**
 
 ```bash
 $ python3 -m pip install taskcat
@@ -58,6 +58,8 @@ version 0.9.25
 
 TaskCat のテストに必要な docker サービスやこの後のステップで利用する git を追加で設定します。
 
+**実行例）**
+
 ```bash
 $ sudo yum install -y docker git
 $ sudo systemctl start docker
@@ -65,19 +67,23 @@ $ sudo systemctl start docker
 
 最後に、AWS CLI の設定をして開発環境の構築は完了です。
 
+**実行例）**
+
 ```bash
 $ aws configure
 ```
 
-## 手動でテストを実行してみよう
+### 手動でテストを実行してみよう
 
 では簡単なサンプルを用いて TaskCat を使ったテストを行っていきましょう。今回は、東京リージョン(ap-northeast-1)と大阪リージョン(ap-northeast-3)の 2 つのリージョンに対して、同じテンプレートを使ってスタックの作成ができるかを確認していきたいと思います。
 
-### Step1. テスト対象のテンプレートを作成しよう
+#### Step1. テスト対象のテンプレートを作成しよう
 
 今回は VPC を作るだけのとてもシンプルなテンプレートを用意しました。
 
-```yaml:my-vpc.yaml
+**作成例）my-vpc.yaml**
+
+```yaml
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Sample CloudFormation Template
 
@@ -107,11 +113,13 @@ Outputs:
       Name: myVpcId
 ```
 
-### Step2. TaskCat のテスト定義ファイルを作成しよう
+#### Step2. TaskCat のテスト定義ファイルを作成しよう
 
 次に TaskCat のテスト定義ファイル `.taskcat.yml` を作成します。今回の例では東京リージョン(ap-northeast-1)と大阪リージョン(ap-northeast-3)でテストを実施するように定義しています。
 
-```yaml:.taskcat.yml
+**作成例）.taskcat.yml**
+
+```yaml
 project:
   name: sample-taskcat-project
   regions:
@@ -125,9 +133,11 @@ tests:
     template: my-vpc.yml
 ```
 
-### Step3. テストを実行してみよう
+#### Step3. テストを実行してみよう
 
 では次のコマンドでテストを実行していきましょう。テストを実行すると、スタック作成が東京リージョンと大阪リージョンに対して並列で実行され、各リージョンでのスタック作成の成否結果の収集、スタック削除まで自動的に行われます。
+
+**実行例）**
 
 ```bash
 $ taskcat test run
@@ -160,6 +170,8 @@ version 0.9.25
 
 実行後は taskcat_outputs ディレクトリにリージョンごとの実行ログが出力されますので、こちらからスタック作成の成否結果を確認することができます。
 
+**実行例）**
+
 ```bash
 $ tree -a taskcat_outputs/
 taskcat_outputs/
@@ -181,7 +193,7 @@ Stack launch was successful
 
 以上、ローカル環境で CFn テンプレートのテストを実行する方法のご紹介でした。
 
-## CI/CD パイプラインに組み込んでみよう
+### CI/CD パイプラインに組み込んでみよう
 
 次はもう一歩進んで、ソースコードの更新をトリガーに自動でテストを実行する CI/CD パイプラインを構築し、実際に動かすところまで行ってみたいと思います。なお、今回は AWS リソース作成を簡略化するため AWS クイックスタートを利用して CI/CD パイプラインを構築していきたいと思います。
 
@@ -191,13 +203,13 @@ https://aws.amazon.com/jp/quickstart/architecture/cicd-taskcat/
 
 ![01-pipeline-image.drawio.png](images/01-pipeline-image.drawio.png)
 
-### Step1. GitHub にリポジトリを作ろう
+#### Step1. GitHub にリポジトリを作ろう
 
 まずは枠だけ作っておきましょう。中身は後続のステップで入れます。
 
 ![02-create-github-repository.png](images/02-create-github-repository.png)
 
-### Step2. GitHub でアクセストークンを作ろう
+#### Step2. GitHub でアクセストークンを作ろう
 
 GitHub > Setting > Developer settings > Personal access tokens > Generate new tokens から、指定の通り「repo」と「admin:repo_hook」のスコープを選択したトークンを作ります。
 
@@ -207,7 +219,7 @@ GitHub > Setting > Developer settings > Personal access tokens > Generate new to
 
 ![04-copy-github-pat.jpg](images/04-copy-github-pat.jpg)
 
-### Step3. クイックスタートを起動します
+#### Step3. クイックスタートを起動します
 
 ではクイックスタートを活用して環境を構築していきましょう。まずは[クイックスタートサイト](https://aws.amazon.com/jp/quickstart/architecture/cicd-taskcat/)の「クイックスタートを起動します」をクリックします。
 
@@ -231,9 +243,11 @@ GitHub > Setting > Developer settings > Personal access tokens > Generate new to
 
 以上で、CI/CD パイプラインに必要な AWS リソースの構築まで完了しました。
 
-### Step4. CI/CD パイプラインの動作確認
+#### Step4. CI/CD パイプラインの動作確認
 
 ではソースコードを GitHub に登録して CI/CD パイプラインが動作することを確認していきましょう。登録するソースコードは先ほど作成したこちらのファイルです。
+
+**実行例）**
 
 ```bash
 $ tree -a
@@ -245,6 +259,8 @@ $ tree -a
 ```
 
 スタック作成時に指定した GitHub の監視対象ブランチ(例では develop ブランチ)へソースコードをプッシュします。
+
+**実行例）**
 
 ```bash
 $ git init .
@@ -267,7 +283,7 @@ $ git push origin develop
 
 以上、TaskCat によるテストを組み込んだ CI/CD パイプラインの作成のご紹介でした。
 
-# 終わりに
+## 終わりに
 
 TaskCat はいかがだったでしょうか？
 

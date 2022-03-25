@@ -2,10 +2,8 @@
 title: "Google Cloud 認定 Associate Cloud Engineer 受験メモ"
 date: 2020-05-07
 tags: ["Google Cloud", "資格"]
-draft: true
+draft: false
 ---
-
-## はじめに
 
 すでに Professional Cloud Architect だけは持っていたのですが、ACE の受験バウチャーを無償でいただく機会があったので「使わないなんてもったいない！」ということで 2021/05/06 に他の試験を受けるついでに受験したのでその時のメモです。
 
@@ -64,7 +62,7 @@ https://cloud.google.com/docs/compare/azure?hl=ja
 
 ということで Associate Cloud Engineer (ACE)を取ってきました、、、だがしかし！！
 
-こちらの資格は上位資格である Professional Cloud Architect (PCA)の前提条件というわけでもないですし、PCA も感覚的には AWS などと比較してそこまで難しくはないので、普通の人はアソシはすっ飛ばして最初からプロを目指しちゃってもいいのかなと思います＾＾；
+こちらの資格は上位資格である Professional Cloud Architect (PCA)の前提条件というわけでもないですし、PCA も感覚的には AWS などと比較してそこまで難しくはないので、普通の人はアソシはすっ飛ばして最初からプロを目指しちゃってもいいのかなと思います^^;
 
 ---
 

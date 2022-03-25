@@ -3,11 +3,7 @@ title: "AWS Load Balancer Controller を使って ELB を Kubernetes のマニ�
 date: 2021-12-14
 tags: ["AWS", "Kubernetes", "Amazon EKS", "Elastic Load Balancing(ELB)"]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
-
-# はじめに
 
 みなさん、こんにちは。今回は Amazon Elastic Kubernetes Service(EKS) を利用する際に併せて利用したい AWS Load Balancer Controller のお話です。
 
@@ -17,7 +13,7 @@ TocOpen: true
 
 今回はそのうちの一つ、Elastic Load Balancing(ELB) を Kubernetes クラスタで管理できるようにする AWS Load Balancer Controller について、簡単なサンプルアプリケーションを交えて紹介していきたいと思います。これから Amazon EKS 上にアプリケーションを展開しようと考えている方は参考にしてみてはいかがでしょうか。
 
-# AWS Load Balancer Controller とは
+## AWS Load Balancer Controller とは
 
 AWS Load Balancer Controller (旧AWS ALB Ingress Controller) は、ELB を Kubernetes クラスタから管理するためのコントローラです。このコントローラを活用することで、Kubernetes Ingress リソースとして L7 ロードバランサの Application Load Balancer(ALB) を、Kuberntes Service リソースとして L4 ロードバランサの Network Load Balancer(NLB) を利用することができるようになります。
 
@@ -25,27 +21,31 @@ Kubernetes Service/Ingress リソースでの処理を外部ロードバラン�
 
 https://github.com/kubernetes-sigs/aws-load-balancer-controller
 
-# AWS Load Balancer Controller を導入してみよう
+## AWS Load Balancer Controller を導入してみよう
 
-## Step1. 作業環境の設定
+### Step1. 作業環境の設定
 
 今回は Amazon EKS や AWS Load Balancer Controller の管理を行う環境として AWS CloudShell を利用していきたいと思います。まずは操作に必要な各種ツールの設定を AWS CloudShell にしてきましょう。
 
-### AWS CLI の設定
+#### AWS CLI の設定
 
 AWS リソースの操作を行えるように次のコマンドを実行し、AWS CLI の設定を行いましょう。
 
-{{< code lang="bash" title="AWS CLIの設定" >}}
-aws configure
-{{< /code >}}
+**実行例）AWS CLIの設定**
 
-### kubectl コマンドのインストール
+```bash
+aws configure
+```
+
+#### kubectl コマンドのインストール
 
 次に Kubernetes 管理ツールの `kubectl` コマンドをインストールしましょう。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/install-kubectl.html#linux
 
-{{< code lang="bash" title="kubectlコマンドのインストール" >}}
+**実行例）kubectlコマンドのインストール**
+
+```bash
 # kubectl コマンドのダウンロード
 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
 
@@ -60,22 +60,26 @@ echo 'export PATH=${PATH}:${HOME}/bin' >> ~/.bashrc
 
 # インストールが成功していることを確認
 kubectl version --short --client
-{{< /code >}}
+```
 
 インストールに成功していれば出力例のようにバージョン情報の出力を確認できます。
 
-{{< code lang="txt" title="出力例" >}}
+**出力例）**
+
+```
 $ kubectl version --short --client
 Client Version: v1.21.2-13+d2965f0db10712
-{{< /code >}}
+```
 
-### eksctl コマンドのインストール
+#### eksctl コマンドのインストール
 
 続いて Amazon EKS 管理ツールの `eksctl` コマンドをインストールしましょう。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/eksctl.html#linux
 
-{{< code lang="bash" title="eksctlコマンドのインストール" >}}
+**実行例）eksctlコマンドのインストール**
+
+```bash
 # eksctl の最新バージョンをダウンロード
 curl -L "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 
@@ -84,22 +88,26 @@ mv /tmp/eksctl ${HOME}/bin
 
 # インストールが成功していることを確認
 eksctl version
-{{< /code >}}
+```
 
 インストールに成功していれば出力例のようにバージョン情報の出力を確認できます。
 
-{{< code lang="txt" title="出力例" >}}
+**出力例）**
+
+```
 $ eksctl version
 0.76.0
-{{< /code >}}
+```
 
-### helm コマンドのインストール
+#### helm コマンドのインストール
 
 最後に Kubernetes 上で稼働するアプリケーションを管理するためのツールである `helm` コマンドをインストールしましょう。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/helm.html
 
-{{< code lang="bash" title="helmコマンドのインストール" >}}
+**実行例）helmコマンドのインストール**
+
+```bash
 # 前提パッケージのインストール
 sudo yum install -y openssl
 
@@ -114,24 +122,28 @@ chmod 700 get_helm.sh
 
 # インストールが成功していることを確認
 helm version --short
-{{< /code >}}
+```
 
 インストールに成功していれば出力例のようにバージョン情報の出力を確認できます。
 
-{{< code lang="txt" title="出力例" >}}
+**出力例）**
+
+```
 $ helm version --short
 v3.7.2+g663a896
-{{< /code >}}
+```
 
 以上で作業環境(AWS CloudShell)の設定は完了です。
 
-## Step2. EKS クラスタの作成
+### Step2. EKS クラスタの作成
 
 続いて AWS Load Balancer Controller を導入する対象の Amazon EKS クラスタを作成していきましょう。今回は Kubernetes ノードには AWS Fargate を使用していきたいと思います。それでは `eksctl` コマンドを実行してクラスタを作成しましょう。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/getting-started-eksctl.html
 
-{{< code lang="bash" title="EKSクラスタの作成" >}}
+**実行例）EKSクラスタの作成**
+
+```bash
 # 環境変数の設定
 export CLUSTER="my-tokyo-cluster"
 
@@ -140,21 +152,23 @@ eksctl create cluster --name ${CLUSTER} --version 1.21 --fargate
 
 # サービスアカウントでの IAM ロール使用を許可
 eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER} --approve
-{{< /code >}}
+```
 
 ここまで終わりましたら AWS Load Balancer Controller を利用するための事前準備は完了です。
 
-## Step3. コントローラのデプロイ
+### Step3. コントローラのデプロイ
 
 それでは AWS Load Balancer Controller を Amazon EKS クラスタにデプロイしていきましょう。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/aws-load-balancer-controller.html
 
-### サービスアカウントの作成
+#### サービスアカウントの作成
 
 まずは AWS Load Balancer Controller 用のサービスアカウントの作成を行っていきます。今回は `kube-system` Namespace に `aws-load-balancer-controller` という名前でサービスアカウントを作成して行きたいと思います。それでは次のコマンドを実行してサービスアカウントを作成しましょう。
 
-{{< code lang="bash" title="サービスアカウントの作成" >}}
+**実行例）サービスアカウントの作成**
+
+```bash
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 POLICY_NAME="myAWSLoadBalancerControllerIAMPolicy"
 SERVICE_ACCOUNT="aws-load-balancer-controller"
@@ -175,13 +189,15 @@ eksctl create iamserviceaccount \
   --attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/${POLICY_NAME} \
   --override-existing-serviceaccounts \
   --approve
-{{< /code >}}
+```
 
-### コントローラのインストール
+#### コントローラのインストール
 
 次に AWS Load Balancer Controller をインストールしていきましょう。なお、AWS Load Balancer Controller のインストール方法はいくつか用意されていますが、AWS Fargate 環境の場合は Helm を利用したインストール方法を選択する必要があるためご注意ください。
 
-{{< code lang="bash" title="コントローラのインストール" >}}
+**実行例）コントローラのインストール**
+
+```bash
 # EKS 用の Helm レポジトリを追加
 helm repo add eks https://aws.github.io/eks-charts
 
@@ -201,27 +217,31 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 
 # 確認
 kubectl get deployment -n kube-system aws-load-balancer-controller
-{{< /code >}}
+```
 
 インストールに成功していれば出力例のようにコントローラが一覧に表示されるようになります。
 
-{{< code lang="txt" title="出力例" >}}
+**出力例）**
+
+```
 $ kubectl get deployment -n kube-system aws-load-balancer-controller
 NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
 aws-load-balancer-controller   2/2     2            2           42s
-{{< /code >}}
+```
 
 以上で AWS Load Balancer Controller の導入は完了です。
 
-# AWS Load Balancer Controller を使ってみよう
+## AWS Load Balancer Controller を使ってみよう
 
-## Network Load Balancer (Serviceリソース) の使い方
+### Network Load Balancer (Serviceリソース) の使い方
 
 AWS Load Balancer Controller 環境では、次のサンプルのように Kubernetes Service リソース定義にて「**LoadBalancer タイプの指定**」と「**アノテーションとして各種パラメータを指定**」をすることによって Network Load Balancer(NLB) をプロビジョニングすることができます。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/network-load-balancing.html
 
-{{< code lang="yaml" title="Serviceリソース定義サンプル" >}}
+**作成例）Serviceリソース定義サンプル**
+
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -237,7 +257,7 @@ spec:
       protocol: TCP
   selector:
     app: sample-app
-{{< /code >}}
+```
 
 アノテーションに指定する主要なパラメータとしては次の通りです。アノテーションに指定可能なパラメータの一覧につきましては次の URL を参照してください。
 
@@ -252,13 +272,15 @@ https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/servic
 |service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol|バックエンドのヘルスチェック用プロトコル("**tcp**"/"**http**"/"**https**")を指定します。デフォルトは "**tcp**" です。|
 |service.beta.kubernetes.io/aws-load-balancer-healthcheck-path|バックエンドの HTTP/HTTPS ヘルスチェック用パスを指定します。デフォルトは "**/**" です。|
 
-### NLB Service のサンプル
+#### NLB Service のサンプル
 
 それではサンプルアプリケーションをデプロイして NLB Service リソースを実際に動かしてみましょう。今回は次のサンプルアプリケーションをベースに少しだけ手を加えたものを用いて動作確認をしていきたいと思います。
 
 https://github.com/istio/istio/tree/master/samples/helloworld
 
-{{< code lang="yaml" title="helloworld-nlb-sample.yaml（サンプルアプリケーション定義ファイル）" >}}
+**作成例）helloworld-nlb-sample.yaml (サンプルアプリケーション定義ファイル)**
+
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -304,11 +326,13 @@ spec:
         image: docker.io/istio/examples-helloworld-v1
         ports:
         - containerPort: 5000
-{{< /code >}}
+```
 
 それでは次のコマンドを実行してサンプルアプリケーションをデプロイしていきましょう。
 
-{{< code lang="bash" title="サンプルアプリケーションのデプロイ" >}}
+**実行例）サンプルアプリケーションのデプロイ**
+
+```bash
 export FARGATEPROFILE="sample-app"
 export NAMESPACE="sample"
 
@@ -323,19 +347,23 @@ kubectl apply -n ${NAMESPACE} -f helloworld-nlb-sample.yaml
 
 # サービスがデプロイされたことを確認
 kubectl get -n ${NAMESPACE} service helloworld
-{{< /code >}}
+```
 
 NLB Service のデプロイに成功した場合は次の出力例のように Service リソース一覧に表示されます。
 
-{{< code lang="txt" title="出力例" >}}
+**出力例）**
+
+```
 $ kubectl get -n ${NAMESPACE} service helloworld
 NAME         TYPE           CLUSTER-IP      EXTERNAL-IP                                                                        PORT(S)        AGE
 helloworld   LoadBalancer   10.100.114.79   k8s-sample-hellowor-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.ap-northeast-1.amazonaws.com   80:32642/TCP   32h
-{{< /code >}}
+```
 
 NLB のヘルスチェックが正常になるまで数分待った後、NLB のパブリックエンドポイントにアクセスしてみましょう。
 
-{{< code lang="bash" title="サンプルアプリケーションへアクセス" >}}
+**実行例）サンプルアプリケーションへアクセス**
+
+```bash
 # NLB の DNS 名を取得
 ENDPOINT=$(kubectl get -n ${NAMESPACE} service helloworld \
     -o custom-columns=HOSTNAME:status.loadBalancer.ingress[0].hostname \
@@ -343,32 +371,38 @@ ENDPOINT=$(kubectl get -n ${NAMESPACE} service helloworld \
 
 # テストの実行
 curl http://${ENDPOINT}/hello
-{{< /code >}}
+```
 
 期待通りのレスポンスが返ってくることが確認できたら成功です。
 
-{{< code lang="txt" title="サンプルアプリケーション出力例" >}}
+**出力例）**
+
+```txt
 $ curl http://${ENDPOINT}/hello
 Hello version: v1, instance: helloworld-v1-b9d9d6679-hdqsq
-{{< /code >}}
+```
 
 最後にサンプルアプリケーションを削除して動作確認は終了です。お疲れ様でした。
 
-{{< code lang="bash" title="サンプルアプリケーションの削除" >}}
-kubectl delete namespace ${NAMESPACE}
-{{< /code >}}
+**実行例）サンプルアプリケーションの削除**
 
-## Application Load Balancer (Ingressリソース) の使い方
+```bash
+kubectl delete namespace ${NAMESPACE}
+```
+
+### Application Load Balancer (Ingressリソース) の使い方
 
 AWS Load Balancer Controller 環境では、次のサンプルのように「**Kubernetes IngressClass リソースにてコントローラの指定**」を、「**Kubernetes Ingress リソース定義のアノテーションとして各種パラメータを指定**」をすることによって Application Load Balancer(ALB) をプロビジョニングすることができます。
 
 https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/alb-ingress.html
 
-{{< note warn >}}
+{{< alert >}}
 Kubernetes Ingress リソースのアノテーションに `kubernetes.io/ingress.class: alb` を指定することでも作成できますが、Kubernetes 1.18 以降は  `kubernetes.io/ingress.class` の利用は非推奨となっておりますのでご注意ください。
-{{< /note >}}
+{{< /alert >}}
 
-{{< code lang="yaml" title="Ingressリソース定義サンプル" >}}
+**作成例）Ingressリソース定義サンプル**
+
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -395,7 +429,7 @@ spec:
             name: sample-service
             port:
               number: 80
-{{< /code >}}
+```
 
 アノテーションに指定する主要なパラメータとしては次の通りです。なお、ALB Ingress は AWS WAF や AWS Shield による脅威からの保護、Amazon Cognito 認証などさまざまなマネージドサービスとの連携が可能です。アノテーションに指定可能なパラメータの一覧につきましては次の URL を参照してください。
 
@@ -411,13 +445,15 @@ https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingres
 |alb.ingress.kubernetes.io/healthcheck-protocol|バックエンドのヘルスチェック用プロトコル("**http**"/"**https**")を指定します。デフォルトは "**http**" です。|
 |alb.ingress.kubernetes.io/healthcheck-path|バックエンドの HTTP/HTTPS ヘルスチェック用パスを指定します。デフォルトは "**/**" です。|
 
-### ALB Ingress のサンプル
+#### ALB Ingress のサンプル
 
 それではサンプルアプリケーションをデプロイして ALB Ingress リソースを実際に動かしてみましょう。今回は次のサンプルアプリケーションをベースに少しだけ手を加えたものを用いて動作確認をしていきたいと思います。
 
 https://github.com/istio/istio/tree/master/samples/helloworld
 
-{{< code lang="yaml" title="helloworld-alb-sample.yaml（サンプルアプリケーション定義ファイル）" >}}
+**作成例）helloworld-alb-sample.yaml (サンプルアプリケーション定義ファイル)**
+
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -485,11 +521,13 @@ spec:
         image: docker.io/istio/examples-helloworld-v1
         ports:
         - containerPort: 5000
-{{< /code >}}
+```
 
 それでは次のコマンドを実行してサンプルアプリケーションをデプロイしていきましょう。
 
-{{< code lang="bash" title="サンプルアプリケーションのデプロイ" >}}
+**実行例）サンプルアプリケーションのデプロイ**
+
+```bash
 export FARGATEPROFILE="sample-app"
 export NAMESPACE="sample"
 
@@ -504,19 +542,23 @@ kubectl apply -n ${NAMESPACE} -f helloworld-alb-sample.yaml
 
 # Ingress がデプロイされたことを確認
 kubectl get -n ${NAMESPACE} ingress helloworld
-{{< /code >}}
+```
 
 ALB Ingress のデプロイに成功した場合は次の出力例のように Ingress リソース一覧に表示されます。
 
-{{< code lang="txt" title="出力例" >}}
+**出力例）**
+
+```
 $ kubectl get -n ${NAMESPACE} ingress helloworld
 NAME         CLASS    HOSTS   ADDRESS                                                                    PORTS   AGE
 helloworld   <none>   *       k8s-sample-hellowor-xxxxxxxxxx-xxxxxxxx.ap-northeast-1.elb.amazonaws.com   80      70s
-{{< /code >}}
+```
 
 DNS への登録などが反映されるまで数分待った後、ALB のパブリックエンドポイントにアクセスしてみましょう。
 
-{{< code lang="bash" title="サンプルアプリケーションへアクセス" >}}
+**実行例）サンプルアプリケーションへアクセス**
+
+```bash
 # NLB の DNS 名を取得
 ENDPOINT=$(kubectl get -n ${NAMESPACE} ingress helloworld \
     -o custom-columns=HOSTNAME:status.loadBalancer.ingress[0].hostname \
@@ -524,22 +566,26 @@ ENDPOINT=$(kubectl get -n ${NAMESPACE} ingress helloworld \
 
 # テストの実行
 curl http://${ENDPOINT}/hello
-{{< /code >}}
+```
 
 期待通りのレスポンスが返ってくることが確認できたら成功です。
 
-{{< code lang="txt" title="サンプルアプリケーション出力例" >}}
+**出力例）**
+
+```txt
 $ curl http://${ENDPOINT}/hello
 Hello version: v1, instance: helloworld-v1-b9d9d6679-rpfzl
-{{< /code >}}
+```
 
 最後にサンプルアプリケーションを削除して動作確認は終了です。お疲れ様でした。
 
-{{< code lang="bash" title="サンプルアプリケーションの削除" >}}
-kubectl delete namespace ${NAMESPACE}
-{{< /code >}}
+**実行例）サンプルアプリケーションの削除**
 
-# 終わりに
+```bash
+kubectl delete namespace ${NAMESPACE}
+```
+
+## 終わりに
 
 今回は Amazon Elastic Kubernetes Service(EKS) を利用する際に併せて利用したい AWS Load Balancer Controller のご紹介でしたが、いかがだったでしょうか？
 

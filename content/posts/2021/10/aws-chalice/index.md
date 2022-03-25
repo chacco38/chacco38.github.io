@@ -3,11 +3,7 @@ title: "AWS Chaliceを使ってサーバレスアプリケーションを開発�
 date: 2021-10-18
 tags: ["AWS", "AWS Chalice", "AWS Lambda", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
-
-# はじめに
 
 みなさん、こんにちは。今回は「AWS Chalice」を活用したサーバレスアプリケーション開発についてのお話です。AWS Summit Online Japan 2021 の日立製作所の講演で軽く触れたこともあり、どこかで紹介したいと思っておりました。
 
@@ -15,7 +11,7 @@ TocOpen: true
 
 今回は AWS CloudShell 上に開発環境を作るところからはじめて、簡素なサンプルを用いた一連の開発の流れ、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。これから実際に動くサーバレスアプリケーションを手軽に作りたいと思われている方は参考にしてみてはいかがでしょうか。
 
-# 改めて AWS Chalice とは
+## AWS Chalice とは
 
 AWS Chalice とは、Amazon AWS Gateway や AWS Lambda を用いたサーバレスアプリケーションを、お手軽に開発できるようにする Python 製のサーバレスアプリケーションフレームワークです。具体的には、Web API をシンプルで直感的なコードで実装できるようにする機能や、作成したコードからアプリケーションの作成やデプロイを実行するコマンドラインインタフェース(CLI)といった開発者にやさしい機能を提供してくれます。
 
@@ -26,14 +22,16 @@ AWS Chalice とは、Amazon AWS Gateway や AWS Lambda を用いたサーバレ�
 
 https://github.com/aws/chalice
 
-# ではさっそく AWS Chalice を使ってみよう
+## AWS Chalice を使ってみよう
 
-「はじめに」で既に述べたとおり、今回は AWS CloudShell 上に開発環境を作るところからはじめて、簡素なサンプルを用いた一連の開発の流れ、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
+冒頭で既に述べたとおり、今回は AWS CloudShell 上に開発環境を作るところからはじめて、簡素なサンプルを用いた一連の開発の流れ、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
 
-## まずは開発環境の構築から
+### まずは開発環境の構築から
 
 今回は AWS CloudShell 上に開発環境を作っていきたいと思います。
 それではまず AWS Chalice をインストールする事前準備として Python の仮想環境を作成していきましょう。
+
+**実行例）**
 
 ```bash
 $ sudo yum install -y python3
@@ -45,6 +43,8 @@ $ . venv37/bin/activate
 
 次に、AWS Chalice をインストールします。
 
+**実行例）**
+
 ```bash
 $ python3 -m pip install chalice
 $ chalice --version
@@ -53,19 +53,23 @@ chalice 1.26.0, python 3.7.10, linux 4.14.243-185.433.amzn2.x86_64
 
 最後に、AWS CLI の設定をして開発環境の構築は完了です。
 
+**実行例）**
+
 ```bash
 $ aws configure
 ```
 
-## 簡単なアプリケーションを動かしてみよう
+### 簡単なアプリケーションを動かしてみよう
 
 ここでは AWS Chalice を使ったアプリケーションの作成からデプロイまでの流れを、次のような簡単なサンプルを用いて紹介していきたいと思います。
 
 ![01-sample-image.drawio.png](images/01-sample-image.drawio.png)
 
-### Step1. 新規プロジェクトの作成
+#### Step1. 新規プロジェクトの作成
 
 まずは `chalice new-project` コマンドを実行して新しいプロジェクトを作成します。出力例のようにプロジェクトを新しく作るとデフォルトでサンプルプログラムも生成されます。
+
+**実行例）**
 
 ```bash
 $ chalice new-project <任意のプロジェクト名>
@@ -81,9 +85,11 @@ $ tree -a
 1 directory, 4 file
 ```
 
-### Step2. ソースコードの編集
+#### Step2. ソースコードの編集
 
 今回はデフォルトで作られたソースコードにちょっとだけ手を加えました。修正後のファイルの中身は次の通りです。実際の例を見ていただけるとわかる通り、AWS Chalice を用いた実装は Python を普段使わないという方でも直感的でわかりやすい構文になっているのではないでしょうか。
+
+**作成例）app.py**
 
 ```python:app.py
 from chalice import Chalice
@@ -103,9 +109,13 @@ def hello_post():
     return {'result': request.json_body['payload']}
 ```
 
+**作成例）requirements.txt**
+
 ```text:requirements.txt
 chalice
 ```
+
+**作成例）.chalice/config.json**
 
 ```json:.chalice/config.json
 {
@@ -119,15 +129,19 @@ chalice
 }
 ```
 
-### Step3. ローカル環境で動作確認
+#### Step3. ローカル環境で動作確認
 
 AWS 上へデプロイする前にローカル環境で軽く動作をしたい場合は、`chalice local` コマンドを実行します。
 実行例のように期待通りのレスポンスが返ってくるようであれば、いよいよ AWS 上へデプロイをしていきます。
+
+**実行例）Tarminal#1から実行**
 
 ```bash:Termina1
 $ chalice local
 Serving on http://127.0.0.1:8000
 ```
+
+**実行例）Tarminal#2から実行**
 
 ```bash:Terminal2
 $ curl http://127.0.0.1:8000/hello
@@ -136,9 +150,11 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"payload":"hello, world"
 {"result":"hello, world"}
 ```
 
-### Step4. AWS 上へデプロイ
+#### Step4. AWS 上へデプロイ
 
 AWS 上へアプリケーションのデプロイをする場合は、`chalice deploy` コマンドを実行します。実行例ではメッセージから新たに Lambda 関数、API Gateway と IAM ロールが作られていることがわかります。
+
+**実行例）**
 
 ```bash
 $ chalice deploy --stage dev
@@ -153,6 +169,8 @@ Resources deployed:
 
 デプロイ完了後は期待するレスポンスが返ってくるか確認しましょう。
 
+**実行例）**
+
 ```bash
 $ curl https://<文字列>.execute-api.ap-northeast-1.amazonaws.com/api/hello
 {"hello":"world"}
@@ -162,9 +180,11 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"payload":"hello, world"
 
 以上、AWS Chalice を使ったアプリケーションの作成からデプロイまでの一連の流れでした。
 
-### StepEX. デプロイしたアプリケーションの削除
+#### StepEX. デプロイしたアプリケーションの削除
 
 不要になったアプリケーションは `chalice delete` コマンドを使って削除しておきましょう。
+
+**実行例）**
 
 ```bash
 $ chalice delete
@@ -173,11 +193,11 @@ Deleting function: arn:aws:lambda:ap-northeast-1:<AWSアカウント名>:functio
 Deleting IAM role: <任意のプロジェクト名>-dev
 ```
 
-## より実践的な開発を行うにあたって
-
-### ユニットテストを自動化しましょう
+### ユニットテストを自動化しよう
 
 近頃はユニットテストの自動化は一般的に行われているかと思います。AWS Chalice でも Python の一般的なテストツール Pytest を使ってユニットテストを実装することができます。例として、今回は次のサンプルに対するテストコードを実装してみます。
+
+**作成例）app.py(テスト対象のプログラム)**
 
 ```python:app.py(テスト対象のプログラム)
 from chalice import Chalice
@@ -201,6 +221,8 @@ def hello_post():
 
 では、まず必要なファイルを用意していきます。中身は後で入れるとしてここでは空ファイルだけ作ります。
 
+**実行例）**
+
 ```bash
 $ touch test_requirements.txt    # テストプログラムの依存ライブラリ定義
 $ mkdir tests
@@ -211,14 +233,20 @@ $ touch tests/test_app.py        # テストプログラムを実装
 
 次に各ファイルを編集していきます。今回は HTTP レスポンスのステータスコードとボディの中身を確認するだけの簡単なテストプログラムを用意しました。
 
+**作成例）test_requirements.txt（依存ライブラリの定義）**
+
 ```text:test_requirements.txt（依存ライブラリの定義）
 pytest-chalice
 pytest-cov
 ```
 
+**作成例）tests/__init__.py**
+
 ```python:tests/__init__.py
 (EOF)
 ```
+
+**作成例）tests/conftest.py（共通処理の実装）**
 
 ```python:tests/conftest.py（共通処理の実装）
 import pytest
@@ -228,6 +256,8 @@ from app import app as chalice_app
 def app():
 	return chalice_app
 ```
+
+**作成例）tests/test_app.py（テストの実装）**
 
 ```python:tests/test_app.py（テストの実装）
 from http import HTTPStatus
@@ -254,6 +284,8 @@ def test_hello_put(client):
 #### Step2. ユニットテストの実行
 
 ではテストプログラムが用意できたので `pytest` コマンドを使ってユニットテストを実行しましょう。実行例では、出力メッセージからユニットテスト 3 件が実行され、3 件とも成功 (PASSED) して、C1 カバレッジが 100% 網羅されていることがわかります。
+
+**実行例）**
 
 ```bash:テストの実行
 $ python3 -m pip install -r test_requirements.txt
@@ -292,6 +324,8 @@ TOTAL                  31      0      0      0   100%
 
 AWS Chalice には CI/CD パイプライン用の CloudFormation(CFn) テンプレートを自動生成してくれるとても便利な `chalice generate-pipeline` コマンドがあります。今回の例では、先ほど作ったユニットテストもパイプラインの中で実行するようにしますので、buildspec.yml を分離する `-b` オプションも付与して実行します。
 
+**実行例）**
+
 ```bash
 $ chalice generate-pipeline -b buildspec.yml <テンプレートファイル名>
 ```
@@ -305,6 +339,8 @@ $ chalice generate-pipeline -b buildspec.yml <テンプレートファイル名>
 - AWS IAM ロールおよびポリシー
 
 なお、今回はユニットテストの結果をレポート出力できるように作成されたテンプレートファイルを編集して CodeBuild に割り当てる権限を追加しました。
+
+**作成例）CFnテンプレート（編集後）**
 
 ```diff:CFnテンプレート（編集後）
     "CodeBuildPolicy": {
@@ -331,6 +367,8 @@ $ chalice generate-pipeline -b buildspec.yml <テンプレートファイル名>
 
 では CFn テンプレートからリソースをデプロイしましょう。実行例のようにスタック作成の成功と出力されたら完了です。
 
+**実行例）**
+
 ```bash
 $ aws cloudformation deploy --stack-name <スタック名> --template-file <テンプレートファイル名> --capabilities CAPABILITY_IAM
 :
@@ -340,6 +378,8 @@ Successfully created/updated stack - <スタック名>
 #### Step2. パイプラインジョブ定義の編集
 
 次に `chalice generate-pipeline` で生成されたパイプラインジョブの定義を編集して、ユニットテストも自動で実行するようにしていきましょう。編集前のファイル内容はこちらです。
+
+**作成例）buildspec.yml（編集前）**
 
 ```yaml:buildspec.yml（編集前）
 artifacts:
@@ -360,6 +400,8 @@ version: '0.1'
 ```
 
 編集後のファイルは次のようにしてみました。記載順序の入れ替えやビルドフェーズの分割も併せて実施していてわかりにくくなっていますが、要約すると test_requirements.txt の読み込みと pytest コマンドの実行をステップとして追加しています。
+
+**作成例）buildspec.yml（編集後）**
 
 ```yaml:buildspec.yml（編集後）
 version: 0.2
@@ -400,6 +442,8 @@ artifacts:
 
 まずはローカルに git リポジトリを作成して、ソースコードのコミットまでしていきます。今回の `.gitignore` ファイルは GitHub さんが公開する Python 向けテンプレートを使ってます。
 
+**実行例）**
+
 ```bash
 $ git init .
 $ curl https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore > .gitignore
@@ -408,6 +452,8 @@ $ git commit -m "Initial commit"
 ```
 
 次に、ソースコードを格納する AWS CodeCommit リポジトリの URL を確認します。
+
+**実行例）**
 
 ```bash
 $ aws cloudformation describe-stacks --stack-name <スタック名> --query 'Stacks[0].Outputs'
@@ -419,11 +465,15 @@ $ aws cloudformation describe-stacks --stack-name <スタック名> --query 'Sta
 
 先ほど調べたリポジトリ情報を元に、リモートリポジトリを追加します。
 
+**実行例）**
+
 ```bash
 $ git remote add codecommit https://git-codecommit.ap-northeast-1.amazonaws.com/v1/repos/<プロジェクト名>
 ```
 
 CodeCommit へ Push できるように認証情報ヘルパーを設定します。
+
+**実行例）**
 
 ```bash
 $ git config --global credential.helper '!aws codecommit credential-helper $@'
@@ -431,6 +481,8 @@ $ git config --global credential.UseHttpPath true
 ```
 
 ではソースコードをリモートレポジトリへ push してみましょう。
+
+**実行例）**
 
 ```bash
 $ git push codecommit master
@@ -458,6 +510,8 @@ CloudFormation 画面では出力の一覧から EndpointURL 値を確認しま�
 
 最後に、期待するレスポンスが返ってくるか生成された EndpointURL に向けて HTTP リクエストを発行して確認しましょう。実行例では期待するレスポンスが返ってきてますね。
 
+**実行例）**
+
 ```bash
 $ curl https://<文字列>.execute-api.ap-northeast-1.amazonaws.com/api/hello
 {"hello":"world"}
@@ -483,7 +537,7 @@ https://aws.github.io/chalice/main.html
 
 <iframe src="//www.slideshare.net/slideshow/embed_code/key/pGaZHnM6sdX72n" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
 
-# 余談ですが
+## 余談ですが、、、
 
 本記事執筆のきっかけとなった AWS Summit Online Japan 2021 で行った日立の講演についてもご紹介させてください。
 
@@ -493,7 +547,7 @@ https://aws.github.io/chalice/main.html
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/LLi1lzhpoto" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-# 終わりに
+## 終わりに
 
 AWS Chalice はいかがだったでしょうか？
 

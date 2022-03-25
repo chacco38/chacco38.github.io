@@ -18,7 +18,7 @@ author:
   name: "クラウドCoEの何でも屋"
   image: "images/author.jpg"
   headline: "真っ赤なスポーツカーとロックミュージックが好きなITエンジニアの技術ブログ"
-  bio: "好きなモノ = 真っ赤なスポーツカー + ロックミュージック、趣味 = 投資 + 仕事<br>2021 APN AWS Top Engineers & ALL AWS Certifications Engineers受賞"
+  bio: "Cloud Architect, 12x AWS, 6x Azure, 3x GCP Certifications Engineer<br>好きなモノ = 真っ赤なスポーツカー + ロックミュージック、趣味 = 投資 + 仕事"
   links:
     - github: https://github.com/chacco38
     - twitter: https://twitter.com/chacco38
@@ -39,6 +39,18 @@ menu:
     - name: Tags
       pageRef: tags
       weight: 80
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+  highlight:
+    noClasses: false
+
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3
 
 params:
   colorScheme: congo

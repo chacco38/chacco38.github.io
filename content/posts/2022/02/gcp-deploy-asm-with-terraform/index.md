@@ -1,10 +1,9 @@
 ---
 title: "Terraformを使ってGKE+ASMのマルチクラスタメッシュ環境を構築してみた"
 date: 2022-02-14
+lastmod: ""
 tags: ["Google Cloud", "Google Kubernetes Engine(GKE)", "Anthos Service Mesh", "Terraform", "Kubernetes", "Istio" ]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
 
 # はじめに
@@ -306,9 +305,9 @@ output "network" {
 
 東京/大阪リージョンのGKEクラスタを定義しています。こちらもネットワークモジュール同様にTerraform公式モジュールを活用してみました。
 
-{{< note info >}}
+{{< alert "info" >}}
 記事執筆時点(2022年1月末)では、コントロールプレーンのグローバルアクセスを有効化するオプションがTerraform公式private-clusterサブモジュールv19.0.0(latest)になかったため、Terraform公式beta-private-clusterサブモジュールv19.0.0(latest)を活用しています。
-{{< /note >}}
+{{< /alert >}}
 
 {{< code lang="tf" title="./modules/gke/main.tf" >}}
 module "gke_tokyo" {
@@ -410,13 +409,13 @@ output "osaka_cluster" {
 
 東京/大阪リージョンのGKEクラスタにASMのインストール、マルチクラスタメッシ作成、Ingressゲートウェイのデプロイを定義しています、、、とはいえ、サンプルコードを書いといてなんですが大変苦しい実装になっていますので個人的には現時点では素直にTerraform以外を使用した方が良いと感じてます^^;
 
-{{< note warn >}}
+{{< alert >}}
 記事執筆時点(2022年1月末)では、Terraform公式asmサブモジュールv19.0.0(latest)がASM v11.0以降に対応できていなかったため、Terraform公式gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)を活用してシェルスクリプトでゴリゴリ実装しており、非常に微妙な作りになっております。
-{{< /note >}}
+{{< /alert >}}
 
-{{< note info >}}
+{{< alert "info" >}}
 今回の例ではTerraform公式firewall-rulesサブモジュールv4.1.0(latest)を活用してファイアウォールルールを定義していますが、rules内の変数定義が省略できず使い勝手はよろしくないため、google_compute_firewallリソースをそのまま定義した方が個人的には良いと感じてます。
-{{< /note >}}
+{{< /alert >}}
 
 {{< code lang="tf" title="./modules/asm/main.tf" >}}
 module "asm_tokyo" {
@@ -838,9 +837,9 @@ spec:
 
 、、、と本来であればこれでもパイプラインは動くはずなのですが、残念なことにTerraform公式asmサブモジュールv19.0.0(latest)、gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)をTerraform公式Dockerイメージ上で動かすとエラーが発生してしまいます。非常に微妙ですが、今回のサンプルコードではDockerイメージをカスタマイズするか、あきらめて手動で実行をする必要がございます(TT)
 
-{{< note warn >}}
+{{< alert >}}
 記事執筆時点(2022年1月末)では、Terraform公式asmサブモジュールv19.0.0(latest)、gcloudモジュールおよびkubectl-wrapperサブモジュールv3.1.0(latest)をTerraform公式Dockerイメージ上で動かすとエラーになりますのでご注意ください。
-{{< /note >}}
+{{< /alert >}}
 
 {{< code lang="yaml" title="cloudbuild.yaml" >}}
 substitutions:

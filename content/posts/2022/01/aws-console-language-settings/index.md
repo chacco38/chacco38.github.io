@@ -3,8 +3,6 @@ title: "AWSマネジメントコンソールの表示言語を変更する方法
 date: 2022-01-13
 tags: ["AWS", "AWS Management Console"]
 draft: false
-ShowToc: true
-TocOpen: true
 ---
 
 ## はじめに

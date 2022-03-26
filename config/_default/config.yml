@@ -5,8 +5,7 @@ theme: congo
 enableRobotsTXT: true
 paginate: 10
 summaryLength: 0
-#copyright: "&copy; 2022 Satoshi Matsuzawa"
-#googleAnalytics: ""
+googleAnalytics: "G-BXXYM9R5MV"
 
 outputs:
   home:

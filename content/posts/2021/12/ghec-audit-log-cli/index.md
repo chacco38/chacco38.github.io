@@ -1,7 +1,7 @@
 ---
 title: "GHEC Audit Log CLI を使って GitHub Enterprise Cloud の監査ログを取得してみた"
 date: 2021-12-07
-tags: ["GitHub", "GitHub Actions"]
+tags: ["GitHub Enterprise Cloud", "GitHub Actions"]
 draft: false
 ---
 

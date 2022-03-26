@@ -52,6 +52,8 @@ markup:
     endLevel: 3
 
 params:
+  env: production
+  
   colorScheme: congo
   defaultAppearance: "light"
   autoSwitchAppearance: true

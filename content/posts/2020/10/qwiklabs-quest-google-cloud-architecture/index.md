@@ -1,7 +1,7 @@
 ---
 title: "Qwiklabs クエストの Cloud Architecture: Design, Implement, and Manage を攻略する"
 date: 2020-10-30T00:00:00+09:00
-tags: ["Google Cloud", "Qkiklabs"]
+tags: ["Google Cloud", "Qwiklabs"]
 draft: false
 ---
 

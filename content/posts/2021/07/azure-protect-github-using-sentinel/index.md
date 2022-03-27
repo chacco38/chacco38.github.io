@@ -2,7 +2,7 @@
 title: "Azure Sentinel を使って GitHub Enterprise Cloud を保護する"
 date: 2021-07-21T00:00:00+09:00
 expiryDate: 2021-11-25T00:00:00+09:00
-tags: ["GitHub Enterprise Cloud", "Azure", "Microsoft Sentinel"]
+tags: ["GitHub Enterprise Cloud", "Azure", "Microsoft Sentinel", "SIEM"]
 draft: false
 ---
 

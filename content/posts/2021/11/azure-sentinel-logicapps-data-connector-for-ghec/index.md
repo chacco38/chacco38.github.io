@@ -1,7 +1,7 @@
 ---
 title: "Microsoft Sentinel を使って GitHub Enterprise Cloud のセキュリティを強化しよう (Azure Logic Apps コネクタ編)"
 date: 2021-11-26T00:00:00+09:00
-tags: ["Azure", "Microsoft Sentinel", "GitHub Enterprise Cloud", "Azure Logic Apps"]
+tags: ["Azure", "Microsoft Sentinel", "GitHub Enterprise Cloud", "Azure Logic Apps", "SIEM"]
 draft: false
 ---
 

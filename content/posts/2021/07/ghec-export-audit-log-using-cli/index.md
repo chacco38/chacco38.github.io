@@ -2,7 +2,7 @@
 title: "GitHub Enterprise Cloud の監査ログ(Audit Log)を CLI を使って取得する"
 date: 2021-07-21T00:00:00+09:00
 expiryDate: 2021-12-07T00:00:00+09:00
-tags: ["GitHub Enterprise Cloud"]
+tags: ["GitHub Enterprise Cloud", "監査ログ"]
 draft: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Azure Sentinel を使って GitHub Enterprise Cloud を保護する"
-date: 2021-07-21
-expiryDate: 2021-11-25
+date: 2021-07-21T00:00:00+09:00
+expiryDate: 2021-11-25T00:00:00+09:00
 tags: ["GitHub Enterprise Cloud", "Azure", "Microsoft Sentinel"]
 draft: false
 ---
@@ -24,11 +24,11 @@ https://github.com/Azure/Azure-Sentinel/tree/master/DataConnectors/GithubFunctio
 
 Azure Functions から GHEC の監査ログなどを取得する際の認証で利用するパーソナルアクセストークン(PAT)を、前準備として GitHub から取得します。付与が必要なスコープについては、、、ドキュメントには記載はないですね^^;
 
-ひとまず、PAT は後からでも差し替え可能なので、一旦すべてのスコープを付与した PAT を使って動くところまで持っていきましょう。
+ひとまず、PAT は後からでも差し替え可能なので、いったんすべてのスコープを付与した PAT を使って動くところまで持っていきましょう。
 
 ### Step2. Sentinel ワークスペースの準備
 
-Azure Functions をデプロイする前準備として、GHEC 監査ログなどを格納する Sentinel ワークスペース(Log Analytics ワークスペース)を作成して ID と Key を取得します。次のように、Azure ポータルの Log Analytics ワークスペース画面のエージェント管理などの画面から ID と Key を取得することができます。
+Azure Functions をデプロイする前準備として、GHEC 監査ログなどを格納する Sentinel ワークスペース(Log Analytics ワークスペース)を作成して ID と Key を取得します。次のように、Azure ポータルの Log Analytics ワークスペース画面のエージェント管理などの画面から ID と Key を取得できます。
 
 ![](images/sentinel-workspace.png)
 
@@ -74,13 +74,13 @@ Azure Functions をデプロイする前準備として、GHEC 監査ログな�
 
 ### Step5. 動作確認
 
-設定が終わったら Azure Functions が定期的に起動して監査ログが `GitHub_CL` テーブルに、レポジトリの操作ログなどが `GitHubRepoLogs_CL` テーブルに書き込まれるようになり、そのログを Azure Sentinel が分析していることを確認します。
+設定が終わったら Azure Functions が定期的に起動して監査ログが `GitHub_CL` テーブルに、レポジトリの操作ログなどが `GitHubRepoLogs_CL` テーブルへ書き込まれるようになり、そのログを Azure Sentinel が分析していることを確認します。
 
 どこで確認してもいいのですが、今回は Application Insights を見て、サーバー要求はカウントされている一方で失敗した要求は挙がってないので Azure Functions がちゃんと正常終了したんだなーと雑に確認します。
 
 ![](images/application-insights.png)
 
-Log Analytics ワークスペースの方を見てみると、`GitHub_CL` テーブルが登録されていました。(`GitHubRepoLogs_CL` テーブルは作られてないけど一旦スルーしよう、、、)
+Log Analytics ワークスペースの方を見てみると、`GitHub_CL` テーブルが登録されていました。(`GitHubRepoLogs_CL` テーブルは作られてないけどいったんスルーしよう、、、)
 
 ![](images/loganalytics-workspace.png)
 

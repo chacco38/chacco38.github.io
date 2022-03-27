@@ -1,11 +1,11 @@
 ---
 title: "Microsoft 認定 Azure Solutions Architect Expert (AZ-303/AZ-304) 受験メモ"
-date: 2021-06-05
+date: 2021-06-05T00:00:00+09:00
 tags: ["Azure", "資格"]
 draft: false
 ---
 
-あれは Azure を業務で扱いだして 2~3 か月くらい経った頃、そろそろ Solutions Architect Expert を取りに行かねばな、、、と思い立ち AZ-303 (2021/1/5) と AZ-304 (2020/11/25) の試験を受けに行った時のメモです。
+あれは Azure を業務で扱いだして 2~3 か月くらい経った頃、そろそろ Solutions Architect Expert を取りに行かねばな、と思い立って AZ-303 (2021/1/5) と AZ-304 (2020/11/25) の試験を受けに行った時のメモです。
 
 ## 受験メモ
 
@@ -35,14 +35,19 @@ draft: false
 
 ### アドバイスなど
 
-- AZ-303 と AZ-304 の出題範囲はおおよそ同じなので、2 つの試験はあまり間隔を開けずに受験することをお勧めします。
-- AZ-303 は、例えば、SQL サーバを冗長化するには RG は同じである必要があるか？SQL サーバをリージョン間で冗長化するための前提条件は？みたいな感じの細かい知識を求める問題が多いです。知らないと勘になってしまう(=選択肢は絞れるけど、どんなに考えても導き出せない)ので試験ガイダンスに従って穴を埋めるのが良いかと思います。
+- AZ-303 と AZ-304 の出題範囲はおおよそ同じなので、2 つの試験はあまり間隔を開けずに受験することをオススメします。
+- AZ-303 は、たとえば、SQL サーバを冗長化するには RG は同じである必要があるか？SQL サーバをリージョン間で冗長化するための前提条件は？みたいな感じの細かい知識を求める問題が多いです。知らないと勘になってしまう(=選択肢は絞れるけど、どんなに考えても導き出せない)ので試験ガイダンスにしたがって穴を埋めるのが良いかと思います。
 - AZ-304 は、FgCF (Financial-grade Cloud Fundamentals) や Azure Well-Architecture フレームワークの知識を叩き込んでいけばどうにかなると思います。また、他クラウドのべスプラが頭に入っている方であれば、Azure についてそのままズバリを知らなくてもこうあるべきだ、を考えれば答えが導き出せるかも！？
-  - https://github.com/nakamacchi/fgcf
-  - https://docs.microsoft.com/ja-jp/azure/architecture/framework/
-- 本試験を受けた知人が以下の問題集から似たような問題がちょいちょい出てきたので点数の底上げに役立った、とのこと。評価も高いですし勉強素材の選択肢の一つとして検討してみても良いかも！？
-  - https://www.udemy.com/course/az-303-microsoft-azure-architect-technologies-practice-test/
-  - https://www.udemy.com/course/az-304-azure-architect-design-practice-tests/
+
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/nakamacchi/fgcf" frameborder="0" scrolling="no"></iframe>
+
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.microsoft.com/ja-jp/azure/architecture/framework/" frameborder="0" scrolling="no"></iframe>
+
+- 本試験を受けた知人が以下の問題集から似たような問題がちょいちょい出てきたので点数の底上げに役立った、とのこと。評価も高いですし勉強素材の選択肢の1つとして検討してみても良いかも！？
+
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://www.udemy.com/course/az-303-microsoft-azure-architect-technologies-practice-test/" frameborder="0" scrolling="no"></iframe>
+
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://www.udemy.com/course/az-304-azure-architect-design-practice-tests/" frameborder="0" scrolling="no"></iframe>
 
 ## 終わりに
 

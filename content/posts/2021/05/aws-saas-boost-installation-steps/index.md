@@ -1,39 +1,39 @@
 ---
 title: "AWS SaaS Boost がオープンソースとして公開されたのでさっそくいじってみよう"
-date: 2021-05-29
+date: 2021-05-29T00:00:00+09:00
 tags: ["AWS", "AWS SaaS Boost"]
 draft: false
 ---
 
 みなさん、こんにちは。ちょっと前に AWS さんのブログを漁ってたら「AWS SaaS Boost がオープンソースとしてリリースされました」っていう記事が目に入ってきたんですよね。
 
-https://aws.amazon.com/jp/blogs/news/aws-saas-boost-released-as-open-source/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws.amazon.com/jp/blogs/news/aws-saas-boost-released-as-open-source/" frameborder="0" scrolling="no"></iframe>
 
 普通は AWS SaaS Boost をサービスとして利用すればいいだけですし、へー、コードが公開されたんだ、でスルーしようとも思ったんですが、なんとなく気になったんです。もしかするとリポジトリをフォークして魔改造して使うときが来るかもしれない。いや、来ないだろうけど、、、
 
-ということで、そんな時に備えるためにちゃちゃっと改造して、改造したものを動かしてみるところまで試せたらいいなーと思って筆をとってみた次第です。
+ということで、そんな時に備えるためちゃちゃっと改造して、改造したものを動かしてみるところまで試せたらいいなーと思って筆をとってみた次第です。
 
 ## そもそも "AWS SaaS Boost" って何者よ？
 
-AWS SaaS Boost というのは、自分の持っているアプリケーションを SaaS 化したいなー！というときに強い味方になってくれるサービスです。
+AWS SaaS Boost というのは、自分の持っているアプリケーションを SaaS 化したいなー！というときに強い味方となってくれるサービスです。
 
-https://aws.amazon.com/jp/partners/saas-boost/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws.amazon.com/jp/partners/saas-boost/" frameborder="0" scrolling="no"></iframe>
 
 AWS さんのブログに書いてある内容をそのまま載せちゃいますが、要は、こちらのサービスが **SaaS 化する際に作りこまないといけない機能を補完してくれる** ってことなんですね。
 
 > 既存のアプリケーションを SaaS Boost にインストールするだけで、テナント管理、デプロイ、テナントごとの分析、ビリング（請求）、メータリングがすべてセットアップされ、すぐに使用できるようになります。これにより、ソリューションを再構築するコストをかけることなく、より迅速に、製品を SaaS モデルで市場に提供することが可能になります。
 
-https://aws.amazon.com/jp/blogs/news/transforming-your-monolith-to-saas-with-aws-saas-boost/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws.amazon.com/jp/blogs/news/transforming-your-monolith-to-saas-with-aws-saas-boost/" frameborder="0" scrolling="no"></iframe>
 
 ということでユーザは、**よりアプリのコア機能開発に時間を割くことができるようになる** ってことなので、使うメリットは十分にあるんじゃなかろうかと思います。
 
 ## まずはオリジナルのまま環境を作ってみる
 
-ん？改造するんじゃないの？と思った方は正解！でも、改造する前に絶対やっておくべきプロセスです。特に若いオープンソースにあるあるだと思いますけど、「手順通りにやったのに動かないぜーー！」ということがあります。ということで、改造云々の前に導入するにあたって追加の前提条件や手順がないのかを確認しておきたいと思います。
+ん？改造するんじゃないの？と思った方は正解！でも、改造する前に絶対やっておくべきプロセスです。とくに若いオープンソースにあるあるだと思いますけど、「手順通りにやったけど動かないぜーー！」ということがあります。ということで、改造云々の前に導入するにあたって追加の前提条件や手順がないのかを確認しておきたいと思います。
 
 ということで、こちらのドキュメントに基本沿って作っていきたいと思います。ちなみに、この記事の Step とドキュメント上の Step の数字は一致するように書いてます。題名は若干違いますが、、、
 
-https://github.com/awslabs/aws-saas-boost/blob/main/docs/getting-started.md
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/awslabs/aws-saas-boost/blob/main/docs/getting-started.md" frameborder="0" scrolling="no"></iframe>
 
 ### Step0: 環境の準備
 
@@ -69,7 +69,7 @@ $ sudo yum install -y yarn
 
 AWS CLI v2 は最初から入っている環境であったため手順を省いてしまいましたが、もし自分で導入される際はこちらをご参照くださいね。
 
-https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/install-cliv2-linux.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/install-cliv2-linux.html" frameborder="0" scrolling="no"></iframe>
 
 ### Step2: ソースコードを取得
 
@@ -84,7 +84,7 @@ $ git clone https://github.com/chacco38/aws-saas-boost.git ./aws-saas-boost
 
 ### Step3: アプリをビルド＆デプロイ
 
-AWS CLI の設定をした上で対話型インストーラを用いて AWS SaaS Boost を導入していきます、、、って、このタイミングでシステム要件出してくるのか、まぁいいけどｗ
+AWS CLI の設定をした上で対話型インストーラを用いて AWS SaaS Boost を導入していきましょう、、、って、このタイミングでシステム要件出してくるのか、まぁいいけどｗ
 
 > The system where you run the installation should have at least 4 GB of memory.
 
@@ -152,7 +152,7 @@ Setup Active Directory for FSX for Windows: *****
 Enter y to continue or n to cancel: y
 ```
 
-install.sh スクリプトが完了したらこちらの EC2 インスタンス上での操作は一旦終了のようです。ということで、管理者 Email アドレスに新しいメールが届いていると思うのでメールボックスを見に行きましょう。
+install.sh スクリプトが完了したらこちらの EC2 インスタンス上での操作はいったん終了のようです。ということで、管理者 Email アドレスに新しいメールが届いていると思うのでメールボックスを見に行きましょう。
 
 ### Step4: AWS SaaS Boost への初回ログイン
 

@@ -1,6 +1,6 @@
 ---
 title: "Google Cloud 認定 Professional Data Engineer 受験メモ"
-date: 2021-05-07
+date: 2021-05-07T00:00:00+09:00
 tags: ["Google Cloud", "資格"]
 draft: false
 ---
@@ -31,11 +31,11 @@ draft: false
 - 合格者のブログを漁って勉強の計画などを立てる (1h)
 - 試験ガイドを読んで不安な箇所がないかを確認する (0.2h)
 
-https://cloud.google.com/certification/guides/data-engineer?hl=ja
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/certification/guides/data-engineer?hl=ja" frameborder="0" scrolling="no"></iframe>
 
 - 公式の模擬試験(無料)を実施し、解説を読みこむ (1h)
 
-https://cloud.google.com/certification/sample-questions/data-engineer?hl=ja
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/certification/sample-questions/data-engineer?hl=ja" frameborder="0" scrolling="no"></iframe>
 
 - 高評価な問題集をやる (5-6h)
 
@@ -50,11 +50,12 @@ https://cloud.google.com/certification/sample-questions/data-engineer?hl=ja
 - まずは模擬試験(30 問)をやってどこが弱いかを把握し、不足を補うように勉強しましょう。
 - 以下のブログにて試験のテクニック的なこと書いてくれてて結構参考になった気がします。
 
-https://qiita.com/endw0901/items/5ebc530de3e9ffee4416#%E8%A9%A6%E9%A8%93%E3%81%AE%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF%E7%9A%84%E3%81%AA%E3%82%82%E3%81%AE%E3%82%92%E7%B4%B9%E4%BB%8B
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=
+https://qiita.com/endw0901/items/5ebc530de3e9ffee4416#%E8%A9%A6%E9%A8%93%E3%81%AE%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF%E7%9A%84%E3%81%AA%E3%82%82%E3%81%AE%E3%82%92%E7%B4%B9%E4%BB%8B" frameborder="0" scrolling="no"></iframe>
 
-- 今回利用した教材は次の Udemy の教材でキャンペーンで 1500 円くらいでした。こちらの問題集から似たような問題がちょいちょい本番でも出てきたので点数の底上げに役立つかと思います。余談ですが筆者は ★4.5 を付けました。有用だけど日本語じゃないから－★0.5 です。
+- 今回利用した教材は次の Udemy のこちら、キャンペーンで 1500 円くらいでした。こちらの問題集から似たような問題がちょいちょい本番でも出てきたので点数の底上げに役立つかと思います。余談ですが筆者は ★4.5 を付けました。有用だけど日本語じゃないから－★0.5 です。
 
-https://www.udemy.com/share/104neQAEMSeF5TQXgH/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://www.udemy.com/share/104neQAEMSeF5TQXgH/" frameborder="0" scrolling="no"></iframe>
 
 ## 終わりに
 

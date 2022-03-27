@@ -1,6 +1,6 @@
 ---
 title: "AWS CloudShell上のviエディタでインデントの自動挿入なしでペーストする方法"
-date: 2021-12-20
+date: 2021-12-20T00:00:00+09:00
 tags: ["AWS", "AWS CloudShell", "Vim"]
 draft: false
 ---

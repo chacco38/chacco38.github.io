@@ -1,7 +1,7 @@
 ---
 title: "GitHub Enterprise Cloud の監査ログ(Audit Log)を CLI を使って取得する"
-date: 2021-07-21
-expiryDate: 2021-12-07
+date: 2021-07-21T00:00:00+09:00
+expiryDate: 2021-12-07T00:00:00+09:00
 tags: ["GitHub Enterprise Cloud"]
 draft: false
 ---
@@ -33,7 +33,7 @@ $ sudo yum install -y nodejs
 
 ### Step2. ソースコードの取得とセットアップ
 
-GitHub からソースコードを取ってきて、npm コマンドを使って GHEC Audit Log CLI をインストールしていきます。最後の `ghce-audit-log-cli -v` コマンドにてバージョン情報がとってこれれば OK です。
+GitHub からソースコードを取ってきて、npm コマンドを使って GHEC Audit Log CLI をインストールしていきましょう。最後の `ghce-audit-log-cli -v` コマンドにてバージョン情報がとってこれれば OK です。
 
 ```text:コマンド実行例（ソースコード取得とセットアップ）
 $ git clone https://github.com/github/ghec-audit-log-cli.git

@@ -1,7 +1,7 @@
 ---
 title: "GHEC Audit Log CLI を使って GitHub Enterprise Cloud の監査ログを取得してみた"
-date: 2021-12-07
-tags: ["GitHub Enterprise Cloud", "GitHub Actions"]
+date: 2021-12-07T00:00:00+09:00
+tags: ["GitHub Enterprise Cloud", "GitHub Actions", "監査ログ"]
 draft: false
 ---
 
@@ -9,7 +9,7 @@ draft: false
 
 GHEC 監査ログの取得方法としてはいくつか方法はあるのですが、この記事では GHEC の監査ログを取得するためのコマンドラインインタフェースである GHEC Audit Log CLI を使った方法をご紹介していきたいと思います。
 
-https://github.com/github/ghec-audit-log-cli
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/github/ghec-audit-log-cli" frameborder="0" scrolling="no"></iframe>
 
 今回は Linux(AWS CloudShell) 上に環境を作って試しに実行してみるところからはじめて、定期的に監査ログ取得を行う自動化フローの構築まで紹介していきたいと思います。
 
@@ -110,7 +110,7 @@ Please modify your token's scopes at: https://github.com/settings/tokens.
 
 ### Step2. シークレットの登録
 
-次にアクセストークンなどの機密性の高い情報をワークフローに渡すために Organization 設定にてシークレットの登録を行います。シークレットは次の 3 種類を登録しましょう。
+次にアクセストークンなどの機密性の高い情報をワークフローへ渡すために Organization 設定にてシークレットの登録を行います。シークレットは次の 3 種類を登録しましょう。
 
 | シークレット名  | 説明                                                                  |
 | --------------- | --------------------------------------------------------------------- |
@@ -261,7 +261,7 @@ $ git push -u logging main
 
 ![04-check-audit-logs.png](images/04-check-audit-logs.png)
 
-以上でワークフローの設定も完了です。お疲れ様でした。以降はワークフローに定義したスケジュールに沿って 1 時間ごとに監査ログがエクスポートされるようになるかと思います。
+以上でワークフローの設定も完了です。お疲れ様でした。以降はワークフローで定義したスケジュールに沿って 1 時間ごとに監査ログがエクスポートされるようになるかと思います。
 
 ## 終わりに
 

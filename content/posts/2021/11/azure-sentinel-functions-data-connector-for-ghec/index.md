@@ -1,13 +1,13 @@
 ---
 title: "Microsoft Sentinel を使って GitHub Enterprise Cloud のセキュリティを強化しよう (Azure Functions コネクタ編)"
-date: 2021-11-25
+date: 2021-11-25T00:00:00+09:00
 tags: ["Azure", "Microsoft Sentinel", "GitHub Enterprise Cloud", "Azure Functions"]
 draft: false
 ---
 
 みなさん、こんにちは。今回は GitHub Enterprise Cloud(GHEC) の各種ログを SIEM[^1] マネージドサービスである Microsoft Sentinel (旧称 Azure Sentinel) に集約し、サイバー攻撃の兆候を検知できるようにする方法をご紹介していきたいと思います。
 
-[^1]: SIEM(Security Information and Event Management) は、様々なログを一元的に集約、相関分析をしてサイバー攻撃などの異常を自動的に検出するソリューションです。
+[^1]: SIEM(Security Information and Event Management) は、さまざまなログを一元的に集約、相関分析をしてサイバー攻撃などの異常を自動的に検出するソリューションです。
 
 Microsoft Sentinel と GHEC との連携方法はいくつかあるのですが、この記事では Microsoft Sentinel コミュニティで開発している Azure Logic Apps(ロジックアプリ)、Azure Functions(関数アプリ)の 2 種類のカスタムデータコネクタの内、「Azure Functions コネクタ」を使った方法をご紹介していきたいと思います。
 
@@ -19,9 +19,9 @@ Microsoft Sentinel と GHEC との連携方法はいくつかあるのですが�
 
 ![01-overview.drawio.png](images/01-overview.drawio.png)
 
-Azure Sentinel とのコネクタについては、今回は Microsoft Sentinel コミュニティで公開されている次のカスタムデータコネクタを利用していきます。
+Azure Sentinel とのコネクタについては、今回は Microsoft Sentinel コミュニティで公開されている次のカスタムデータコネクタを利用していきたいと思います。
 
-https://github.com/Azure/Azure-Sentinel/blob/master/DataConnectors/GithubFunction
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/Azure/Azure-Sentinel/blob/master/DataConnectors/GithubFunction" frameborder="0" scrolling="no"></iframe>
 
 本カスタムコネクタで取得した各種ログデータについては、Log Analytics ワークスペースの次のカスタムテーブルへ格納されるようになります。
 
@@ -32,11 +32,11 @@ https://github.com/Azure/Azure-Sentinel/blob/master/DataConnectors/GithubFunctio
 
 ## それでは構築していきましょう
 
-今回は GitHub Enterprise Cloud → Microsoft Sentinel ワークスペース → カスタムコネクタ → Microsoft Sentinel の順で設定していきます。
+今回は GitHub Enterprise Cloud → Microsoft Sentinel ワークスペース → カスタムコネクタ → Microsoft Sentinel の順で設定していきましょう。
 
 ### Step1. GitHub Enterprise Cloud を設定しよう
 
-ここではログを収集する先の GitHub Organization の作成と、Azure Functions から GitHub API へアクセスする際に利用するアクセストークンの作成を実施していきます。
+ここではログを収集する先の GitHub Organization の作成と、Azure Functions から GitHub API へアクセスする際に利用するアクセストークンの作成を実施していきましょう。
 
 #### (1) Organization(Enterprise) の作成
 
@@ -65,11 +65,11 @@ https://github.com/Azure/Azure-Sentinel/blob/master/DataConnectors/GithubFunctio
 
 ### Step2. Microsoft Sentinel ワークスペースを設定しよう
 
-次に Microsoft Sentinel ワークスペースの設定です。ここでは Log Analytics ワークスペースの作成および Log Analytics ワークスペースへの Microsoft Sentinel 機能の追加を実施していきます。
+次に Microsoft Sentinel ワークスペースの設定です。ここでは Log Analytics ワークスペースの作成および Log Analytics ワークスペースへの Microsoft Sentinel 機能の追加を実施していきましょう。
 
 #### (1) ワークスペースの作成
 
-Azure ポータルなどから Log Analytics ワークスペースの作成および作成したワークスペースへの Microsoft Sentinel 機能の追加を次の例のように実施していきます。
+Azure ポータルなどから Log Analytics ワークスペースの作成および作成したワークスペースへの Microsoft Sentinel 機能の追加を次の例のように実施していきましょう。
 
 ![04-create-azure-sentinel.png](images/04-create-azure-sentinel.png)
 
@@ -81,7 +81,7 @@ Microsoft Sentinel ワークスペースの作成後は、データコネクタ�
 
 ### Step3. カスタムコネクタを設定しよう
 
-ここでは GitHub 用カスタムデータコネクタを ARM テンプレートからデプロイして、対象 GitHub Organization からログデータを取得できるようにデータコネクタの諸設定まで実施していきます。
+ここでは GitHub 用カスタムデータコネクタを ARM テンプレートからデプロイして、対象 GitHub Organization からログデータを取得できるようにデータコネクタの諸設定まで実施していきましょう。
 
 #### (1) ARM テンプレートのデプロイ
 
@@ -163,7 +163,7 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 
 ![09-upload-connector-settings.png](images/09-upload-connector-settings.png)
 
-ここまでで一通りの設定は終わりましたので、あとはスケジュールに沿ってログの取得が行われるようになっていることを確認していきましょう。
+ここまででひととおりの設定は終わりましたので、あとはスケジュールに沿ってログの取得が行われるようになっていることを確認していきましょう。
 
 #### (4) 動作確認
 
@@ -171,7 +171,7 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 
 ![10-result-function.png](images/10-result-function.png)
 
-次に Log Analytics ワークスペースを確認していきます。ここではカスタムログに GitHub Enterprise Cloud から取得したログが格納されていることを確認します。出力例のように「GitHub_CL」と「GitHubRepoLogs_CL」の 2 種類のカスタムテーブルが作成されていれば OK です。
+次に Log Analytics ワークスペースを確認していきましょう。ここではカスタムログに GitHub Enterprise Cloud から取得したログが格納されていることを確認します。出力例のように「GitHub_CL」と「GitHubRepoLogs_CL」の 2 種類のカスタムテーブルが作成されていれば OK です。
 
 ![11-check-custom-logs.png](images/11-check-custom-logs.png)
 
@@ -192,9 +192,9 @@ Azure のカスタムテンプレートのデプロイ画面へ遷移したら�
 
 #### (1) データの解析および正規化
 
-まずは GitHub_CL テーブルおよび GitHubRepoLogs_CL テーブルに格納されているデータを、Microsoft Sentinel で分析しやすいように加工をしていきます。なお、Microsoft Sentinel コミュニティにてデータ加工用のパーサ関数(GitHubAudit 関数、GitHubRepo 関数)が公開されておりますので、今回はこちらを利用していきます。
+まずは GitHub_CL テーブルおよび GitHubRepoLogs_CL テーブルに格納されているデータを、Microsoft Sentinel で分析しやすいように加工をしていきましょう。なお、Microsoft Sentinel コミュニティにてデータ加工用のパーサ関数(GitHubAudit 関数、GitHubRepo 関数)が公開されておりますので、今回はこちらを利用していきましょう。
 
-https://github.com/Azure/Azure-Sentinel/tree/master/Parsers/GitHub
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/Azure/Azure-Sentinel/tree/master/Parsers/GitHub" frameborder="0" scrolling="no"></iframe>
 
 **作成例）GitHubAudit関数**
 
@@ -277,7 +277,7 @@ GitHubRepoLogs_CL
 
 ![15-select-template.png](images/15-select-template.png)
 
-ルールの追加画面ではウィザードに従ってルールの作成を行っていきます。各パラメータにはテンプレートによってデフォルト値が入力されていますので特に値を変更する要件がなければそのまま作成していきます。
+ルールの追加画面ではウィザードにしたがってルールの作成を行っていきます。各パラメータにはテンプレートによってデフォルト値が入力されていますのでとくに値を変更する要件がなければそのまま作成していきましょう。
 
 ![16-create-rule.png](images/16-create-rule.png)
 
@@ -296,13 +296,13 @@ Microsoft Sentinel では今回紹介した標準の分析ルールを利用す�
 - GitHub Organization へのユーザ招待およびユーザ追加
 - ユーザへのアクセス許可の追加付与　など
 
-https://techcommunity.microsoft.com/t5/microsoft-sentinel-blog/protecting-your-github-assets-with-azure-sentinel/ba-p/1457721
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://techcommunity.microsoft.com/t5/microsoft-sentinel-blog/protecting-your-github-assets-with-azure-sentinel/ba-p/1457721" frameborder="0" scrolling="no"></iframe>
 
 ## 終わりに
 
 今回は GitHub Enterprise Cloud の各種ログを SIEM マネージドサービスである Microsoft Sentinel (旧称 Azure Sentinel) に集約し、サイバー攻撃の兆候を検知できるようにする方法のご紹介でしたがいかがだったでしょうか？
 
-GitHub Enterprise Cloud に限らず様々な監査ログを収集し、長期保存されている方は多いと思います。ただ、せっかく取得するのであればただ集めて長期保存しておくだけではなく、Microsoft Sentinel を活用してもう一歩進んだセキュアな環境を実現してみる、というのも "有り" なのではないでしょうか。
+GitHub Enterprise Cloud に限らずさまざまな監査ログを収集し、長期保存されている方は多いと思います。ただ、せっかく取得するのであればただ集めて長期保存しておくだけではなく、Microsoft Sentinel を活用してもう一歩進んだセキュアな環境を実現してみる、というのも "有り" なのではないでしょうか。
 
 以上、「Microsoft Sentinel を使って GitHub Enterprise Cloud のセキュリティを強化しよう (Azure Functions コネクタ編)」でした。
 

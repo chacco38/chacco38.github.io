@@ -1,6 +1,6 @@
 ---
 title: "Google Cloud Functionsから地域制限をかけたAmazon CloudFrontへアクセスすると拒否される件について"
-date: 2021-03-25
+date: 2021-03-25T00:00:00+09:00
 lastmod: 2021-07-21
 tags: ["AWS", "Amazon CloudFront", "Google Cloud", "Google Cloud Functions"]
 draft: false

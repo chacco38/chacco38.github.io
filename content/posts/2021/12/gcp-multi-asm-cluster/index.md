@@ -1,6 +1,6 @@
 ---
 title: "単一リージョンの複数 GKE クラスタと Anthos Service Mesh でマルチクラスタメッシュ環境を構築してみた"
-date: 2021-12-09
+date: 2021-12-09T00:00:00+09:00
 tags: ["Google Cloud", "Google Kubernetes Engine(GKE)", "Anthos Service Mesh", "Kubernetes", "Istio"]
 draft: false
 ---
@@ -21,7 +21,7 @@ draft: false
 
 公式ドキュメントを参考にしつつ、公式ドキュメントに書かれていない部分を補足しながら構築をしていきたいと思います。
 
-https://cloud.google.com/service-mesh/docs/unified-install/gke-install-multi-cluster
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/service-mesh/docs/unified-install/gke-install-multi-cluster" frameborder="0" scrolling="no"></iframe>
 
 ### Step1. VPC ネットワークの作成
 
@@ -119,7 +119,7 @@ gcloud container clusters create ${CLUSTER_2} \
 
 前提条件の詳細については次の公式ドキュメントをご参照ください。
 
-https://cloud.google.com/service-mesh/docs/unified-install/prerequisites
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/service-mesh/docs/unified-install/prerequisites" frameborder="0" scrolling="no"></iframe>
 
 ### Step3. Anthos Service Mesh のインストール
 
@@ -306,7 +306,7 @@ kubectl apply -f ${CTX_1}.secret --context=${CTX_2}
 
 構築はまだ続きますがいったんこの状態で、Anthos Service Mesh をインストールした際に --output_dir で指定したディレクトリへ格納されているサンプルアプリケーションの中から HelloWorld と Sleep というアプリケーションを使用して、クラスタ間で負荷が分散されることを実際に確認していきたいと思います。サンプルアプリケーションの詳細につきましては次の URL をご参照ください。
 
-https://github.com/istio/istio/tree/master/samples
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/istio/istio/tree/master/samples" frameborder="0" scrolling="no"></iframe>
 
 現時点では何もルーティング設定をしていないため、次の図のように 50% ずつトラフィックが振り分けられる状態を確認できるかと思います。
 

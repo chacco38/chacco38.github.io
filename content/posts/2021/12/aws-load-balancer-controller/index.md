@@ -1,6 +1,6 @@
 ---
 title: "AWS Load Balancer Controller を使って ELB を Kubernetes のマニフェストファイルで管理しよう"
-date: 2021-12-14
+date: 2021-12-14T00:00:00+09:00
 tags: ["AWS", "Kubernetes", "Amazon EKS", "Elastic Load Balancing(ELB)"]
 draft: false
 ---
@@ -9,9 +9,9 @@ draft: false
 
 みなさんは Amazon EKS を活用して Kubernetes クラスタを AWS 上で動かすとなった際に、他のマネージドサービスの利用はどうされていますか。もちろんすべて Kubernetes 上で動かしてシステムを完結させるという選択肢もあるかと思いますが、やはり多くの方が他の AWS のマネージドサービスの併用も検討されるのではないでしょうか。その一方で、これら併用環境のコード化 (IaC、Infrastructure as Code) を実現しようとすると、Kubernetes アプリケーションの管理は Helm で、AWS リソースの管理は Terraform で、などという別々のツールでの管理になってしまいがちです。
 
-そんな悩みを解決する一つの手段が AWS Load Balancer Controller や AWS Controllers for Kubernetes といった Kubernetes クラスタ機能を拡張する各種コントローラの活用です。これらのコントローラを利用することで、AWS リソースについても Kubernetes マニフェストファイルで定義できるようになり、Kubernetes 側に運用管理を寄せてシンプル化することができます。
+そんな悩みを解決する1つの手段が AWS Load Balancer Controller や AWS Controllers for Kubernetes といった Kubernetes クラスタ機能を拡張する各種コントローラの活用です。これらのコントローラを利用することで、AWS リソースについても Kubernetes マニフェストファイルで定義できるようになり、Kubernetes 側に運用管理を寄せてシンプル化できます。
 
-今回はそのうちの一つ、Elastic Load Balancing(ELB) を Kubernetes クラスタで管理できるようにする AWS Load Balancer Controller について、簡単なサンプルアプリケーションを交えて紹介していきたいと思います。これから Amazon EKS 上にアプリケーションを展開しようと考えている方は参考にしてみてはいかがでしょうか。
+今回はそのうちの1つ、Elastic Load Balancing(ELB) を Kubernetes クラスタで管理できるようにする AWS Load Balancer Controller について、簡単なサンプルアプリケーションを交えて紹介していきたいと思います。これから Amazon EKS 上にアプリケーションを展開しようと考えている方は参考にしてみてはいかがでしょうか。
 
 ## AWS Load Balancer Controller とは
 
@@ -19,7 +19,7 @@ AWS Load Balancer Controller (旧AWS ALB Ingress Controller) は、ELB を Kuber
 
 Kubernetes Service/Ingress リソースでの処理を外部ロードバランサである ELB へ切り出すことによって、ワークロードへの性能影響の低減、ノードリソースの利用効率の向上、Service/Ingress リソースのスケーリングなどを AWS 側へ任せることで運用負荷の低減といったことができる見込みです。
 
-https://github.com/kubernetes-sigs/aws-load-balancer-controller
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/kubernetes-sigs/aws-load-balancer-controller" frameborder="0" scrolling="no"></iframe>
 
 ## AWS Load Balancer Controller を導入してみよう
 
@@ -41,7 +41,7 @@ aws configure
 
 次に Kubernetes 管理ツールの `kubectl` コマンドをインストールしましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/install-kubectl.html#linux
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/install-kubectl.html#linux" frameborder="0" scrolling="no"></iframe>
 
 **実行例）kubectlコマンドのインストール**
 
@@ -75,7 +75,7 @@ Client Version: v1.21.2-13+d2965f0db10712
 
 続いて Amazon EKS 管理ツールの `eksctl` コマンドをインストールしましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/eksctl.html#linux
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/eksctl.html#linux" frameborder="0" scrolling="no"></iframe>
 
 **実行例）eksctlコマンドのインストール**
 
@@ -103,7 +103,7 @@ $ eksctl version
 
 最後に Kubernetes 上で稼働するアプリケーションを管理するためのツールである `helm` コマンドをインストールしましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/helm.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/helm.html" frameborder="0" scrolling="no"></iframe>
 
 **実行例）helmコマンドのインストール**
 
@@ -139,7 +139,7 @@ v3.7.2+g663a896
 
 続いて AWS Load Balancer Controller を導入する対象の Amazon EKS クラスタを作成していきましょう。今回は Kubernetes ノードには AWS Fargate を使用していきたいと思います。それでは `eksctl` コマンドを実行してクラスタを作成しましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/getting-started-eksctl.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/getting-started-eksctl.html" frameborder="0" scrolling="no"></iframe>
 
 **実行例）EKSクラスタの作成**
 
@@ -160,7 +160,7 @@ eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER} --approve
 
 それでは AWS Load Balancer Controller を Amazon EKS クラスタにデプロイしていきましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/aws-load-balancer-controller.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/aws-load-balancer-controller.html" frameborder="0" scrolling="no"></iframe>
 
 #### サービスアカウントの作成
 
@@ -219,7 +219,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 kubectl get deployment -n kube-system aws-load-balancer-controller
 ```
 
-インストールに成功していれば出力例のようにコントローラが一覧に表示されるようになります。
+インストールに成功していれば出力例のようにコントローラが一覧へ表示されるようになります。
 
 **出力例）**
 
@@ -235,9 +235,9 @@ aws-load-balancer-controller   2/2     2            2           42s
 
 ### Network Load Balancer (Serviceリソース) の使い方
 
-AWS Load Balancer Controller 環境では、次のサンプルのように Kubernetes Service リソース定義にて「**LoadBalancer タイプの指定**」と「**アノテーションとして各種パラメータを指定**」をすることによって Network Load Balancer(NLB) をプロビジョニングすることができます。
+AWS Load Balancer Controller 環境では、次のサンプルのように Kubernetes Service リソース定義にて「**LoadBalancer タイプの指定**」と「**アノテーションとして各種パラメータを指定**」をすることによって Network Load Balancer(NLB) をプロビジョニングできます。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/network-load-balancing.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/network-load-balancing.html" frameborder="0" scrolling="no"></iframe>
 
 **作成例）Serviceリソース定義サンプル**
 
@@ -261,7 +261,7 @@ spec:
 
 アノテーションに指定する主要なパラメータとしては次の通りです。アノテーションに指定可能なパラメータの一覧につきましては次の URL を参照してください。
 
-https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/" frameborder="0" scrolling="no"></iframe>
 
 |アノテーション名|説明|
 |---|---|
@@ -276,7 +276,7 @@ https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/servic
 
 それではサンプルアプリケーションをデプロイして NLB Service リソースを実際に動かしてみましょう。今回は次のサンプルアプリケーションをベースに少しだけ手を加えたものを用いて動作確認をしていきたいと思います。
 
-https://github.com/istio/istio/tree/master/samples/helloworld
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/istio/istio/tree/master/samples/helloworld" frameborder="0" scrolling="no"></iframe>
 
 **作成例）helloworld-nlb-sample.yaml (サンプルアプリケーション定義ファイル)**
 
@@ -392,9 +392,9 @@ kubectl delete namespace ${NAMESPACE}
 
 ### Application Load Balancer (Ingressリソース) の使い方
 
-AWS Load Balancer Controller 環境では、次のサンプルのように「**Kubernetes IngressClass リソースにてコントローラの指定**」を、「**Kubernetes Ingress リソース定義のアノテーションとして各種パラメータを指定**」をすることによって Application Load Balancer(ALB) をプロビジョニングすることができます。
+AWS Load Balancer Controller 環境では、次のサンプルのように「**Kubernetes IngressClass リソースにてコントローラの指定**」を、「**Kubernetes Ingress リソース定義のアノテーションとして各種パラメータを指定**」をすることによって Application Load Balancer(ALB) をプロビジョニングできます。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/alb-ingress.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/alb-ingress.html" frameborder="0" scrolling="no"></iframe>
 
 {{< alert >}}
 Kubernetes Ingress リソースのアノテーションに `kubernetes.io/ingress.class: alb` を指定することでも作成できますが、Kubernetes 1.18 以降は  `kubernetes.io/ingress.class` の利用は非推奨となっておりますのでご注意ください。
@@ -433,7 +433,7 @@ spec:
 
 アノテーションに指定する主要なパラメータとしては次の通りです。なお、ALB Ingress は AWS WAF や AWS Shield による脅威からの保護、Amazon Cognito 認証などさまざまなマネージドサービスとの連携が可能です。アノテーションに指定可能なパラメータの一覧につきましては次の URL を参照してください。
 
-https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingress/annotations/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingress/annotations/" frameborder="0" scrolling="no"></iframe>
 
 |アノテーション名|説明|
 |---|---|
@@ -449,7 +449,7 @@ https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingres
 
 それではサンプルアプリケーションをデプロイして ALB Ingress リソースを実際に動かしてみましょう。今回は次のサンプルアプリケーションをベースに少しだけ手を加えたものを用いて動作確認をしていきたいと思います。
 
-https://github.com/istio/istio/tree/master/samples/helloworld
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/istio/istio/tree/master/samples/helloworld" frameborder="0" scrolling="no"></iframe>
 
 **作成例）helloworld-alb-sample.yaml (サンプルアプリケーション定義ファイル)**
 
@@ -593,7 +593,7 @@ kubectl delete namespace ${NAMESPACE}
 
 なお、今回は紹介しませんでしたが AWS Load Balancer Controller は使いたいけれど、ELB リソースのライフサイクルは Kubernetes からは切り離したいというケースもあるかと思います。そういった場合は AWS Load Balancer Controller の TargetGroupBinding 機能を利用することで実現可能なので参考にしていただければと思います。TargetGroupBinding 機能の詳細については公式ドキュメントを参照してください。
 
-https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/targetgroupbinding/targetgroupbinding/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/targetgroupbinding/targetgroupbinding/" frameborder="0" scrolling="no"></iframe>
 
 以上、Kubernetes Service/Ingress リソースと Elastic Load Balancing(ELB) との統合を実現する「AWS Load Balancer Controller」のご紹介でした。
 

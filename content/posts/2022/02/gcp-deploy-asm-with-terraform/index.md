@@ -1,6 +1,6 @@
 ---
 title: "Terraformを使ってGKE+ASMのマルチクラスタメッシュ環境を構築してみた"
-date: 2022-02-14
+date: 2022-02-14T00:00:00+09:00
 lastmod: ""
 tags: ["Google Cloud", "Google Kubernetes Engine(GKE)", "Anthos Service Mesh", "Terraform", "Kubernetes", "Istio" ]
 draft: false
@@ -690,7 +690,7 @@ chmod +x asmcli
 
 Istio IngressゲートウェイコンテナのKubernetesマニフェストファイルです。GitHubにて公開されている次のサンプルをベースにしています。
 
-https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages/tree/main/samples/gateways/istio-ingressgateway
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages/tree/main/samples/gateways/istio-ingressgateway" frameborder="0" scrolling="no"></iframe>
 
 **作成例）./modules/asm/manifests/istio-ingressgateway-pods/namespace.yaml**
 

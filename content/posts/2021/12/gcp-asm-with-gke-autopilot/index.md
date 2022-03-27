@@ -1,6 +1,6 @@
 ---
 title: "GKE Autopilot と Anthos Service Mesh を使ってフルマネージドなサービスメッシュ環境を構築してみた"
-date: 2021-12-01
+date: 2021-12-01T00:00:00+09:00
 tags: ["Google Cloud", "Anthos Service Mesh", "Google Kubernetes Engine(GKE)", "GKE Autopilot", "Kubernetes", "Istio"]
 draft: false
 ---
@@ -21,7 +21,7 @@ Anthos Service Mesh はここ半年で「マネージドコントロールプレ
 
 いつも通り公式ドキュメントを参考にしつつ、公式ドキュメントに書かれていない部分を補足しながら構築をしていきたいと思います。
 
-https://cloud.google.com/service-mesh/docs/unified-install/managed-asmcli-experimental
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/service-mesh/docs/unified-install/managed-asmcli-experimental" frameborder="0" scrolling="no"></iframe>
 
 ### Step1. VPC ネットワークの作成
 
@@ -35,17 +35,17 @@ https://cloud.google.com/service-mesh/docs/unified-install/managed-asmcli-experi
 
 ### Step2. GKE Autopilot クラスタの作成
 
-次に GKE Autopilot クラスタを作成していきます。Google Cloud コンソールから操作する場合は GKE クラスタ画面の「+作成」ボタンをクリックし、GKE Autopilot クラスタの作成画面へと遷移します。
+次に GKE Autopilot クラスタを作成していきましょう。Google Cloud コンソールから操作する場合は GKE クラスタ画面の「+作成」ボタンをクリックし、GKE Autopilot クラスタの作成画面へと遷移します。
 
 ![04-select-gke-cluster-type.png](images/04-select-gke-cluster-type.png)
 
-Autopilot クラスタの作成画面では、クラスタを展開するネットワークの選択とリリースチャンネルの選択をしていきます。今回はセキュリティの観点から限定公開クラスタに設定し、GKE Autopilot リリースチャンネルには Anthos Service Mesh が現時点で唯一サポート対象としている Rapid チャンネルを指定しています。作成ボタンを押してからクラスタの作成が完了するまで 5 分程度かかりました。
+Autopilot クラスタの作成画面では、クラスタを展開するネットワークの選択とリリースチャンネルの選択をしていきましょう。今回はセキュリティの観点から限定公開クラスタに設定し、GKE Autopilot リリースチャンネルには Anthos Service Mesh が現時点で唯一サポート対象としている Rapid チャンネルを指定しています。作成ボタンを押してからクラスタの作成が完了するまで 5 分程度かかりました。
 
 ![05-create-gke-autopilot-cluster.png](images/05-create-gke-autopilot-cluster.png)
 
 なお、Anthos Service Mesh がサポートする GKE Autopilot リリースチャンネルについては近い将来変更が生じる可能性が高いため、構築を行う際には最新のサポート状況を公式ドキュメントから確認するようにしましょう。
 
-https://cloud.google.com/service-mesh/docs/supported-features-mcp
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/service-mesh/docs/supported-features-mcp" frameborder="0" scrolling="no"></iframe>
 
 ### Step3. Anthos Service Mesh のインストール
 
@@ -167,7 +167,7 @@ kubectl apply -n ${GATEWAY_NAMESPACE} \
 
 なお、今回利用した Ingress Gateway の詳細については次の URL をご参照ください。
 
-https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages/tree/main/samples/gateways/istio-ingressgateway
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages/tree/main/samples/gateways/istio-ingressgateway" frameborder="0" scrolling="no"></iframe>
 
 以上でアプリケーションをデプロイする準備が整いました。
 
@@ -194,7 +194,7 @@ metadata:
 EOF
 ```
 
-サンプルアプリケーションをデプロイします。今回は Anthos Service Mesh をインストールした際に `--output_dir` で指定したディレクトリに格納されているサンプルアプリケーションの中から HelloWorld というサンプルアプリケーションを使用しています。
+サンプルアプリケーションをデプロイします。今回は Anthos Service Mesh をインストールした際に `--output_dir` で指定したディレクトリへ格納されているサンプルアプリケーションの中から HelloWorld というサンプルアプリケーションを使用しています。
 
 **実行例）HelloWorldアプリケーションのデプロイ**
 
@@ -236,9 +236,9 @@ Hello version: v1, instance: helloworld-v1-xxxxxxxxxx-xxxxx
 
 さて今回はプレビュー公開されたばかりの Google Kubernetes Engine(GKE) Autopilot と Anthos Service Mesh(ASM) を使ったフルマネージドなサービスメッシュ環境を構築する方法のご紹介でした。いかがだったでしょうか。
 
-これで晴れて Kubernetes 部分も含めフルマネージドなサービスメッシュ環境が実現できるようになり、こちらの活用により従来よりも運用負荷を大きく軽減できる未来が近づいてきましたね。
+これで晴れて Kubernetes 部分も含めフルマネージドなサービスメッシュ環境が実現できるようになり、こちらの活用により以前よりも運用負荷を大きく軽減できる未来が近づいてきましたね。
 
-もちろん安定性、保守性といった観点からプロダクション用途へのプレビュー段階の機能の適用は、現時点ではお勧めできませんが、もしこれから検証目的で試してみたいという方は参考にしてみてはいかがでしょうか。
+もちろん安定性、保守性といった観点からプロダクション用途へのプレビュー段階の機能の適用は、現時点ではオススメできませんが、もしこれから検証目的で試してみたいという方は参考にしてみてはいかがでしょうか。
 
 ---
 

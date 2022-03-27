@@ -1,6 +1,6 @@
 ---
 title: "プロキシ環境下の Windows 10 マシンから Amazon EKS を CLI で操作する"
-date: 2020-05-02
+date: 2020-05-02T00:00:00+09:00
 tags: ["AWS", "Windows", "AWS CLI", "Amazon EKS", "Proxy"]
 draft: false
 ---
@@ -15,9 +15,7 @@ draft: false
 
 #### 1. AWS CLI をインストールします
 
-AWS 公式ドキュメントの通りに MSI インストーラをダウンロード＆実行してください。
-
-https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/install-cliv2-windows.html
+[AWS 公式ドキュメント](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/install-cliv2-windows.html)の通りに MSI インストーラをダウンロード＆実行してください。
 
 #### 2. AWS 認証情報を設定します
 
@@ -38,13 +36,11 @@ PS C:\> setx HTTPS_PROXY http://<proxy username>:<proxy password>@<proxy hostnam
 
 ### 次に EKS CLI ツールのセットアップをします
 
-次にパッケージマネージャの Chocolatey を使って eksctl や kubectl などをインストールしていきます。
+次にパッケージマネージャの Chocolatey を使って eksctl や kubectl などをインストールしていきましょう。
 
 #### 1. Chocolatey をインストールします
 
-公式サイトからインストールスクリプトをダウンロードし、PowerShell を管理者として起動して環境変数を設定した上でインストールスクリプトを実行します。
-
-https://chocolatey.org/install.ps1
+公式サイトから[インストールスクリプト](https://chocolatey.org/install.ps1)をダウンロードし、PowerShell を管理者として起動して環境変数を設定した上でインストールスクリプトを実行します。
 
 ```txt:powershell(管理者)
 PS C:\> $env:chocolateyProxyLocation = "<proxy hostname or ip address>:<proxy port>"
@@ -66,7 +62,7 @@ PS C:\> chocolatey config set proxyPassword "<proxy password>"
 
 #### 3. eksctl などをインストールします
 
-次のコマンドを実行して eksctl などをインストールしていきます。
+次のコマンドを実行して eksctl などをインストールしていきましょう。
 
 ```txt:powershell
 PS C:\> chocolatey install -y eksctl aws-iam-authenticator kubernetes-cli
@@ -85,7 +81,7 @@ PS C:\> aws eks --region $region update-kubeconfig --name $cluster
 ```
 
 {{< alert >}}
-**$region**、**$cluster**部分は自分の環境に沿った値に変換して実行してください。
+**$region**、**$cluster**部分は自分の環境に沿った値へ変換して実行してください。
 {{< /alert >}}
 
 #### 2. kubectl を実行してみよう
@@ -103,4 +99,4 @@ PS C:\> kubectl get pods
 
 ## 終わりに
 
-ということで、今回は Amazon EKS をプロキシ環境下の Windows10 マシンから CLI 操作する方法でした。プロキシ環境で戦うエンジニアさんの力に少しでもなれれば幸いです。
+ということで、今回は Amazon EKS をプロキシ環境下の Windows 10 マシンから CLI 操作する方法でした。プロキシ環境で戦うエンジニアさんの力に少しでもなれれば幸いです。

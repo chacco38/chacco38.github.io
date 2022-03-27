@@ -1,13 +1,13 @@
 ---
 title: "TaskCatを使ってCloudFormationテンプレートの自動テストをしよう"
-date: 2021-10-20
+date: 2021-10-20T00:00:00+09:00
 tags: ["AWS", "TaskCat", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
 ---
 
 みなさん、こんにちは。今回は TaskCat というオープンソースを利用した AWS CloudFormation (CFn) テンプレートの自動テストについてのお話です。
 
-CFn テンプレートを扱っていると構文エラーチェックはパスしたものの、いざ動かしてみたらスタックの作成でエラーになってしまうといった経験をすることがあるかと思います。TaskCat は多くの方にとってあまり馴染みのないツールだと思いますが、実際に使ってみるととても手軽に CFn テンプレートの自動テストをすることができます。
+CFn テンプレートを扱っていると構文エラーチェックはパスしたものの、いざ動かしてみたらスタックの作成でエラーになってしまうといった経験をすることがあるかと思います。TaskCat は多くの方にとってあまり馴染みのないツールだと思いますが、実際に使ってみるととても手軽に CFn テンプレートの自動テストを実現できます。
 
 今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。これから CFn テンプレート開発されている方で自動テストをやりたいと考えている方は参考にしてみてはいかがでしょうか。
 
@@ -15,15 +15,15 @@ CFn テンプレートを扱っていると構文エラーチェックはパス�
 
 TaskCat とは、AWS CloudFormation (CFn) テンプレートの自動テストを行う Python 製のテストツールです。
 
-このツールを利用することで、指定した各リージョンに CFn テンプレートから環境を一時的にデプロイ、各リージョンでのデプロイ可否結果のレポート生成、テストで一時的に作成した環境を削除、といった一連の流れを自動化することができます。
+このツールを利用することで、指定した各リージョンに CFn テンプレートから環境を一時的にデプロイ、各リージョンでのデプロイ可否結果のレポート生成、テストで一時的に作成した環境を削除、といった一連の流れを自動化できます。
 
 なお、AWS TackCat はローカルでテストを実行する際に Docker が必要となるため、Docker をサポートしていない AWS CloudShell では利用することができないのでご注意ください。
 
-https://github.com/aws-quickstart/taskcat
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/aws-quickstart/taskcat" frameborder="0" scrolling="no"></iframe>
 
 ## TaskCat を使ってみよう
 
-冒頭で既に述べたとおり、今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
+冒頭ですでに述べたとおり、今回は Linux 上に開発環境を作るところからはじめて、簡素なサンプルを用いたテストの実行、テスト自動化を組み込んだシンプルな CI/CD パイプラインの構築まで紹介していきたいと思います。
 
 ### まずは開発環境の設定から
 
@@ -168,7 +168,7 @@ version 0.9.25
 [INFO   ] : ┗ status: DELETE_COMPLETE
 ```
 
-実行後は taskcat_outputs ディレクトリにリージョンごとの実行ログが出力されますので、こちらからスタック作成の成否結果を確認することができます。
+実行後は taskcat_outputs ディレクトリにリージョンごとの実行ログが出力されますので、こちらからスタック作成の成否結果を確認できます。
 
 **実行例）**
 
@@ -197,9 +197,9 @@ Stack launch was successful
 
 次はもう一歩進んで、ソースコードの更新をトリガーに自動でテストを実行する CI/CD パイプラインを構築し、実際に動かすところまで行ってみたいと思います。なお、今回は AWS リソース作成を簡略化するため AWS クイックスタートを利用して CI/CD パイプラインを構築していきたいと思います。
 
-https://aws.amazon.com/jp/quickstart/architecture/cicd-taskcat/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws.amazon.com/jp/quickstart/architecture/cicd-taskcat/" frameborder="0" scrolling="no"></iframe>
 
-なお、今回作成するパイプラインでは開発ブランチ(例では develop ブランチ)に対して更新が入ると、それをトリガーに AWS TackCat を活用した自動テストを実行し、テストに成功したら特定ブランチ(例では main ブランチ)へマージするという一連の流れを自動化しています。
+なお、今回作成するパイプラインでは開発ブランチ（例では develop ブランチ）に対して更新が入ると、それをトリガーに AWS TackCat を活用した自動テストを実行し、テストに成功したら特定ブランチ(例では main ブランチ)へマージするという一連の流れを自動化しています。
 
 ![01-pipeline-image.drawio.png](images/01-pipeline-image.drawio.png)
 
@@ -229,7 +229,7 @@ GitHub > Setting > Developer settings > Personal access tokens > Generate new to
 
 ![06-create-stack-select-template.jpg](images/06-create-stack-select-template.jpg)
 
-次にパラメータを入力していきます。
+次にパラメータを入力していきましょう。
 
 ![07-create-stack-input-parameter.jpg](images/07-create-stack-input-parameter.jpg)
 
@@ -287,7 +287,7 @@ $ git push origin develop
 
 TaskCat はいかがだったでしょうか？
 
-今回はクイックスタートを使って環境を構築しましたが、既にパイプラインを構築されている方はリポジトリに `.taskcat.yml` を追加して、`pip install tackcat` と `taskcat test run` をステップに追加するだけで簡単に CFn テンプレートの自動テストを組み込むことができます。気になった方はぜひ触ってみていただければと思います。
+今回はクイックスタートを使って環境を構築しましたが、すでにパイプラインを構築されている方はリポジトリに `.taskcat.yml` を追加して、`pip install tackcat` と `taskcat test run` をステップに追加するだけで簡単に CFn テンプレートの自動テストを組み込むことができます。気になった方はぜひ触ってみていただければと思います。
 
 以上、AWS CloudFormation テンプレートの自動テストを実現する「TaskCat」のご紹介でした。
 

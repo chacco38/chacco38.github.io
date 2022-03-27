@@ -1,6 +1,6 @@
 ---
 title: "Google Cloud の Dataflow でクレデンシャルの更新に失敗したというエラーが発生する件について"
-date: 2021-04-30
+date: 2021-04-30T00:00:00+09:00
 tags: ["Google Cloud", "Dataflow"]
 draft: false
 ---
@@ -25,11 +25,11 @@ Workflow failed. Causes: There was a problem refreshing your credentials. Please
 
 、、、はい、もちろん有効化済みですよーっと。そらそうだ。
 
-では次に「じゃあ、サービスアカウントの設定が変だったんだな、きっと！」なんて思いつつ「2. Make sure both the Dataflow service account and the controller service account have sufficient permissions.」の方も確認していきます。
+では次に「じゃあ、サービスアカウントの設定が変だったんだな、きっと！」なんて思いつつ「2. Make sure both the Dataflow service account and the controller service account have sufficient permissions.」の方も確認していきましょう。
 
 ![](images/user-role.png)
 
-、、、はい、Editor 権限を付与しており特に問題はなさそうに見えますよーっと。
+、、、はい、Editor 権限を付与しておりとくに問題はなさそうに見えますよーっと。
 
 んー、オワタ、速攻で手詰まってしまったｗ やっぱり、Google Cloud のエラーメッセージはあてにならんことが多いよなぁ、、、
 

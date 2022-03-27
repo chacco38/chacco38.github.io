@@ -1,6 +1,6 @@
 ---
 title: "AWS Controllers for Kubernetesを使って各種AWSサービスをマニフェストファイルで管理しよう"
-date: 2022-02-16
+date: 2022-02-16T00:00:00+09:00
 tags: ["AWS", "Amazon EKS", "Kubernetes", "Amazon S3", "Amazon ECR"]
 draft: false
 ---
@@ -32,7 +32,7 @@ AWS Controllers for Kubernetes(ACK)は、さまざまなAWSサービスをKubern
 - AWS Step Functions
 - Amazon S3
 
-https://github.com/aws-controllers-k8s/community
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://github.com/aws-controllers-k8s/community" frameborder="0" scrolling="no"></iframe>
 
 ## ACKを導入してみよう
 
@@ -54,7 +54,7 @@ aws configure
 
 次にKubernetes管理ツールの`kubectl`コマンドをインストールしましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/install-kubectl.html#linux
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/install-kubectl.html#linux" frameborder="0" scrolling="no"></iframe>
 
 **実行例）kubectlコマンドのインストール**
 
@@ -88,7 +88,7 @@ Client Version: v1.21.2-13+d2965f0db10712
 
 続いてAmazon EKS管理ツールの`eksctl`コマンドをインストールしましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/eksctl.html#linux
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/eksctl.html#linux" frameborder="0" scrolling="no"></iframe>
 
 **実行例）eksctlコマンドのインストール**
 
@@ -115,7 +115,7 @@ $ eksctl version
 
 最後にKubernetes上で稼働するアプリケーションを管理するためのツールである`helm`コマンドをインストールしましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/helm.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/helm.html" frameborder="0" scrolling="no"></iframe>
 
 **実行例）helmコマンドのインストール**
 
@@ -151,7 +151,7 @@ v3.8.0+gd141386
 
 続いてACKを導入する対象のAmazon EKSクラスタを作成していきましょう。今回はあくまで検証なので`eksctl`コマンドでサクッと作成していきましょう。
 
-https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/getting-started-eksctl.html
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/getting-started-eksctl.html" frameborder="0" scrolling="no"></iframe>
 
 **実行例）EKSクラスタの作成**
 
@@ -172,13 +172,13 @@ eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER} --approve
 
 それではACKをAmazon EKSクラスタにデプロイしていきましょう。Amazon ECRパブリックギャラリーにて各AWSサービスに対応するコントローラ用Helmチャートが公開されておりますのでこちらを利用してデプロイしていきたいと思います。
 
-https://gallery.ecr.aws/aws-controllers-k8s
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://gallery.ecr.aws/aws-controllers-k8s" frameborder="0" scrolling="no"></iframe>
 
 #### #1. インストールスクリプトの作成
 
 ACKは各AWSサービスに対応するコントローラをそれぞれ導入し、サービスアカウントの設定をしていく必要があるのですが、公式ドキュメントを見るとかなり煩雑な手順になっていることがわかります。そこでコマンド1つでインストールできるようにスクリプト化してみました。
 
-https://aws-controllers-k8s.github.io/community/docs/user-docs/install
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws-controllers-k8s.github.io/community/docs/user-docs/install" frameborder="0" scrolling="no"></iframe>
 
 {{< alert >}}
 再実行を想定してない作りになっているのでご注意ください。
@@ -391,13 +391,13 @@ ack-sns-controller                      ack-system      1               2022-02-
 
 今回は一部のAWSサービス向けコントローラを簡単なサンプルを用いて使い方を紹介していきたいと思います。すべてのコントローラの使い方については公式ドキュメントを参照ください。
 
-https://aws-controllers-k8s.github.io/community/reference/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws-controllers-k8s.github.io/community/reference/" frameborder="0" scrolling="no"></iframe>
 
 ### Amazon ECRコントローラの使い方
 
 ACK環境では、次のサンプルのようにKubernetes Repositoryリソースを定義をすることによってECRリポジトリをプロビジョニングできます。定義可能なスペックの詳細については次の公式リファレンスドキュメントを参照ください。
 
-https://aws-controllers-k8s.github.io/community/reference/ecr/v1alpha1/repository/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws-controllers-k8s.github.io/community/reference/ecr/v1alpha1/repository/" frameborder="0" scrolling="no"></iframe>
 
 **作成例）repository.yaml (ECRリポジトリリソース定義サンプル)**
 
@@ -478,7 +478,7 @@ kubectl delete namespace ${NAMESPACE}
 
 ACK環境では、次のサンプルのようにKubernetes Bucketリソースを定義をすることによってS3バケットをプロビジョニングできます。定義可能なスペックの詳細については次の公式リファレンスドキュメントを参照ください。
 
-https://aws-controllers-k8s.github.io/community/reference/s3/v1alpha1/bucket/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://aws-controllers-k8s.github.io/community/reference/s3/v1alpha1/bucket/" frameborder="0" scrolling="no"></iframe>
 
 **作成例）bucket.yaml (S3バケットリソース定義サンプル)**
 

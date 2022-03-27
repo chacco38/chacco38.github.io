@@ -1,6 +1,6 @@
 ---
 title: "GKE クラスタ作成時のオプションで Anthos Service Mesh を有効化できるようになりました"
-date: 2021-12-16
+date: 2021-12-16T00:00:00+09:00
 tags: ["Google Cloud", "Anthos Service Mesh", "Google Kubernetes Engine(GKE)", "Kubernetes", "Istio" ]
 draft: false
 ---

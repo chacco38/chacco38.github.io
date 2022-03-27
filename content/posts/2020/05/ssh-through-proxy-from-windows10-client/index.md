@@ -1,6 +1,6 @@
 ---
 title: "プロキシ環境下の Windows 10 マシンから外部へ SSH でアクセスする"
-date: 2020-05-01
+date: 2020-05-01T00:00:00+09:00
 tags: ["Windows", "TeraTerm", "SSH", "Proxy"]
 draft: false
 ---

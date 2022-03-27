@@ -1,12 +1,12 @@
 ---
 title: "AWS TaskCatを使ってCloudFormationテンプレートのCI/CDをしよう"
-date: 2020-04-29
+date: 2020-04-29T00:00:00+09:00
 expiryDate: 2021-10-20
 tags: ["AWS", "AWS CloudFormation", "AWS CodePipeline", "TaskCat"]
 draft: false
 ---
 
-みなさん、こんにちは。最近、初めて CloudFormation テンプレートを書く機会があったのですが、その際に「せっかく書くなら、CI/CD までやりたい！」と初心者のくせに欲を出してしまいました^^; ということで、今回は CloudFormation テンプレートの自動テストについてのお話です。
+みなさん、こんにちは。最近、はじめて CloudFormation テンプレートを書く機会があったのですが、その際に「せっかく書くなら、CI/CD までやりたい！」と初心者のくせに欲を出してしまいました^^; ということで、今回は CloudFormation テンプレートの自動テストについてのお話です。
 
 さて、Google 先生に聞くと、AWS クイックスタートには『[AWS での AWS CloudFormation テンプレート向け CI/CD パイプライン]』なるものがあるぞ、と。こちらはテストにパスしたら Git Merge するだけで、パスした CloudFormation テンプレートを使って環境デプロイ！ってとこまでは対応していないのですが、単に Git Push のタイミングで自動的にテストを流せたらいいなくらいであればちょうど良いソリューションだと思います。
 
@@ -42,7 +42,7 @@ GitHub > Setting > Developer settings > Personal access tokens > Generate new to
 するとスタックの作成画面へ遷移します。作成先のリージョンに問題なければ「次へ」。
 なお、リージョンを変える場合は Amazon S3 URL の入力内容をコピーしてから切り替えましょう。理由は切り替えてみればわかります。
 ![](images/select-template.jpg)
-次にパラメータを入力していきます。
+次にパラメータを入力していきましょう。
 ![](images/stack-detail.jpg)
 必要に応じてタグなどの設定を実施し、確認画面で入力ミスがないかを確認したら「スタックの作成」を実行します。
 ![](images/stack-review.jpg)

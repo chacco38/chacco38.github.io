@@ -1,39 +1,36 @@
 ---
 title: "Qwiklabs クエストの Cloud Architecture: Design, Implement, and Manage を攻略する"
-date: 2020-10-30
+date: 2020-10-30T00:00:00+09:00
 tags: ["Google Cloud", "Qkiklabs"]
 draft: false
 ---
 
 Google Cloud Certified Professional Cloud Architect 資格取得に向けた学習の一環で、Google Courses powered by Qwiklabs の「Cloud Architecture: Design, Implement, and Manage」のチャレンジラボクエストに挑戦しました。チャレンジラボの中にはクリア条件が不明瞭で手こずったラボもありましたので同様に詰まっている方の助けになればいいなぁと思います。
 
-https://google.qwiklabs.com/quests/124?locale=ja
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://google.qwiklabs.com/quests/124?locale=ja" frameborder="0" scrolling="no"></iframe>
 
 ## Qwiklabs クエストを攻略する
 
 次の 7 つのチャレンジラボすべてをクリアするとクエスト攻略となります。
 
-https://google.qwiklabs.com/focuses/1734?locale=ja&parent=catalog
-
-https://google.qwiklabs.com/focuses/1735?locale=ja&parent=catalog
-
-https://google.qwiklabs.com/focuses/1736?locale=ja&parent=catalog
-
-https://google.qwiklabs.com/focuses/1737?locale=ja&parent=catalog
-
-https://google.qwiklabs.com/focuses/1738?locale=ja&parent=catalog
-
-https://google.qwiklabs.com/focuses/1739?locale=ja&parent=catalog
-
-https://google.qwiklabs.com/focuses/1740?locale=ja&parent=catalog
+|No.|チャレンジラボ名|
+|:---:|---|
+|1| [Google Cloud の基本スキル: チャレンジラボ（GSP101）](https://google.qwiklabs.com/focuses/1734?locale=ja&parent=catalog)
+|2| [リモート起動スクリプトを使用した Compute インスタンスのデプロイ（GSP301）](https://google.qwiklabs.com/focuses/1735?locale=ja&parent=catalog)
+|3| [Deployment Manager を使用したファイアウォールと起動スクリプトの構成（GSP302）](https://google.qwiklabs.com/focuses/1736?locale=ja&parent=catalog)
+|4| [Windows の要塞ホストを使用したセキュアな RDP の構成（GSP303）](https://google.qwiklabs.com/focuses/1737?locale=ja&parent=catalog)
+|5| [Windows の要塞ホストを使用したセキュアな RDP の構成（GSP303）](https://google.qwiklabs.com/focuses/1738?locale=ja&parent=catalog)
+|6| [Kubernetes クラスタでのコンテナ化されたアプリケーションのスケールアウトと更新（GSP305）](https://google.qwiklabs.com/focuses/1739?locale=ja&parent=catalog)
+|7| [MySQL データベースの Google Cloud SQL への移行（GSP306）](https://google.qwiklabs.com/focuses/1740?locale=ja&parent=catalog)
 
 ### Lab1. Google Cloud の基本スキル: チャレンジラボ（GSP101）
 
-「GSP101」は、Compute Engine の VM インスタンスを作成して、手動でゲスト OS 上に apache2 をインストールするだけのラボです。苦労するところは特に無いかな、と。
+「GSP101」は、Compute Engine の VM インスタンスを作成して、手動でゲスト OS 上に apache2 をインストールするだけのラボです。苦労するところはとくにないかな、と。
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2307/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2307/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ### Lab2. リモート起動スクリプトを使用した Compute インスタンスのデプロイ（GSP301）
@@ -44,7 +41,8 @@ https://koejima.com/archives/2307/
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2285/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2285/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ### Lab3. Deployment Manager を使用したファイアウォールと起動スクリプトの構成（GSP302）
@@ -57,7 +55,8 @@ https://koejima.com/archives/2285/
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2274/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2274/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ### Lab4. Windows の要塞ホストを使用したセキュアな RDP の構成（GSP303）
@@ -70,7 +69,8 @@ https://koejima.com/archives/2274/
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2189/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2189/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ### Lab5. Kubernetes クラスタへの Docker イメージのビルドとデプロイ（GSP304）
@@ -83,29 +83,32 @@ k8s へのアプリデプロイは全部コマンドを手打ちし終わって�
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2210/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2210/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ### Lab6. Kubernetes クラスタでのコンテナ化されたアプリケーションのスケールアウトと更新（GSP305）
 
 「GSP305」は、k8s へデプロイされているアプリのコンテナイメージ更新およびポッド数の変更操作をしていくラボです。
 
-操作については特筆する点は無いかと思います。イメージ変更やレプリカ数の変更が簡単に Cloud Console（GUI）でもできてしまうのは他のメガクラウドと比べて GCP の優秀なところですね。
+操作については特筆する点はないかと思います。イメージ変更やレプリカ数の変更が簡単に Cloud Console（GUI）でもできてしまうのは他のメガクラウドと比べて GCP の優秀なところですね。
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2233/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2233/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ### Lab7. MySQL データベースの Google Cloud SQL への移行（GSP306）
 
 「GSP306」は、Google Cloud SQL デプロイ、既存 MySQL サーバからのデータ移行、アプリで利用するデータベース切替の一連操作をしていくラボです。
 
-データ移行のところは mysqldump コマンドでデータベースをエクスポートして Cloud Storage にアップロード、Cloud Console（GUI）を使って SQL へデータをインポートしていきます。それ以外の操作はチェックポイントの条件を満たしていけば特筆しなくてもクリアできるかと思います。
+データ移行のところは mysqldump コマンドでデータベースをエクスポートして Cloud Storage にアップロード、Cloud Console（GUI）を使って SQL へデータをインポートしていきましょう。それ以外の操作はチェックポイントの条件を満たしていけば特筆しなくてもクリアできるかと思います。
 
 <details><summary>解答</summary>
 
-https://koejima.com/archives/2251/
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://koejima.com/archives/2251/" frameborder="0" scrolling="no"></iframe>
+
 </details>
 
 ## 終わりに
@@ -114,6 +117,6 @@ https://koejima.com/archives/2251/
 
 しかも、Google さんが提供するパートナー認定資格キックスタートプログラムを通じて、今回紹介した「Cloud Architecture: Design, Implement, and Manage」と、その前段のクエスト「Cloud Architecture」の 2 つをクリアすると Professional Cloud Architect 認定資格試験の無料バウチャーまでもらえます。太っ腹だなぁ＾＾；
 
-https://google.qwiklabs.com/quests/124?locale=ja
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://google.qwiklabs.com/quests/124?locale=ja" frameborder="0" scrolling="no"></iframe>
 
-https://google.qwiklabs.com/quests/24?locale=ja
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://google.qwiklabs.com/quests/24?locale=ja" frameborder="0" scrolling="no"></iframe>

@@ -26,15 +26,18 @@ author:
 
 menu:
   main:
-    - name: Blog
+    - name: All
       pageRef: posts
       weight: 10
-#    - name: Docs
-#      pageRef: docs
-#      weight: 20
-#    - name: Labs
-#      pageRef: labs
-#      weight: 30
+    - name: AWS
+      pageRef: tags/aws
+      weight: 20
+    - name: Azure
+      pageRef: tags/azure
+      weight: 30
+    - name: Google Cloud
+      pageRef: tags/google-cloud
+      weight: 40
     - name: Tags
       pageRef: tags
       weight: 80
@@ -53,7 +56,7 @@ markup:
 
 params:
   env: production
-  
+
   colorScheme: congo
   defaultAppearance: "light"
   autoSwitchAppearance: true
@@ -83,7 +86,8 @@ params:
     showTableOfContents: true
     showTaxonomies: true
     showWordCount: false
-    sharingLinks: ["facebook", "twitter", "pinterest", "reddit", "linkedin", "email"]
+    sharingLinks:
+      ["facebook", "twitter", "pinterest", "reddit", "linkedin", "email"]
 
   list:
     showBreadcrumbs: true

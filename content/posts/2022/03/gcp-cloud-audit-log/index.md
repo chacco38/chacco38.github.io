@@ -3,7 +3,7 @@ title: "Google Cloud監査ログ(Cloud Audit Logs)を設計する際にわかり
 date: 2022-03-10T00:00:00+09:00
 lastmod: 2022-03-29T00:00:00+09:00
 tags: ["Google Cloud", "Cloud Audit Log", "監査ログ", "Cloud Logging", "Cloud Storage"]
-draft: false
+draft: true
 ---
 
 みなさん、こんにちは。今日はGoogle Cloudの監査ログ(Cloud Audit Logs)についてのお話です。公式ドキュメントでは少しわかりにくかった部分もあったため、個人的に悩んだポイントを含めて紹介していきたいと思います。

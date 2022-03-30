@@ -1,8 +1,10 @@
 ---
 title: "単一リージョンの複数 GKE クラスタと Anthos Service Mesh でマルチクラスタメッシュ環境を構築してみた"
 date: 2021-12-09T00:00:00+09:00
+date: 2021-12-15T00:00:00+09:00
 tags: ["Google Cloud", "Google Kubernetes Engine(GKE)", "Anthos Service Mesh", "Kubernetes", "Istio"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/97173da86f2f8e2ecc20
 ---
 
 みなさん、こんにちは。今回は単一リージョンに展開した複数 GKE クラスタを単一の Anthos Service Mesh 環境に追加し、GKE クラスタ間で負荷分散を行う方法についてご紹介していきたいと思います。

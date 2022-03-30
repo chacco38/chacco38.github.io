@@ -1,8 +1,10 @@
 ---
 title: "AWSマネジメントコンソールの表示言語を変更する方法"
 date: 2022-01-13T00:00:00+09:00
+lastmod: 2022-02-04T00:00:00+09:00
 tags: ["AWS", "AWS Management Console"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/8b9cbad14f8544e3bffa
 ---
 
 みなさん、こんにちは。AWS マネジメントコンソールを使っていると、ごくごく稀に表示言語を代えたくなることはありませんか。私は日本語⇔英語を切り替えたくなるケースがたまにあります。

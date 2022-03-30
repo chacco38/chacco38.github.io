@@ -1,8 +1,10 @@
 ---
 title: "AWS CloudShell上のviエディタでインデントの自動挿入なしでペーストする方法"
 date: 2021-12-20T00:00:00+09:00
+lastmod: 2021-12-23T00:00:00+09:00
 tags: ["AWS", "AWS CloudShell", "Vim"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/97cb2e6ca56dac7e61a7
 ---
 
 みなさん、こんにちは。AWS CloudShellを使っているとファイルにペーストした際、勝手にインデントが入って「あー！」っとなったことの一度くらいはあるのではないでしょうか。今回はそんなときの解決方法を紹介していきたいと思います。

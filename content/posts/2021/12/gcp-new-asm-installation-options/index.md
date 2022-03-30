@@ -1,8 +1,10 @@
 ---
 title: "GKE クラスタ作成時のオプションで Anthos Service Mesh を有効化できるようになりました"
 date: 2021-12-16T00:00:00+09:00
+lastmod: 2021-12-22T00:00:00+09:00
 tags: ["Google Cloud", "Anthos Service Mesh", "Google Kubernetes Engine(GKE)", "Kubernetes", "Istio" ]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/e33a9c2dced7b6d420ec
 ---
 
 みなさん、こんにちは。今回はタイトルに掲げたとおり、最近の更新で Google Cloud コンソール(GUI)から Google Kubernetes Engine(GKE) Standard クラスタを作成する際に、次のようなすてきなオプションがプレビュー機能として追加されました。今回はこのオプションを使ってどのような構成が作られるのか実験したので共有したいと思います。

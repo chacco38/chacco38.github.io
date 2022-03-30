@@ -1,9 +1,10 @@
 ---
 title: "Terraformを使ってGKE+ASMのマルチクラスタメッシュ環境を構築してみた"
 date: 2022-02-14T00:00:00+09:00
-lastmod: ""
+lastmod: 2022-03-11T00:00:00+09:00
 tags: ["Google Cloud", "Google Kubernetes Engine(GKE)", "Anthos Service Mesh", "Terraform", "Kubernetes", "Istio" ]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/2862c4b2d66463c20cfc
 ---
 
 みなさん、こんにちは。以前に「[複数リージョンのGKEクラスタとAnthos Service Meshでマルチクラスタメッシュ環境を構築してみた](https://qiita.com/chacco38/items/971dba633fa60245263b)」という記事を書いたのですが、今回はその環境をTerraformを使って構築してみました。もしこれから「ASM環境をTerraformで」と検討している方は参考にしてみてはいかがでしょうか。

@@ -1,8 +1,10 @@
 ---
 title: "AWS Chaliceを使ってサーバレスアプリケーションを開発しよう"
 date: 2021-10-18T00:00:00+09:00
+date: 2021-12-01T00:00:00+09:00
 tags: ["AWS", "AWS Chalice", "AWS Lambda", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/75412d7fdd6832931b56
 ---
 
 みなさん、こんにちは。今回は「AWS Chalice」を活用したサーバレスアプリケーション開発についてのお話です。AWS Summit Online Japan 2021 の日立製作所の講演で軽く触れたこともあり、どこかで紹介したいと思っておりました。

@@ -1,8 +1,10 @@
 ---
 title: "AWS Load Balancer Controller を使って ELB を Kubernetes のマニフェストファイルで管理しよう"
 date: 2021-12-14T00:00:00+09:00
+lastmod: 2021-12-18T00:00:00+09:00
 tags: ["AWS", "Kubernetes", "Amazon EKS", "Elastic Load Balancing(ELB)"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/7a444413926a5e6b8be6
 ---
 
 みなさん、こんにちは。今回は Amazon Elastic Kubernetes Service(EKS) を利用する際に併せて利用したい AWS Load Balancer Controller のお話です。

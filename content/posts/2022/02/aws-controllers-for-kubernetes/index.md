@@ -1,8 +1,10 @@
 ---
 title: "AWS Controllers for Kubernetesを使って各種AWSサービスをマニフェストファイルで管理しよう"
 date: 2022-02-16T00:00:00+09:00
+lastmod: 2022-03-11T00:00:00+09:00
 tags: ["AWS", "Amazon EKS", "Kubernetes", "Amazon S3", "Amazon ECR"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/b85ff05e05e8a9fb8a08
 ---
 
 みなさん、こんにちは。今回はさまざまなAWSサービスをKubernetesから管理できるようにするAWS Controllers for Kubernetes(ACK)のお話です。

@@ -1,8 +1,10 @@
 ---
 title: "Microsoft Sentinel を使って GitHub Enterprise Cloud のセキュリティを強化しよう (Azure Logic Apps コネクタ編)"
 date: 2021-11-26T00:00:00+09:00
+date: 2021-12-04T00:00:00+09:00
 tags: ["Azure", "Microsoft Sentinel", "GitHub Enterprise Cloud", "Azure Logic Apps", "SIEM"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/efc75a32089c06ca0fcd
 ---
 
 みなさん、こんにちは。今回は GitHub Enterprise Cloud(GHEC) の各種ログを SIEM[^1] マネージドサービスである Microsoft Sentinel (旧称 Azure Sentinel) に集約し、サイバー攻撃の兆候を検知できるようにする方法をご紹介していきたいと思います。

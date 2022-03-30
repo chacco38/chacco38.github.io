@@ -1,8 +1,10 @@
 ---
 title: "GKE Autopilot と Anthos Service Mesh を使ってフルマネージドなサービスメッシュ環境を構築してみた"
 date: 2021-12-01T00:00:00+09:00
+date: 2021-12-13T00:00:00+09:00
 tags: ["Google Cloud", "Anthos Service Mesh", "Google Kubernetes Engine(GKE)", "GKE Autopilot", "Kubernetes", "Istio"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/b5eb17de7f506ab028ad
 ---
 
 みなさん、こんにちは。今回は Google Cloud が提供するマネージドサービスメッシュサービスの Anthos Service Mesh に関するお話です。

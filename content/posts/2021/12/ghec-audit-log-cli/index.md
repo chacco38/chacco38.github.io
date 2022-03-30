@@ -1,8 +1,10 @@
 ---
 title: "GHEC Audit Log CLI を使って GitHub Enterprise Cloud の監査ログを取得してみた"
 date: 2021-12-07T00:00:00+09:00
+lastmod: 2021-12-13T00:00:00+09:00
 tags: ["GitHub Enterprise Cloud", "GitHub Actions", "監査ログ"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/726ecf060c3a5bfd9790
 ---
 
 みなさん、こんにちは。今回は GitHub Enterprise Cloud(GHEC) の監査ログ(Audit Log) の取得方法についてのお話です。

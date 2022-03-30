@@ -1,8 +1,10 @@
 ---
 title: "TaskCatを使ってCloudFormationテンプレートの自動テストをしよう"
 date: 2021-10-20T00:00:00+09:00
+date: 2021-12-02T00:00:00+09:00
 tags: ["AWS", "TaskCat", "AWS CloudFormation", "AWS CodePipeline"]
 draft: false
+externalUrl: https://qiita.com/chacco38/items/59887ad3ed7fba7eb0ca
 ---
 
 みなさん、こんにちは。今回は TaskCat というオープンソースを利用した AWS CloudFormation (CFn) テンプレートの自動テストについてのお話です。

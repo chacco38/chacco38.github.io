@@ -7,7 +7,7 @@ draft: false
 externalUrl: null
 ---
 
-先月SAPを受験したときに契約した問題集の利用期限が残っててもったいなかったため、AWS Certified Security - Specialty (SCS) を 2020/8/28 に受験していたのでその時のメモです。
+先月SAPを受験したときに契約した問題集の利用期限が残っててもったいなかったため、AWS Certified Security - Specialty (SCS) を 2020/8/28 に受験してきたのでその時のメモです。
 
 ## 受験メモ
 

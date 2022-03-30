@@ -7,7 +7,7 @@ draft: false
 externalUrl: null
 ---
 
-11月頃から Google Cloud を業務で扱う予定ができたことと、とくに段階を踏まずに最初から上級資格を狙えるということで、Professional Cloud Architect を 2020/10/30 に受験してきたときのメモです。
+11月頃から Google Cloud を業務で扱う予定ができたことと、とくに段階を踏まずに最初から上級資格を狙えるということで、Professional Cloud Architect を 2020/10/30 に受験してきました。その時のメモです。
 
 ## 受験メモ
 

@@ -7,7 +7,7 @@ draft: false
 externalUrl: null
 ---
 
-Azure を業務で扱い出して約2週間が経ち、そろそろ上級資格を狙ってみようと Microsoft Certified: DevOps Engineer Expert (AZ-400) を 2020/9/25 に受験してきたときのメモです。
+Azure を業務で扱い出して約2週間が経ったこともあり、そろそろ上級資格を狙ってみようと Microsoft Certified: DevOps Engineer Expert (AZ-400) を 2020/9/25 に受験してきました。その時のメモです。
 
 ## 受験メモ
 

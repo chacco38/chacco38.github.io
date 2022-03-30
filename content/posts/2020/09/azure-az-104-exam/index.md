@@ -7,7 +7,7 @@ draft: false
 externalUrl: null
 ---
 
-9月から Azure を業務で扱うことになったため、せめて中級の Azure Administrator Associate (AZ-104) くらいは取っておくか、と思って 2020/9/3 に受験してきたときのメモです。
+9月から Azure を業務で扱うことになったため、せめて中級の Azure Administrator Associate (AZ-104) くらいは取っておくか、と思って 2020/9/3 に受験してきました。その時のメモです。
 
 ## 受験メモ
 

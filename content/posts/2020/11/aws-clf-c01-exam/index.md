@@ -7,7 +7,7 @@ draft: false
 externalUrl: null
 ---
 
-難易度の高い他の資格試験を受けるついでに Cloud Practitioner を 2020/11/27 に受験してきたときのメモです。
+難易度の高い他の資格試験を受けるついでに Cloud Practitioner を 2020/11/27 に受験してきました。その時のメモです。
 
 ## 受験メモ
 

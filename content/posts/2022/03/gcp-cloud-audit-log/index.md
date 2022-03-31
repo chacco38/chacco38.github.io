@@ -1,9 +1,10 @@
 ---
-title: "Google Cloud監査ログ(Cloud Audit Logs)を設計する際にわかりにくいと感じた"
-date: 2022-03-10T00:00:00+09:00
-lastmod: 2022-03-29T00:00:00+09:00
+title: "Google Cloud監査ログ(Cloud Audit Logs)の構成および長期保存について"
+date: 2022-03-31T00:00:00+09:00
+lastmod: null
 tags: ["Google Cloud", "Cloud Audit Log", "監査ログ", "Cloud Logging", "Cloud Storage"]
-draft: true
+draft: false
+externalUrl: null
 ---
 
 みなさん、こんにちは。今日はGoogle Cloudの監査ログ(Cloud Audit Logs)についてのお話です。公式ドキュメントでは少しわかりにくかった部分もあったため、個人的に悩んだポイントを含めて紹介していきたいと思います。
@@ -34,7 +35,7 @@ Cloud Audit Logsで生成する監査ログは次のとおりに細分化され�
 
 ### 生成した監査ログの保存先
 
-Cloud Audit LogsのデータはCloud Loggingに保存されます。保存先のログバケットは次のとおりで、保存先のログバケットを変更することはできません。
+Cloud Audit Logsのデータは次に示すCloud Loggingの所定のログバケットへ保存するようになっています。
 
 |No.|バケット名|概要|
 |:--:|:---|:---|
@@ -64,7 +65,7 @@ Cloud Audit LogsのデータはCloud Loggingに保存されます。保存先の
 |「無効」のまま|「無効」のまま|**監査ログを取得しない**|
 {{< /alert >}}
 
-ここで改めて設定画面を見ると設定オプションとしては、いずれも「管理読み取り」、「管理書き込み(変更不可)」、「データ読み取り」、「データ書き込み」の4種類となっています。
+ここで改めて設定画面を見ると設定オプションとしては、いずれも「管理読み取り」、「管理書き込み(変更不可)」、「データ読み取り」、「データ書き込み」の4種類で、それぞれの設定項目は次のような内容となってます。
 
 |No.|設定項目|概要|
 |:--:|:---|:---|
@@ -73,11 +74,11 @@ Cloud Audit LogsのデータはCloud Loggingに保存されます。保存先の
 |3|データ読み込み<br>(DATA_READ)|Google Cloudリソースからユーザー提供のデータを読み取るオペレーションを記録します。デフォルト無効です。|
 |4|データ書き込み<br>(DATA_WRITE)|ユーザー提供データをGoogle Cloudリソースに書き込むオペレーションを記録します。デフォルト無効です。|
 
-私は当初、この設定項目と「[生成する監査ログの種類](#生成する監査ログの種類)」との関係がわからず混乱しましたが、よくよく公式ドキュメントを読むと次のような関係となってます。
+私は当初、この設定項目と「[生成する監査ログの種類](#生成する監査ログの種類)」との関係がわからず混乱しましたが、よくよく公式ドキュメントを読むと次のような関係となっていることがわかります。
 
 ![](images/relationship.png)
 
-ということで、データアクセス監査ログはさらに細分化されていて「管理読み取り」、「データ読み込み」、「データ書き込み」に関するログの有効化を選択できるようになっております。
+ということで、データアクセス監査ログはさらに細分化されていて「管理読み取り」、「データ読み込み」、「データ書き込み」のログ有効化を選択できるようになっております。
 
 ### アクセスの透過性ログ
 
@@ -101,21 +102,21 @@ Cloud Loggingへの保存期間が過ぎたものについてはこの方法で�
 
 「[生成した監査ログの保存先](#生成した監査ログの保存先)」で記載したとおり、Cloud Loggingへの保存期間は一部を除いて変更ができないため長期保存のためにはエクスポートし、別のストレージサービス(Cloud StorageやBigQuery)にて長期保存をしていく形になります。
 
-監査ログのエクスポート方法については、Cloud Loggingのログルーターとシンクの機能を用いて行うことができます。
+監査ログのエクスポート方法については、Cloud Loggingのログルーターとシンクという他のストレージサービスへログを転送する機能を用いて実現できます。
 
 <iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/logging/docs/export/configure_export_v2?hl=ja" frameborder="0" scrolling="no"></iframe>
 
-
-
-
-
+転送先にはCloud StorageやBigQueryの他にもさまざまな選択肢がありますが、法令順守のための長期保存といった要件があるならば、Cloud Storage(Archive)にエクスポートしてCloud Storageの保持ポリシー機能で指定した期間は変更も削除もできないように保護してくことをオススメします。
 
 ## ご参考、監査ログを用いた不正監視
 
+Google Cloudでは、Event Thread Detection(Security Command Centerの一部)というSIEMサービスが提供されています。組織に属していないプロジェクトでは利用できませんが、Google Cloud純正で実装していく際にはこちらを活用して行く形になってくるかと思いますので参考にしてみてはいかがでしょうか。
+
+<iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" src="https://hatenablog-parts.com/embed?url=https://cloud.google.com/security-command-center/docs/concepts-event-threat-detection-overview?hl=ja" frameborder="0" scrolling="no"></iframe>
 
 ## 終わりに
 
-いまさらの情報でしたがいかがだったでしょうか。こんな記事でもだれかの役に立っていただければ幸いです。以上、Google Cloud監査ログ(Cloud Audit Logs)を変更する方法でした。
+いまさらの情報でしたがいかがだったでしょうか。こんな記事でもだれかの役に立っていただければ幸いです。以上、「Google Cloud監査ログ(Cloud Audit Logs)の構成および長期保存について」でした。
 
 ---
 

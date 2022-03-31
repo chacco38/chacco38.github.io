@@ -1,11 +1,11 @@
 ---
-title: "Google Cloud 認定 Associate Cloud Engineer 受験メモ"
+title: "Google Cloud Certified Associate Cloud Engineer 受験メモ"
 date: 2021-05-07T00:00:00+09:00
 tags: ["Google Cloud", "資格"]
 draft: false
 ---
 
-すでに Professional Cloud Architect だけは持っていたのですが、ACE の受験バウチャーを無償でいただく機会があったので「使わないなんてもったいない！」ということで 2021/05/06 に他の試験を受けるついでに受験したのでその時のメモです。
+すでに Professional Cloud Architect だけは持っていたのですが、ACE の受験バウチャーを無償でいただく機会があったので「使わないなんてもったいない！」ということで 2021/05/06 に他の試験のついでに受験したのでその時のメモです。
 
 AWS や Azure などをよく知っている人には多少は役に立つかもしれませんが、逆に、これからクラウドを一から勉強するという方にとってはあまり参考にならない情報かもしれませんのであしからず。
 
@@ -15,13 +15,17 @@ AWS や Azure などをよく知っている人には多少は役に立つかも
 
 ### 受験者情報
 
-- AWS 資格 12 種コンプ
-- Azure 資格 4 種 (AZ-900、AZ-104、AZ-400、AZ-303/304)
-- GCP 資格 1 種 (PCA)
+AWS、Azure、Google Cloudの三大クラウド上級資格持ち、とくにAWS資格は全種コンプしているので一見するとけっこう良さげな(クラウド歴1年の)新米クラウドエンジニアです。
+
+|No.|項目|取得数|取得済み資格/合格済み試験|
+|:---:|:---:|:---:|:---:|
+|1|AWS資格|12|CLF、SAA、SOA、DVA、SAP、DOP、<br>SCS、ANS、AXS、DBS、DAS、MLS|
+|2|Azure資格|4|AZ-900、AZ-104、AZ-303/304、AZ-400|
+|3|Google Cloud資格|1|PCA|
 
 ### 結果
 
-- 合格 (点数非公開)
+- 合格 (点数不明)
 
 ### 準備期間
 

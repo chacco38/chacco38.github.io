@@ -1,19 +1,24 @@
 ---
-title: "Microsoft 認定 Azure Solutions Architect Expert (AZ-303/AZ-304) 受験メモ"
-date: 2021-06-05T00:00:00+09:00
+title: "Microsoft Certified Azure Solutions Architect Expert (AZ-303/AZ-304) 受験メモ"
+date: 2021-01-09T00:00:00+09:00
+lastmod: 2021-06-05T00:00:00+09:00
 tags: ["Azure", "資格"]
 draft: false
 ---
 
-あれは Azure を業務で扱いだして 2~3 か月くらい経った頃、そろそろ Solutions Architect Expert を取りに行かねばな、と思い立って AZ-303 (2021/1/5) と AZ-304 (2020/11/25) の試験を受けに行った時のメモです。
+Azure を業務で扱いだして 2~3 か月くらい経ったので、そろそろ Solutions Architect Expert を取りに行かねばな、と思い立って AZ-303 (2021/1/5) と AZ-304 (2020/11/27) の試験を受けに行った時のメモです。
 
 ## 受験メモ
 
 ### 受験者情報
 
-- AWS 資格 5 種 (CLF、SAA、SAP、DOP、SCS)
-- Azure 資格 3 種 (AZ-900、AZ-104、AZ-400)
-- GCP 資格 1 種 (PCA)
+AWS、Azure、Google Cloudの三大クラウド上級資格を持っているので一見ではそこそこのエンジニアに見えるものの、実際はAWSを業務で扱いだして約9か月、Azureは約4か月、Google Cloudは約2か月の駆け出しクラウドエンジニアです。
+
+|No.|項目|取得数|取得済み資格/合格済み試験|
+|:---:|:---:|:---:|:---:|
+|1|AWS資格|5|CLF、SAA、SAP、DOP、SCS|
+|2|Azure資格|3|AZ-900、AZ-104、AZ-400|
+|3|Google Cloud資格|1|PCA|
 
 ### 結果
 
@@ -55,4 +60,4 @@ draft: false
 
 ということで、Microsoft 認定 Solutions Architect Expert (AZ-303/AZ-304) を受験したときのお話でした。
 
-、、、余談ですが、テクノロジー (AZ-303) の方はノーガード戦法だと辛いだろうなと思って試験前に大型連休を挟んだ　はず　だったんですけどね、、、いやー、合格できてラッキーでした^^;
+、、、余談ですが、テクノロジー (AZ-303) の方はノーガード戦法だと辛いだろうなと思って試験前に大型連休を挟んだ　**はず**　だったんですけどね、、、いやー、合格できてラッキーでした^^;

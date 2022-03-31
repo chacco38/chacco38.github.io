@@ -1,19 +1,23 @@
 ---
-title: "Microsoft 認定 Azure Data Scientist Associate (DP-100) 受験メモ"
+title: "Microsoft Certified Azure Data Scientist Associate (DP-100) 受験メモ"
 date: 2021-06-05T00:00:00+09:00
 tags: ["Azure", "資格"]
 draft: false
 ---
 
-Microsoft 認定 Azure Data Scientist Associate (DP-100) を 2021/5/28 に受験していたのでその時のメモです。ほんとは違う試験を受けに行く予定だったので情報少ないです。すんません。
+Microsoft Certified Azure Data Scientist Associate (DP-100) を 2021/5/28 に受験していたのでその時のメモです。ほんとは違う試験を受けに行く予定だったので情報少ないです。すんません。
 
 ## 受験メモ
 
 ### 受験者情報
 
-- AWS 資格 12 種コンプ
-- Azure 資格 4 種 (AZ-900、AZ-104、AZ-400、AZ-303/304)
-- GCP 資格 3 種 (ACE、PCA、PDE)
+AWS、Azure、Google Cloudの三大クラウド上級資格持ち、とくにAWS資格は全種コンプしているので一見するとけっこう良さげな(クラウド歴1年の)新米クラウドエンジニアです。
+
+|No.|項目|取得数|取得済み資格/合格済み試験|
+|:---:|:---:|:---:|:---:|
+|1|AWS資格|12|CLF、SAA、SOA、DVA、SAP、DOP、<br>SCS、ANS、AXS、DBS、DAS、MLS|
+|2|Azure資格|4|AZ-900、AZ-104、AZ-303/304、AZ-400|
+|3|Google Cloud資格|3|ACE、PCA、PDE|
 
 ### 結果
 
@@ -42,4 +46,4 @@ Microsoft 認定 Azure Data Scientist Associate (DP-100) を 2021/5/28 に受験
 
 重要なことなので 2 回書きました。本当は私も Power BI の試験 (D **A** -100) を申し込んだつもりだったんですよね、、、試験を開始して 5 問くらいやったあたりで「はわわわ、こいつはおかしい！Azure Machine Learning に関する問題しか出てこないんですけどーーーー！」と内心めちゃくちゃ焦ってました。でも、なんとか合格できたのでラッキーでしたね^^;
 
-ということで、Microsoft 認定 Azure Data Scientist Associate (DP-100) を受験したときのお話でした。
+ということで、Microsoft Certified Azure Data Scientist Associate (DP-100) を受験したときのお話でした。

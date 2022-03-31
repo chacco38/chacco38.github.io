@@ -1,11 +1,11 @@
 ---
-title: "Google Cloud 認定 Professional Data Engineer 受験メモ"
+title: "Google Cloud Certified Professional Data Engineer 受験メモ"
 date: 2021-05-07T00:00:00+09:00
 tags: ["Google Cloud", "資格"]
 draft: false
 ---
 
-最近、待望の Google Cloud 認定 Professional Data Engineer のパートナー認定資格キックスタートプログラムが開始されました。ってことで、さっそくバウチャーを取得して 2021/05/06 に受験してきたので、その時のメモです。
+最近、待望の Google Cloud Certified Professional Data Engineer のパートナー認定資格キックスタートプログラムが開始されました。ってことで、さっそくバウチャーを取得して 2021/05/06 に受験してきたので、その時のメモです。
 
 ちなみに、参考までに費やした時間なども記載してますが個人差が大きいと思うのであくまでご参考です。
 
@@ -13,13 +13,17 @@ draft: false
 
 ### 受験者情報
 
-- AWS 資格 12 種コンプ
-- Azure 資格 4 種 (AZ-900、AZ-104、AZ-400、AZ-303/304)
-- GCP 資格 1 種 (PCA)
+AWS、Azure、Google Cloudの三大クラウド上級資格持ち、とくにAWS資格は全種コンプしているので一見するとけっこう良さげな(クラウド歴1年の)新米クラウドエンジニアです。
+
+|No.|項目|取得数|取得済み資格/合格済み試験|
+|:---:|:---:|:---:|:---:|
+|1|AWS資格|12|CLF、SAA、SOA、DVA、SAP、DOP、<br>SCS、ANS、AXS、DBS、DAS、MLS|
+|2|Azure資格|4|AZ-900、AZ-104、AZ-303/304、AZ-400|
+|3|Google Cloud資格|1|PCA|
 
 ### 結果
 
-- 合格 (点数非公開)
+- 合格 (点数不明)
 
 ### 準備期間
 
@@ -67,4 +71,3 @@ https://qiita.com/endw0901/items/5ebc530de3e9ffee4416#%E8%A9%A6%E9%A8%93%E3%81%A
 
 - Google Cloud は、Google LLC の商標または登録商標です。
 - その他、記載されている会社名および商品・製品・サービス名は、各社の商標または登録商標です。
-

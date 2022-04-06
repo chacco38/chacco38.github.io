@@ -13,6 +13,8 @@ outputs:
     - RSS
     - JSON
 
+description: "真っ赤なスポーツカーとロックミュージックが好きなITエンジニアの技術ブログです。クラウド技術（主にAWS、Azure、Google Cloud）に関する技術記事やコラムを中心に執筆しています。"
+
 author:
   name: "クラウドCoEの何でも屋"
   image: "images/author.jpg"

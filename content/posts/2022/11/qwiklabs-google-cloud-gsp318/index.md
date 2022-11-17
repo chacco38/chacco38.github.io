@@ -13,6 +13,15 @@ https://www.cloudskillsboost.google/focuses/10457?locale=ja&parent=catalog
 
 ## タスク 1: Docker イメージを作成して Dockerfile を保存する
 
+まずはじめに、ラボを開始するたびに若干変わるイメージ名やタグ名を環境変数にしておきます。
+
+```bash
+export IMAGE_NAME="<ラボで指定されたDocker Image値>"
+export TAG_NAME_1="<ラボで指定されたTag Name値"
+export TAG_NAME_2="<ラボで指定されたUpdated Version値>"
+export REPLICAS_COUNT="<ラボで指定されたReplicas Count値>"
+```
+
 Cloud Shell を開き、進行状況のチェックに使用できるマーキングスクリプトをインストールします。
 
 ```bash
@@ -37,10 +46,10 @@ ENTRYPOINT ["app","-single=true","-port=8080"]
 EOF
 ```
 
-`valkyrie-app/Dockerfile` を使用して、タグ `v0.0.1` を持つ `valkyrie-dev` という名前の Docker イメージを作成します。
+`valkyrie-app/Dockerfile` を使用して、ラボ作成時に指定された名前 (例えば、`valkyrie-dev:v0.0.2` など) を持つ Docker イメージを作成します。
 
 ```bash
-docker build -t valkyrie-dev:v0.0.1 valkyrie-app/
+docker build -t ${IMAGE_NAME}:${TAG_NAME_1} valkyrie-app/
 ```
 
 Docker イメージを作成したら `step1_v2.sh` を実行して作業のローカルチェックを行います。
@@ -61,10 +70,10 @@ Go ahead and check the activity tracking on the lab page
 
 ## タスク 2: 作成した Docker イメージをテストする
 
-イメージ `valkyrie-dev:v0.0.1` を使用してコンテナを起動します。ホストのポート 8080 をコンテナのポート 8080 にマッピングする必要があります。
+タスク1で作成したイメージを使用してコンテナを起動します。ホストのポート 8080 をコンテナのポート 8080 にマッピングする必要があります。
 
 ```bash
-docker run -d -p 8080:8080 --name valkyrie-app valkyrie-dev:v0.0.1
+docker run -d -p 8080:8080 --name valkyrie-app ${IMAGE_NAME}:${TAG_NAME_1}
 ```
 
 コンテナの実行中、Cloud Shell の [Web Preview] > [Preview on port 8080] を実行してサイトが表示されることが確認できたら、 `step2_v2.sh` を実行して作業のローカルチェックを行います。
@@ -89,11 +98,11 @@ docker stop valkyrie-app
 
 ## タスク 3: Docker イメージを Container Repository に push する
 
-Docker イメージ valkyrie-dev:v0.0.1 を Container Repository に push します。
+Docker イメージ valkyrie-dev:v0.0.1 を Container Repository に push します。※
 
 ```bash
-docker tag valkyrie-dev:v0.0.1 gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-dev:v0.0.1
-docker push gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-dev:v0.0.1
+docker tag ${IMAGE_NAME}:${TAG_NAME_1} gcr.io/$GOOGLE_CLOUD_PROJECT/${IMAGE_NAME}:${TAG_NAME_1}
+docker push gcr.io/$GOOGLE_CLOUD_PROJECT/${IMAGE_NAME}:${TAG_NAME_1}
 ```
 
 Container Registory への push が完了したら、[進行状況の確認] ボタンをクリックしてチェックポイントの達成状況を確認します。
@@ -106,10 +115,10 @@ Kubernetes クラスタ `valkyrie-dev` にコンテナをデプロイする前�
 gcloud container clusters get-credentials valkyrie-dev --zone=$(gcloud container clusters list --filter="name=valkyrie-dev" --format="value(location)")
 ```
 
-Deployment を作成する前に、`valkyrie-app/k8s/deployment.yaml` ファイルの `IMAGE_HERE` 部分を、Container Registory に push した `valkyrie-dev:v0.0.1` イメージ名に置き換えます。
+Deployment を作成する前に、`valkyrie-app/k8s/deployment.yaml` ファイルの `IMAGE_HERE` 部分を、Container Registory に push したイメージ名に置き換えます。
 
 ```bash
-sed -i "s/IMAGE_HERE/gcr.io\/$GOOGLE_CLOUD_PROJECT\/valkyrie-dev:v0.0.1/g" valkyrie-app/k8s/deployment.yaml
+sed -i "s/IMAGE_HERE/gcr.io\/$GOOGLE_CLOUD_PROJECT\/${IMAGE_NAME}:${TAG_NAME_1}/g" valkyrie-app/k8s/deployment.yaml
 ```
 
 Kubernetes クラスタにコンテナをデプロイします。
@@ -123,10 +132,10 @@ kubectl apply -f valkyrie-app/k8s/service.yaml
 
 ## タスク 5: 新しいバージョンの valkyrie-app を使用して Deployment を更新する
 
-新しいコードをデプロイする前にレプリカを `1` から `4` に増やし、[進行状況の確認] ボタンをクリックしてチェックポイントの達成状況を確認します。
+新しいコードをデプロイする前にレプリカ数を指定された値に増やし、[進行状況の確認] ボタンをクリックしてチェックポイントの達成状況を確認します。
 
 ```bash
-sed -i "s/replicas: 1/replicas: 4/g" valkyrie-app/k8s/deployment.yaml
+sed -i "s/replicas: 1/replicas: ${REPLICAS_COUNT}/g" valkyrie-app/k8s/deployment.yaml
 kubectl apply -f valkyrie-app/k8s/deployment.yaml
 ```
 
@@ -137,12 +146,12 @@ cd valkyrie-app/
 git merge origin/kurt-dev
 ```
 
-新しいコードを valkyrie-app のバージョン `v0.0.2` としてビルドし、更新したイメージを Container Repository に push して、`valkyrie-dev` クラスタに再デプロイします。
+新しいコードを valkyrie-app の新しいバージョンとしてビルドし、更新したイメージを Container Repository に push して、`valkyrie-dev` クラスタに再デプロイします。
 
 ```bash
-docker build -t gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-dev:v0.0.2 .
-docker push gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-dev:v0.0.2
-sed -i "s/valkyrie-dev:v0.0.1/valkyrie-dev:v0.0.2/g" k8s/deployment.yaml
+docker build -t gcr.io/$GOOGLE_CLOUD_PROJECT/${IMAGE_NAME}:${TAG_NAME_2} .
+docker push gcr.io/$GOOGLE_CLOUD_PROJECT/${IMAGE_NAME}:${TAG_NAME_2} 
+sed -i "s/${IMAGE_NAME}:${TAG_NAME_1}/${IMAGE_NAME}:${TAG_NAME_2}/g" k8s/deployment.yaml
 kubectl apply -f k8s/deployment.yaml
 ```
 
@@ -161,18 +170,40 @@ Cloud Shell の [Web Preview] > [Preview on port 8080] から Jenkins の画面�
 
 ![](images/jenkins-top.png)
 
-[Jenkins の設定より [メタデータからの Google サービス アカウント] を使用して認証情報を設定します。
+Jenkins の認証情報を設定します。[Jenkinsの管理] > [Manage Credentials] > [(global)] とたどり、グローバルドメイン画面で [+ Add Credentials] ボタンをクリックします。
+
+![](images/jenkins-add-credencials.png)
+
+New credentials 画面では、ラボの指定通り [Google Service Account from metadata] を種類として選択し、[Create] ボタンをクリックします。
+
+![](images/jenkins-create-credencials.png)
+
+次に `*/master` ブランチを参照するパイプラインジョブを作成します。Jenkins のトップ画面から [+ 新規ジョブ作成] を選択し、パイプライン形式のジョブを選択して [OK] ボタンをクリックします。
+
+![](images/jenkins-create-job.png)
+
+ジョブの設定画面に遷移したら、パイプラインの設定を行います。
+
+- 定義を [Pipeline script from SCM]
+- SCM を [Git]
+- リポジトリ URL をソースコードリポジトリの URL
+- 認証情報をプルダウンから選択
+- ビルドするブランチは [*/master]
+- Script Path は [Jenkinsfile]
+
+![](images/jenkins-config-job.png)
 
 
+```
 sed -i "s/YOUR_PROJECT/$GOOGLE_CLOUD_PROJECT/g" Jenkinsfile
-sed -i "s/green/orenge/g" source/html.go
+sed -i "s/green/orange/g" source/html.go
 
-git config --global user.name "matt"
-git config --global user.email "matt@matt.org"
+git config --global user.email "$(gcloud auth list --format='value(account)')"
+git config --global user.name "$(gcloud auth list --format='value(account)' | sed 's/@.*//g')"
 git add .
-git commit -m "update"
+git commit -m "change green to orange"
 git push origin master
-
+```
 
 ## 終わりに
 

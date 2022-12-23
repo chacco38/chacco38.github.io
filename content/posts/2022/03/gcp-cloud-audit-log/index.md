@@ -1,10 +1,10 @@
 ---
 title: "Google Cloud監査ログ(Cloud Audit Logs)の構成および長期保存について"
 date: 2022-03-31T00:00:00+09:00
-lastmod: null
+lastmod: 2022-12-17T00:00:00+09:00
 tags: ["Google Cloud", "Cloud Audit Log", "監査ログ", "Cloud Logging", "Cloud Storage"]
 draft: false
-externalUrl: null
+externalUrl: https://qiita.com/chacco38/items/586f063b794a2f993240
 ---
 
 みなさん、こんにちは。今日はGoogle Cloudの監査ログ(Cloud Audit Logs)についてのお話です。公式ドキュメントでは少しわかりにくかった部分もあったため、個人的に悩んだポイントを含めて紹介していきたいと思います。

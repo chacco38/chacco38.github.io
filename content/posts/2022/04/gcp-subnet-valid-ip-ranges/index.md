@@ -1,10 +1,10 @@
 ---
 title: "Google Cloudのサブネットには有効なIPアドレス範囲に制限があるのでご注意を"
 date: 2022-04-12T00:00:00+09:00
-lastmod: null
+lastmod: 2022-12-17T00:00:00+09:00
 tags: ["Google Cloud", "VPC", "VPC Peering"]
 draft: false
-externalUrl: null
+externalUrl: https://qiita.com/chacco38/items/f174c3b7afd15e05818a
 ---
 
 みなさん、こんにちは。Google Cloudのサブネットにはソフトウェア的に割り当てを制限されてはいないものの、実際に割り当ててしまうと通信障害などを起こしてしまう割り当てはいけないIPv4アドレス範囲があるのをご存じでしょうか。

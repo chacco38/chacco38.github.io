@@ -1,10 +1,10 @@
 ---
 title: "Google Cloud Shellにてlessコマンドからviエディタを起動する方法"
 date: 2022-04-06T00:00:00+09:00
-lastmod: null
+lastmod: 2022-12-17T00:00:00+09:00
 tags: ["Google Cloud", "Cloud Shell"]
 draft: false
-externalUrl: null
+externalUrl: https://qiita.com/chacco38/items/3b1a2922d826e3ad52cd
 ---
 
 みなさん、こんにちは。Google CloudのCloud Shellでは、lessコマンドでファイル参照中に内容を編集しようと `v` キーを押してエディタを起動するとemacsが起動してきます。もちろんemacsも良いエディタですが、Red Hat系のLinuxに慣れている方からすると「lessで `v` を押したらviが起動してきてほしい！てか、moreはviが起動するのになんでlessはviじゃないんだよ！」と思う方もきっといるはずです。今回はそんなときの解決方法を紹介していきたいと思います。

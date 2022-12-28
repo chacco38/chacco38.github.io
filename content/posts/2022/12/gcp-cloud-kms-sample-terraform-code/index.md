@@ -31,7 +31,12 @@ terraform {
 <!-- omit in toc -->
 ## サンプルコードを書いてみた
 
-今回は次のような構成のサンプルコードを書いてみました。なお、変数定義部分などの一部省略している点、ならびにステップごとの細かい説明などは省いていますのでご承知おきください。詳細については「[Googleプロバイダードキュメント]」をご参照ください。ちなみに、すべてのサンプルコードに共通してプロバイダー定義は次のようにしています。
+今回は次のような構成のサンプルコードを書いてみました。なお、変数定義部分などの一部省略している点、ならびにステップごとの細かい説明などは省いていますのでご承知おきください。詳細については「[Googleプロバイダードキュメント]」をご参照ください。
+
+- [例1. キーリングの作成](#例1-キーリングの作成)
+- [例2. 標準的な顧客管理暗号鍵(CMEK)の作成](#例2-標準的な顧客管理暗号鍵cmekの作成)
+
+ちなみに、すべてのサンプルコードに共通してプロバイダー定義は次のようにしています。
 
 ```tf:proiders.tf
 # デフォルトのプロバイダー設定
@@ -42,11 +47,11 @@ provider "google" {
 }
 ```
 
-### キーリングの作成例
+### 例1. キーリングの作成
 
 Cloud Spannerなどのマルチリージョンのリソース向けの鍵を管理するキーリングの例で、今回はasia1(東京/大阪/ソウル)をターゲットにしています。キーリングのオプションはlocationくらいしかないのでとくに困ることはないかと思います。
 
-ただし、キーリングの扱いについては一点注意が必要で、Google Cloudの仕様でGoogle Cloud上からキーリングを削除することはできません。その一方、Terraform管理上はdestroyなどで簡単に削除することができてしまうため、その対処としてTerraform管理上からも削除できないように例ではprevent_destroyを指定してみました。
+ただ、キーリングの扱いについては一点注意が必要で、Google Cloudの仕様でGoogle Cloud上からキーリングを削除することはできません。その一方、Terraform管理上はdestroyなどで簡単に削除することができてしまうため、その対処としてTerraform管理上からも削除できないように例ではprevent_destroyを指定します。
 
 ```tf
 resource "google_kms_key_ring" "sample" {
@@ -59,19 +64,22 @@ resource "google_kms_key_ring" "sample" {
 }
 ```
 
-### 標準的な顧客管理暗号鍵(CMEK)の作成例
+### 例2. 標準的な顧客管理暗号鍵(CMEK)の作成
 
+Cloud KMS上で顧客管理の暗号鍵を生成する例で、自動ローテーションを90日(=7,776,000秒)で設定しています。鍵の目的については利用用途に寄って
+
+https://cloud.google.com/kms/docs/algorithms
 
 ```
 resource "google_kms_crypto_key" "sample" {
-  name     = "my-kms-crypto-key"
-  key_ring = google_kms_key_ring.sample.id
-  purpose  = "ENCRYPT_DECRYPT"
-
-  rotation_period = "7776000s"
+  name            = "my-kms-crypto-key"
+  key_ring        = google_kms_key_ring.sample.id
+  purpose         = "ENCRYPT_DECRYPT"
+  rotation_period = "7776000s" # min 86400s(=1d)
 }
 ```
 
+<!-- omit in toc -->
 ## 終わりに
 
 今回はTerraformの入門ということで、Cloud KMSのサンプルコードをいくつかご紹介してきましたがいかがだったでしょうか。こんな記事でも誰かの役に立っていただけるのであれば幸いです。

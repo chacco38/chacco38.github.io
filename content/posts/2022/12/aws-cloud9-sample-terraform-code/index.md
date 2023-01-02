@@ -38,40 +38,79 @@ terraform {
 
 ちなみに、すべてのサンプルコードに共通してプロバイダー定義は次のようにしています。
 
-```tf:proiders.tf
+```tf:providers.tf
 # デフォルトのプロバイダー設定
-provider "google" {
-  project = var.project_id
-  region  = "asia-northeast1"
-  zone    = "asia-northeast1-b"
+provider "aws" {
+  region = var.aws_region
+  default_tags {
+    tags = {
+      Owner     = "matt"
+      Terraform = "true"
+    }
+  }
 }
 ```
 
 ### 例1. Cloud9環境の作成
 
-```tf
-resource "google_kms_key_ring" "sample" {
-  name     = "my-kms-keyring-asia1"
-  location = "asia1"
+```tf:main.tf
+# Cloud9環境の定義
+resource "aws_cloud9_environment_ec2" "this" {
+  name            = var.aws_cloud9_name
+  instance_type   = "t3.small"
+  connection_type = "CONNECT_SSM"
+  subnet_id       = data.aws_subnet.private.id
+}
 
-  lifecycle {
-    prevent_destroy = true
+# Cloud9環境を展開する先のVPC情報の取得
+data "aws_vpc" "this" {
+  filter {
+    name   = "tag:Name"
+    values = [var.vpc_name]
+  }
+}
+
+# Cloud9環境を展開する先のサブネット情報の取得
+data "aws_subnet" "private" {
+  vpc_id            = data.aws_vpc.default.id
+  availability_zone = var.aws_default_zone
+
+  filter {
+    name   = "tag:Name"
+    values = [var.private_subnet_name]
   }
 }
 ```
 
-### 例2. 標準的な顧客管理暗号鍵(CMEK)の作成
+### 例2. Cloud9環境へのメンバー追加
 
 Cloud KMS上で顧客管理の暗号鍵を生成する例で、自動ローテーションを90日(=7,776,000秒)で設定しています。鍵の目的については利用用途に寄って
 
-<https://cloud.google.com/kms/docs/algorithms>
+```tf
+variable "cloud9_members" {
+  descriptions = "IAM user name list of cloud9 environment members"
+  default = ["sample_iam_user1", "sample_iam_user2"]
+}
 
-```
-resource "google_kms_crypto_key" "sample" {
-  name            = "my-kms-crypto-key"
-  key_ring        = google_kms_key_ring.sample.id
-  purpose         = "ENCRYPT_DECRYPT"
-  rotation_period = "7776000s" # min 86400s(=1d)
+# Cloud9環境の定義
+resource "aws_cloud9_environment_ec2" "this" {
+  # 省略
+}
+
+# Cloud9環境を利用するメンバー追加
+resource "aws_cloud9_environment_membership" "this" {
+  for_each = data.cloud9_members
+  
+  environment_id = aws_cloud9_environment_ec2.this.id
+  permissions    = "read-write"
+  user_arn       = each.value.arn
+}
+
+# Cloud9環境の利用メンバーのIAMユーザの情報取得
+data "aws_iam_user" "cloud9_members" {
+  for_each = var.cloud9_members
+
+  user_name = each.value
 }
 ```
 

@@ -3,7 +3,7 @@ title: "TerraformでCloud Audit Logsを構築するサンプルコードを書�
 date: 2022-12-26T00:00:00+09:00
 lastmod: null
 tags: ["Terraform", "Google Cloud", "Cloud Audit Logs"]
-draft: true
+draft: false
 externalUrl: null
 ---
 
@@ -51,15 +51,18 @@ provider "google" {
 
 データアクセス監査ログのデフォルト構成にて、すべてのログタイプ(=`ADMIN_READ`、`DATA_READ`、`DATA_WRITE`の3種)を有効化する場合の例です。コード量を減らすためにdynamicブロックを使ってaudit_log_configブロックを定義してみました。
 
-```tf
+```tf:main.tf
 # デフォルトで有効化するログタイプ一覧
 variable "default_enabled_log_types" {
   default = ["ADMIN_READ", "DATA_READ", "DATA_WRITE"]
 }
 
+# 設定対象プロジェクトの情報取得
+data "google_project" "this" {}
+
 # Cloud Audit Logsリソース定義
 resource "google_project_iam_audit_config" "default" {
-  count = length(var.default_enabled_log_types) != 0 ? 1 : 0
+  count = length(var.default_enabled_log_types) > 0 ? 1 : 0
 
   project = data.google_project.this.id
   service = "allServices"
@@ -71,32 +74,23 @@ resource "google_project_iam_audit_config" "default" {
     }
   }
 }
-
-# 設定対象プロジェクトの情報取得
-data "google_project" "this" {}
 ```
 
 ### 例2. サービスごとのデータアクセス監査ログ構成設定
 
 特定のサービスのデータアクセス監査ログを有効化する場合の例です。今回はCloud SQLとCloud Spannerのデータ書き込み`DATA_WRITE`監査ログのみを有効化しています。なお、Cloud Audit Logsの設定で指定するサービス名については公式ドキュメントの「[サービスとリソースのマッピング](https://cloud.google.com/logging/docs/api/v2/resource-list?hl=ja#service-names)」を参照してください。
 
-```tf
-# デフォルトで有効化するログタイプ一覧
-variable "default_enabled_log_types" {
-  default = []
-}
-
+```tf:main.tf
 # サービスごとに有効化するログタイプ一覧
 variable "enabled_log_types" {
   default = {
-    "cloudsql.googleapis.com" = {
-      enabled_log_types = ["DATA_WRITE"]
-    }
-    "spanner.googleapis.com" = {
-      enabled_log_types = ["DATA_WRITE"]
-    }
+    "cloudsql.googleapis.com" = ["DATA_WRITE"]
+    "spanner.googleapis.com"  = ["DATA_WRITE"]
   }
 }
+
+# 設定対象プロジェクトの情報取得
+data "google_project" "this" {}
 
 # Cloud Audit Logsリソース定義
 resource "google_project_iam_audit_config" "service" {
@@ -106,15 +100,12 @@ resource "google_project_iam_audit_config" "service" {
   service = each.key
 
   dynamic "audit_log_config" {
-    for_each = each.value.enabled_log_types
+    for_each = each.value
     content {
       log_type = audit_log_config.value
     }
   }
 }
-
-# 設定対象プロジェクトの情報取得
-data "google_project" "this" {}
 ```
 
 <!-- omit in toc -->
@@ -122,7 +113,7 @@ data "google_project" "this" {}
 
 今回はTerraformの入門ということで、Cloud Audit Logsのサンプルコードをいくつかご紹介してきましたがいかがだったでしょうか。
 
-記事執筆時点では`google_project_iam_audit_config`リソースはaudit_log_configブロックが1つ以上定義されていないとエラーとなる仕様のため、今回は有効化するログがなければそもそもリソースを作らないようにしています。ただ、これだとあとから手で有効化された際にTerraformで差分を検知できません。そこの点が正直イケてないなぁと思ってますが、こんな記事でも誰かの役に立っていただけるのであれば幸いです^^;
+記事執筆時点では`google_project_iam_audit_config`リソースはaudit_log_configブロックが1つ以上定義されていないとエラーとなる仕様のため、今回は有効化するログがなければそもそもリソースを作らないようにしています。ただ、これだとリソースを作ってないことになるので、あとから手で有効化された際にTerraformで差分を検知できません。そこの点が正直イケてないなぁと思ってますが、こんな記事でも誰かの役に立っていただけるのであれば幸いです^^;
 
 なお、今回ご紹介したコードはあくまでサンプルであり、動作を保証するものではございません。そのまま使用したことによって発生したトラブルなどについては一切責任を負うことはできませんのでご注意ください。
 

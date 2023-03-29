@@ -2,7 +2,7 @@
 title: "TerraformでAmazon RDS for Oracleを構築するサンプルコードを書いてみた"
 date: 2023-01-04T00:00:00+09:00
 lastmod: 2023-03-26T00:00:00+09:00
-tags: ["Terraform", "AWS", "Amazon RDS", "Amazon RDS for Oracle"]
+tags: ["Terraform", "AWS", "Amazon RDS", "Amazon RDS for Oracle", "AWS IAM", "Security Group"]
 draft: false
 externalUrl: null
 ---

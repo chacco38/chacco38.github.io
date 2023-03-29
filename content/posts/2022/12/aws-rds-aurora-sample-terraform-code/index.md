@@ -2,7 +2,7 @@
 title: "TerraformでAmazon Auroraを構築するサンプルコードを書いてみた"
 date: 2022-12-23T00:00:00+09:00
 lastmod: null
-tags: ["Terraform", "AWS", "Amazon Aurora", "Amazon RDS" ]
+tags: ["Terraform", "AWS", "Amazon Aurora", "Amazon RDS", "AWS IAM"]
 draft: false
 externalUrl: null
 ---

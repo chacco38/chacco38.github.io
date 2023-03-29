@@ -2,7 +2,7 @@
 title: "TerraformでAmazon EC2を構築するサンプルコードを書いてみた"
 date: 2023-01-04T00:00:00+09:00
 lastmod: null
-tags: ["Terraform", "AWS", "Amazon EC2"]
+tags: ["Terraform", "AWS", "Amazon EC2", "Security Group"]
 draft: false
 externalUrl: null
 ---

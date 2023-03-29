@@ -2,7 +2,7 @@
 title: "TerraformでAmazon API Gatewayを構築するサンプルコードを書いてみた"
 date: 2022-12-29T00:00:00+09:00
 lastmod: null
-tags: ["Terraform", "AWS", "Amazon API Gateway"]
+tags: ["Terraform", "AWS", "Amazon API Gateway", "AWS IAM"]
 draft: false
 externalUrl: null
 ---

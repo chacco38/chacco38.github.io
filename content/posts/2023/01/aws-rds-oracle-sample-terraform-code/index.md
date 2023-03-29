@@ -100,18 +100,6 @@ RDSパラメータグループの実装例で、定義するパラメータの�
 **例）main.tf**
 
 ```tf:main.tf
-# パラメータ一覧の定義
-variable "rds_parameters" {
-  type        = map(any)
-  default = {
-    audit_trail = {
-      name         = "audit_trail"
-      value        = "DB,EXTENDED"
-      apply_method = "pending-reboot"
-    }
-  }
-}
-
 # RDSパラメータグループの定義
 resource "aws_db_parameter_group" "this" {
   name   = var.rds_parameter_group_name
@@ -132,6 +120,21 @@ resource "aws_db_parameter_group" "this" {
 }
 ```
 
+**例）variables.tf**
+
+```tf:variables.tf
+# RDSパラメータ一覧
+variable "rds_parameters" {
+  type    = map(any)
+  default = {
+    audit_trail = {
+      name         = "audit_trail"
+      value        = "DB,EXTENDED"
+      apply_method = "pending-reboot"
+    }
+  }
+}
+```
 
 ### 例3. RDSオプショングループの作成
 
@@ -170,7 +173,7 @@ resource "aws_db_option_group" "this" {
 
 RDSインスタンスの実装例で、モニタリング用やS3統合用のIAMロールの定義なども併せて記載しています。
 
-なお、マスターユーザ/パスワード情報はSecrets Managerで管理、というケースが最近は多くなってきていると思いますが、今回の例ではあくまで構築用の初期パスワードという扱いでSSMパラメータストアにSecureStingとして事前に格納しておいた情報を扱うようにしています。
+なお、マスターユーザ/パスワード情報はSecrets Managerで管理というケースが最近は多くなってきていると思いますが、今回の例ではパスワード情報はプロジェクト管理とし、ここではあくまで構築用の初期パスワードという扱いでSSMパラメータストアにSecureStingとして事前に格納しておいた情報を扱うようにしています。
 
 **例）main.tf**
 

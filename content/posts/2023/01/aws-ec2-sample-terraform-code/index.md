@@ -16,7 +16,7 @@ externalUrl: null
 
 **例）versions.tf**
 
-```tf:versions.tf
+```tf:versions.tf {linenos=table}
 # Requirements
 terraform {
   required_version = "~> 1.3.6"
@@ -41,7 +41,7 @@ terraform {
 
 **例）providers.tf**
 
-```tf:providers.tf
+```tf:providers.tf {linenos=table}
 # デフォルトのプロバイダー設定
 provider "aws" {
   region = var.aws_region
@@ -60,7 +60,7 @@ KMSで管理する暗号鍵にてディスク暗号化を施したEC2インス�
 
 **例）main.tf**
 
-```tf:main.tf
+```tf:main.tf {linenos=table}
 # Amazon EC2インスタンスの定義
 resource "aws_instance" "this" {
   ami           = var.ami
@@ -117,7 +117,7 @@ resource "aws_security_group" "this" {
 
 **例）data.tf**
 
-```tf:data.tf
+```tf:data.tf {linenos=table}
 # VPC情報の取得
 data "aws_vpc" "this" {
   cidr_block = var.vpc_cidr_block
@@ -148,7 +148,7 @@ data "aws_kms_key" "this" {
 
 **例）outputs.tf**
 
-```tf:outputs.tf
+```tf:outputs.tf {linenos=table}
 output "instance_id" {
   description = "The ID of the instance"
   value       = try(aws_instance.this.id, "")

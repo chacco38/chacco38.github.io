@@ -16,7 +16,7 @@ externalUrl: null
 
 **例）versions.tf**
 
-```tf:versions.tf
+```tf:versions.tf {linenos=table}
 # Requirements
 terraform {
   required_version = "~> 1.3.6"
@@ -44,7 +44,7 @@ terraform {
 
 **例）providers.tf**
 
-```tf:providers.tf
+```tf:providers.tf {linenos=table}
 # デフォルトのプロバイダー設定
 provider "aws" {
   region = var.aws_region
@@ -63,7 +63,7 @@ RDSサブネットグループの実装例で、こちらについては特筆�
 
 **例）main.tf**
 
-```tf:main.tf
+```tf:main.tf {linenos=table}
 # RDSサブネットグループの定義
 resource "aws_db_subnet_group" "this" {
   name       = var.rds_subnet_group_name
@@ -77,7 +77,7 @@ resource "aws_db_subnet_group" "this" {
 
 **例）data.tf**
 
-```tf:data.tf
+```tf:data.tf {linenos=table}
 # VPC情報の取得
 data "aws_vpc" "this" {
   cidr_block = var.vpc_cidr_block
@@ -99,7 +99,7 @@ RDSパラメータグループの実装例で、定義するパラメータの�
 
 **例）main.tf**
 
-```tf:main.tf
+```tf:main.tf {linenos=table}
 # RDSパラメータグループの定義
 resource "aws_db_parameter_group" "this" {
   name   = var.rds_parameter_group_name
@@ -122,7 +122,7 @@ resource "aws_db_parameter_group" "this" {
 
 **例）variables.tf**
 
-```tf:variables.tf
+```tf:variables.tf {linenos=table}
 # RDSパラメータ一覧
 variable "rds_parameters" {
   type    = map(any)
@@ -142,7 +142,7 @@ RDSオプショングループの実装例で、タイムゾーンの設定とS3
 
 **例）main.tf**
 
-```tf:main.tf
+```tf:main.tf {linenos=table}
 # RDSオプショングループの定義
 resource "aws_db_option_group" "this" {
   name                 = var.rds_option_group_name
@@ -177,7 +177,7 @@ RDSインスタンスの実装例で、モニタリング用やS3統合用のIAM
 
 **例）main.tf**
 
-```tf:main.tf
+```tf:main.tf {linenos=table}
 # RDSインスタンスの定義
 resource "aws_db_instance" "this" {
   identifier               = var.rds_instance_name
@@ -358,7 +358,7 @@ resource "aws_db_instance_role_association" "s3_integration" {
 
 **例）data.tf**
 
-```tf:data.tf
+```tf:data.tf {linenos=table}
 # VPC情報の取得
 data "aws_vpc" "this" {
   cidr_block = var.vpc_cidr_block
@@ -387,7 +387,7 @@ data "aws_s3_bucket" "s3_integration" {
 
 **例）outputs.tf**
 
-```tf:outputs.tf
+```tf:outputs.tf {linenos=table}
 output "security_group_id" {
   description = "The ID of the security group"
   value       = try(aws_security_group.this.id, "")
